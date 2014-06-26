@@ -1,0 +1,192 @@
+/* ICON */
+#aside_menu {
+    position: fixed !important;
+    bottom: 8px;
+    left: 8px;
+    z-index: 1031;
+    opacity: 0.6;
+    -webkit-backface-visibility:hidden; /*Most Important*/
+}
+
+#aside_menu:active {
+    opacity: 1;
+    -moz-transform:scale(.9);
+    -webkit-transform:scale(.9);
+    -ms-transform:scale(.9);
+    -o-transform:scale(.9);
+    transform:scale(.9);
+}
+
+/* adjust body when menu is open */
+body.slide-active {
+    overflow-x: hidden
+}
+/*first child of #page-content so it doesn't shift around*/
+.no-margin-top {
+    margin-top: 0px!important
+}
+/*wrap the entire page content but not nav inside this div if not a fixed top, don't add any top padding */
+#page-content {
+    position: relative;
+    left: 0;
+}
+#page-content.slide-active {
+    padding-top: 0
+}
+#slide-nav div.navbar-header {
+    background: #d14014;
+  background-image: -webkit-linear-gradient(top, #d14014, #990000);
+  background-image: -moz-linear-gradient(top, #d14014, #990000);
+  background-image: -ms-linear-gradient(top, #d14014, #990000);
+  background-image: -o-linear-gradient(top, #d14014, #990000);
+  background-image: linear-gradient(to bottom, #d14014, #990000);
+  color: #ffffff;
+  font-size: 14px;
+  text-decoration: none;
+}
+#slide-nav .divider {
+    background-color: #080808;
+    height: 1px;
+    overflow: hidden;
+}
+/* put toggle bars on the left :: not using button */
+#slide-nav .navbar-toggle {
+    cursor: pointer;
+    position: relative;
+    line-height: 0;
+    float: left;
+    margin: 0;
+    /*width: 30px;
+    height: 40px;
+    padding: 10px 0 0 0;*/
+    border: 0;
+    background: transparent;
+}
+/* icon bar prettyup - optional */
+#slide-nav .navbar-toggle > .icon-bar {
+    width: 100%;
+    display: block;
+    height: 3px;
+    margin: 5px 0 0 0;
+}
+#slide-nav .navbar-toggle.slide-active .icon-bar {
+    background: orange
+}
+.navbar-header {
+    position: relative
+}
+/* un fix the navbar when active so that all the menu items are accessible */
+.navbar.navbar-fixed-top.slide-active {
+    position: relative
+}
+/* screw writing importants and shit, just stick it in max width since these classes are not shared between sizes */
+/*@media (max-width:767px) { */
+    #slide-nav .container {
+        margin: 0;
+        padding: 0!important;
+    }
+    #slide-nav .navbar-header {
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+    #slide-nav .navbar.slide-active {
+        position: absolute;
+        width: 80%;
+        top: -1px;
+        z-index: 1000;
+    }
+
+    #slide-nav #slidemenu {
+        background: #f7f7f7;
+        left: -100%;
+        width: 200px;
+        min-width: 0;
+        position: absolute;
+        padding-left: 0;
+        z-index: 2;
+        top: -8px;
+        margin: 0;
+    }
+    #slide-nav #slidemenu .navbar-nav {
+        min-width: 0;
+        width: 100%;
+        margin: 0;
+    }
+    #slide-nav #slidemenu .navbar-nav  li 
+    {
+        float:none;
+    }
+    #slide-nav #slidemenu .navbar-nav  li a {
+         background: #363738;
+          background-image: -webkit-linear-gradient(top, #363738, #333333);
+          background-image: -moz-linear-gradient(top, #363738, #333333);
+          background-image: -ms-linear-gradient(top, #363738, #333333);
+          background-image: -o-linear-gradient(top, #363738, #333333);
+          background-image: linear-gradient(to bottom, #363738, #333333);
+          font-family: Arial;
+          color: #ffffff;
+          font-size: 14px;
+          padding: 10px 20px 10px 20px;
+          text-decoration: none;
+    }
+    #slide-nav #slidemenu .navbar-nav li a:hover,
+    #slide-nav #slidemenu .navbar-nav li a:active {
+        padding: 10px 20px 10px 30px;
+            font-size: 16px;
+        background: #333333;
+          background-image: -webkit-linear-gradient(top, #333333, #7e7f85);
+          background-image: -moz-linear-gradient(top, #333333, #7e7f85);
+          background-image: -ms-linear-gradient(top, #333333, #7e7f85);
+          background-image: -o-linear-gradient(top, #333333, #7e7f85);
+          background-image: linear-gradient(to bottom, #333333, #7e7f85);
+          text-decoration: none;
+    }
+    #slide-nav {
+        border-top: 0;
+        border-bottom: 1px solid #CCCCCC;
+        -webkit-box-shadow: 1px 1px 50px 0px rgba(255, 255, 255, 1);
+        -moz-box-shadow:    1px 1px 50px 0px rgba(255, 255, 255, 1);
+        box-shadow:         1px 1px 50px 0px rgba(255, 255, 255, 1);
+    }
+    #slide-nav.navbar-inverse #slidemenu {
+        background: #333
+    }
+    /* this is behind the navigation but the navigation is not inside it so that the navigation is accessible and scrolls*/
+    #slide-nav #navbar-height-col {
+        position: fixed;
+        top: 0;
+        height: 100%;
+        width: 200px;
+        left: -80%;
+        background: #eee;
+    }
+    #slide-nav.navbar-inverse #navbar-height-col {
+        background: #333;
+        z-index: 1;
+        border: 0;
+    }
+    #slide-nav .navbar-form {
+        width: 100%;
+        margin: 8px 0;
+        text-align: center;
+        overflow: hidden;
+        /*fast clearfixer*/
+    }
+    #slide-nav .navbar-form .form-control {
+        text-align: center
+    }
+    #slide-nav .navbar-form .btn {
+        width: 100%
+    }
+/*}*/
+/*@media (min-width:768px) {
+    #page-content {
+        left: 0!important
+    }
+    .navbar.navbar-fixed-top.slide-active {
+        position: fixed
+    }
+    .navbar-header {
+        left: 0!important
+    }
+}*/
