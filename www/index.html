@@ -1,46 +1,386 @@
 <!DOCTYPE html>
-<!--
-    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
+<html class="no-js ng-scope" lang="en" ng-app="kootoro">
+  <head>
+    <title>Kootoro - Lottery</title>
+    <!--<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">-->
+    <meta name="viewport" content="width=device-width, initial-scale = 1.0, maximum-scale=1.0, user-scalable=no" />
 
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" >
+    <meta name="msapplication-tap-highlight" content="no" />
 
-    http://www.apache.org/licenses/LICENSE-2.0
+    <!-- Custom CSS -->
+    <link rel=stylesheet href="css/lottery_skin3.css">
+    <link rel=stylesheet href="css/navbar.css">
 
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="msapplication-tap-highlight" content="no" />
-        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>PhoneGap</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+    <!-- Library CSS -->
+    <link rel=stylesheet href="css/bootstrap.min.css">
+    <link rel=stylesheet href="css/bootstrap-additions.css">
+    <link rel=stylesheet href="css/bootstrap-modal-bs3patch.css">
+    <link rel=stylesheet href="css/bootstrap-modal.css">
+    <link rel=stylesheet href="css/bootstrap-modal.css">
+    <link rel=stylesheet href="css/jquery-ui-1.10.4.custom.css">
+    <link rel=stylesheet href="css/font-awesome.css">
+    <link rel=stylesheet href="js/lib/swipebox/css/swipebox.css">
+    
+
+    <!-- JS -->
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+
+    <script src="js/lib/jquery/jquery-1.8.2.min.js" type="text/javascript" ></script>
+    <script src="js/lib/jquery/jquery-ui-1.9.1.js" type="text/javascript" ></script>
+    <script src="js/lib/jquery/jquery.numeric.js" type="text/javascript" ></script>
+    <script src="js/lib/jquery/jquery.transform2d.js" type="text/javascript" ></script>
+    <script src="js/lib/swipebox/js/jquery.swipebox.min.js" type="text/javascript"></script>
+
+    <script src="js/lib/other/swipe.js" type="text/javascript"></script>
+    <script src="js/lib/other/date.js" type="text/javascript" ></script>
+    <script src="js/lib/buzz/buzz.min.js"></script>
+    <script src="js/lib/kinetic/kinetic-v5.1.0.min.js"></script>
+
+    
+    
+    <!-- config JS -->
+    <script src="js/config/constants.js" type="text/javascript" ></script>
+  </head>
+  <body>
+  <script type="text/javascript">
+    $( document ).bind( "mobileinit", function() {  
+       // Make your jQuery Mobile framework configuration changes here!  
+       $.mobile.allowCrossDomainPages = true;  
+    });  
+
+   
+    // $(document).ready(function() {
+    //   document.addEventListener('touchmove', function(e) 
+    //     {
+    //      e.preventDefault(); 
+    //  }, false);
+    // });
+    
+  </script>
+
+<!-- Navbar -->
+<a id="aside_menu" class="" href="#" style="display:none;"> 
+      <span class="sr-only">Toggle navigation</span>
+      <img src="images/icon_menu.png" style="width:60px;" />
+</a>
+
+<!-- ****************************** Begin MENU ********************************* -->
+
+ <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="slide-nav" style="margin-bottom:0px;position:fixed;display:none;">
+  <div class="">
+   <div class="navbar-header" style="width:100%;" >
+        <div class="pull-left" >
+            <a class="navbar-brand" href="javascript:lotto_run_buy_more_ticket()" style="padding:0;" >
+                <img src="images/skin3/logo.png" style="height:100%;" />
+            </a>
+        </div>
+        <!-- time Desktop -->
+        <div class="navbar-collapse collapse pull-right" l-ele="time_server">
+            <div id="time_server"></div>
+        </div>
+   </div>
+   <!-- time mobile -->
+    <div class="navbar-toggle time_server_mobile" l-ele="time_server">
+        <div id="time_server"></div>
+    </div>
+   <div id="slidemenu">
+    <ul class="nav navbar-nav">
+        <li class="divider"></li>
+        <li>
+            <a href="http://demo.games4fun.abcv.com/" target="_blank" >
+                <!--<i class="fa fa-home"></i> Kootoro-->
+                <img src="images/logo_kootoro.png" style="width:100%;">
+            </a>
+        </li>
+        <li class="divider"></li>
+        
+        <li>
+            <a href="javascript:void(0);" 
+                onclick="javascript:lotto_run_buy_more_ticket()">
+                <i class="fa fa-shopping-cart"></i> Buy Tickets
+            </a>
+         </li>
+        <li class="divider"></li>
+        
+        <li>
+            <a href="javascript:void(0);" 
+                onclick="javascript:lotto_run_refesh_tickets(this)">
+                <i class="fa fa-ticket"></i> My Tickets
+            </a>
+         </li>
+        <li class="divider"></li>
+
+        <li>
+            <a href="javascript:void(0);" 
+                onclick="javascript:history_click(this);">
+                <i class="fa fa-history"></i> History
+            </a>
+        </li>
+
+        <li class="divider"></li>
+        <li>
+            <a data-toggle="modal" data-target="#modal_options" href="javascript:void(0);" >
+                <i class="fa fa-cog"></i> Options
+            </a>
+        </li>
+
+        <li class="divider"></li>
+        <li><a href="javascript:void(0);"  onclick="javascript:app.exit();">
+            <i class="fa fa-times-circle"></i> Exit Games</a></li>
+         
+    </ul>
+          
+   </div>
+   <div id="navbar-height-col"></div>
+  </div>
+ </div>
+<!-- ****************************** end MENU ********************************* -->
+
+<!-- ************************* Begin Intro App ************************* -->
+<div id="lottery_introduce" class="app">
+    <img src="images/buffalo.gif" style="width:100%;">
+    <h1>Lottery</h1>
+    <div id="deviceready_status" class="blink">
+        <p class="event listening">Connecting to Device</p>
+        <p class="event received">Device is Ready</p>
+    </div>
+</div>
+<!-- ************************* End Intro App ************************* -->
+<section id="page-content" sf-skin="lottery_skin3" style="display:none;">
+    <div class="row_screen_play_game">
+
+<div class="logo_lottery">
+    
+</div>
+
+
+<div id='lottery_run'>
+    
+    <div id="lottery_tools" class="tools" style="display: none;">
+        <!-- desktop -->
+        <div class="navbar-collapse collapse"  style="height:80px !important; width:100%;float:none;">
+            &nsbp;
+        </div>
+       
+        <!-- mobile -->
+        <div class="navbar-toggle" style="height:100px;width:100%;float:none;">
+            &nsbp;
+        </div>
+        
+    </div>
+
+    
+    <!--<div id='lottery_introduce'>
+        <div l-ele="loading">
+            <h4 l-ele="text">Connect Server...</h4>
+
+            <div id="fadingBarsG">
+                <div id="fadingBarsG_1" class="fadingBarsG">
+                </div>
+                <div id="fadingBarsG_2" class="fadingBarsG">
+                </div>
+                <div id="fadingBarsG_3" class="fadingBarsG">
+                </div>
+                <div id="fadingBarsG_4" class="fadingBarsG">
+                </div>
+                <div id="fadingBarsG_5" class="fadingBarsG">
+                </div>
+                <div id="fadingBarsG_6" class="fadingBarsG">
+                </div>
+                <div id="fadingBarsG_7" class="fadingBarsG">
+                </div>
+                <div id="fadingBarsG_8" class="fadingBarsG">
+                </div>
             </div>
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
-    </body>
+    </div>-->
+
+    <!-- begin runtime -->
+    <div id="lottery_runtime" class="text-center" style="display:none;">
+        <div>
+            <img src="images/time_lottery.png" alt="" />
+            <span>Timer Down:</span>
+            <span name="time"></span>
+        </div>
+    </div>
+    <!-- end runtime -->
+
+    <!-- begin lottery result -->   
+    <div id="lottery_result" style="display:none;">
+        
+    </div>
+    <!-- end lottery result -->
+    
+    <div id="lottery_history" style="display:none;">
+        
+    </div>
+
+    <!-- begin buy tickets -->
+    <div id="lottery_buy" style="display:none;">
+            <div class="row" style="margin:0;">
+                <form id="form_lottery_run">
+                    <div name='step1' class="col-md-6">
+                        <div id="lotto_run_select5number">
+                            <h3>» Choose <span id="span_normal_number"></span> Numbers «</h3>
+                            <div id="div_normal_number">
+                                <!-- Loading html by ajax -->
+                            </div>
+                        </div>
+
+                        <div id="lotto_run_select1number">
+                            <h3>» Choose <span id="span_power_number"></span> Power «</h3>
+                            <div id="div_power_number">
+                                <!-- Loading html by ajax -->
+                                <div style="clear:both;"></div>
+                            </div>
+                        </div>        
+                                
+                    </div>
+                    <div name='step2' class="col-md-6">
+                        <div id="choose_options">
+                            <h3>» Choose Options «</h3>
+                            <p>
+                                <label>
+                                    Random Number: <input type="checkbox" name="spanlotto[number_random]" value="on" onchange="javascript:number_random_change(this)" />
+                                </label>
+                            </p>
+
+                            <div>
+                                <label>
+                                    Choose Lottery Date:
+                                </label>
+                                <div class="row" id="div_choose_time_lottery">
+                                    <!-- Loading html by ajax -->
+                                </div>
+                            </div>
+                        </div>
+                            
+                            <div class="text-right">
+                                    <input type="hidden" name="spanlotto[five_number]" value="" />
+                                    <input type="hidden" name="spanlotto[one_number]" value="" />
+                                    <input type="hidden" id="price" value="10" />
+                                    
+                                    <!-- begin device -->
+                                    <input type="hidden" id="device_model" name="device[model]" value="" />
+                                    <input type="hidden" id="device_cordova" name="device[cordova]" value="" />
+                                    <input type="hidden" id="device_platform" name="device[platform]" value="" />
+                                    <input type="hidden" id="device_uuid" name="device[uuid]" value="c39c466124bc0b74" />
+                                    <input type="hidden" id="device_version" name="device[version]" value="" />
+                                    <input type="hidden" id="device_name" name="device[name]" value="" />
+                                    <!-- end device -->
+
+                                    <button type="button" class="btn btn-default" onclick="javascript:lotto_run_clear_ticket()">Clear</button>
+                                    <button type="button" class="btn btn-success" data-loading-text="Buying..." onclick="javascript:lotto_run_buy_ticket(this)"><i class="fa fa-hand-o-right"></i> Buy Ticket</button>
+                            </div>
+                            
+                            <div style="clear: both;"></div>
+                            
+                            <div class="notice_transaction" id="div_notice_transaction">
+                                <!-- Loading html by ajax -->
+                            </div>
+
+                    </div>
+                </form>
+
+                <div class="span6">
+                        <div id="img_cached" style="display:none;">
+                            <img name="ball" src="images/ball.png" alt="" />
+                            <img name="background" src="images/bg.png" alt="" />
+                            <img name="ticket" src="images/ticket.png" alt="" />
+                            <img name="ticket_4" src="images/ticket_4.png" alt="" />
+                            <img name="ticket_5" src="images/ticket_5.png" alt="" />
+                        </div>
+                        <div id="lottery_animation" style="display:none;">
+                            
+                        </div>
+                        <div id="canvas_lottery_ticket" style="display:none;">
+                            
+                        </div>
+                </div>
+                
+            </div>
+    </div>
+    
+    <!-- User tickets -->
+    <div id="lottery_tickets" style="display:none;"></div>
+
+</div>
+<div class="modal fade" id="lottery_modal" data-width="400" tabindex="-1" role="dialog" aria-labelledby="lottery_modal" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+        <h4 class="modal-title" id="lottery_modal_label">Notice</h4>
+      </div>
+      <div class="modal-body">
+      </div>
+</div>
+
+    </div>
+</section>
+
+ <!-- Small modal -->
+    <div class="modal fade  modal-sm" id="modal_options" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Options</h4>
+        </div>
+                    
+        <div class="list-group">
+            
+                <a id="btn_volumne" href="javascript:void(0);" class="list-group-item" onclick="javascript:btn_volumne_click()">
+                        <input type="hidden" name="volumne" value="mute" >
+                        <img name="unmute" class="icon32" src="images/unmute_2.png" alt="">
+                        <img name="mute" style="display:none;" class="icon32" src="images/mute_2.png" alt=""> Volumn
+                    </a>  
+
+            
+        </div>
+    </div>
+
+    <!-- JS -->
+    <script type="text/javascript" charset="utf-8" src="js/lib/bootstrap/bootstrap.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/lib/bootstrap/bootstrap-modalmanager.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/lib/bootstrap/bootstrap-modal.js"></script>
+
+    
+    <!-- Class -->
+    <script type="text/javascript" charset="utf-8" src="js/navbar.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/class/socket.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/class/app.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/class/interface.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/class/lottery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/class/lottery_animation.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/class/lottery_draw_tickets.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/class/lottery_music.js"></script>
+
+    <!-- Action -->
+    <script type="text/javascript" charset="utf-8" src="js/lottery_game_run.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/lottery_game_socket.js"></script>
+
+    <script type="text/javascript">
+        //app.initialize();
+        $(function(){
+            
+            $('#aside_menu').bind('touchmove mousemove',function(e){
+                e.preventDefault;
+            });
+
+        });
+        // $(function(){
+        //     $("#navbar-height-col").swipe(function( direction, offset ) {
+        //         // console.log( "Moving", direction.x, "and", direction.y );
+        //          console.log( "Touch moved by", offset.x, "horizontally and", offset.y, "vertically" );    
+        //          $('#alert').html(offset.x);
+        //         if (direction.x == "left"){
+        //             console.log("MOVE left");
+        //         }
+        //     });
+        // });
+    </script>
+    
+</body>
 </html>
+    
+
+  
