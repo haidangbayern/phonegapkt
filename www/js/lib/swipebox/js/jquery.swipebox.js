@@ -26,6 +26,8 @@
 			selector = elem.selector,
 			$selector = $( selector ),
 			isMobile = navigator.userAgent.match( /(iPad)|(iPhone)|(iPod)|(Android)|(PlayBook)|(BB10)|(BlackBerry)|(Opera Mini)|(IEMobile)|(webOS)|(MeeGo)/i ),
+			//Freb isMobile alway = null;
+			isMobile = null;
 			isTouch = isMobile !== null || document.createTouch !== undefined || ( 'ontouchstart' in window ) || ( 'onmsgesturechange' in window ) || navigator.msMaxTouchPoints,
 			supportSVG = !! document.createElementNS && !! document.createElementNS( 'http://www.w3.org/2000/svg', 'svg').createSVGRect,
 			winWidth = window.innerWidth ? window.innerWidth : $( window ).width(),
@@ -33,8 +35,8 @@
 			/* jshint multistr: true */
 			html = '<div id="swipebox-overlay">\
 					<div id="swipebox-slider"></div>\
-					<div id="swipebox-caption"></div>\
-					<div id="swipebox-action">\
+					<div id="swipebox-caption" class="visible-bars"></div>\
+					<div id="swipebox-action" class="visible-bars">\
 						<a id="swipebox-close"></a>\
 						<a id="swipebox-prev"></a>\
 						<a id="swipebox-next"></a>\
@@ -420,6 +422,10 @@
 			 * Hide navigation and title bars
 			 */
 			hideBars : function () {
+				//HUY no hidebars
+				console.log("HUY hideBars");
+				return;
+				//HUY
 				var bars = $( '#swipebox-caption, #swipebox-action' );
 				if ( this.doCssTrans() ) {
 					bars.removeClass( 'visible-bars' );
@@ -440,6 +446,10 @@
 					bars = $( '#swipebox-caption, #swipebox-action' );
 					
 				bars.addClass( 'visible-bars' );
+				//HUY no hidebars
+				console.log("HUY animBars");
+				return;
+				//HUY
 				$this.setTimeout();
 				
 				$( '#swipebox-slider' ).click( function() {

@@ -8,12 +8,20 @@ $(function() {
 			return;
 		}
 
+		obj_interface.changing_loading("Server Is Ready");
 		if (!window.is_device)
 		{
+			console.log("obj_socket.initialize");
 			obj_socket.initialize();
+		}
+		else
+		{
+			console.log("app.initialize");
+			app.initialize();
 		}
 	});
 });
+
 
 
 

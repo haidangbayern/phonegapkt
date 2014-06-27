@@ -3,20 +3,20 @@
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         xmlns:cdv = "http://cordova.apache.org/ns/1.0"
         id          = "com.phonegap.example"
-        version     = "1.0.55"
+        version     = "1.0.78"
         versionCode = "10" >
 
         <!-- versionCode is optional and Android only -->
         <preference name="phonegap-version" value="3.4.0" />
 
-        <name>Freb</name>
+        <name>Kootoro Lottery</name>
 
         <description>
-            Description cua HUY 3
+            ABCV product
         </description>
 
         <author href="http://yoursite.com" email="you@youremail.com">
-            tran han huy
+            Developer: Mr Freb
         </author>
         
 

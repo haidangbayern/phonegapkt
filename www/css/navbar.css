@@ -144,9 +144,9 @@ body.slide-active {
     #slide-nav {
         border-top: 0;
         border-bottom: 1px solid #CCCCCC;
-        -webkit-box-shadow: 1px 1px 50px 0px rgba(255, 255, 255, 1);
+        /*-webkit-box-shadow: 1px 1px 50px 0px rgba(255, 255, 255, 1);
         -moz-box-shadow:    1px 1px 50px 0px rgba(255, 255, 255, 1);
-        box-shadow:         1px 1px 50px 0px rgba(255, 255, 255, 1);
+        box-shadow:         1px 1px 50px 0px rgba(255, 255, 255, 1);*/
     }
     #slide-nav.navbar-inverse #slidemenu {
         background: #333

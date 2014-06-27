@@ -123,9 +123,6 @@ function spanlotto_run_1_selected(obj) {
 }
 
 function lotto_run_buy_ticket(obj_ele_html) {
-	var selected = $("#slide-nav").hasClass('slide-active');
-	if (selected)
-		$('#aside_menu').click();
 	lottery.buy_ticket(obj_ele_html);
 }
 
@@ -231,19 +228,8 @@ function notice_transaction_content() {
 			is_have_day_ticket = true;
 			var i_next_day = 0;
             
-            //var datetime_buy_lottery = new Date(today + " " + time + ":00");
-            //var datetime_server =  new Date(time_server.string_js);
             i_next_day = iday - 1;
-			// if (datetime_buy_lottery <= datetime_server) {
-			// 	i_next_day = 1;
-			// }
-   //          else{            	
-   //              datetime_server.addMinutes(Number(time_server.time_not_allow_buy));
-   //              if (datetime_buy_lottery <= datetime_server) {
-   //                  i_next_day = 1;
-   //              }
-   //          }
-            
+			
 			if (number_other_day.length == 0) {
 				html += " ------ Lottery time: " + time + " ----- <br/>";
 				//var date = new Date(time_server.year, Number(time_server.month), time_server.day + i_next_day);
@@ -287,6 +273,9 @@ function history_click(obj_ele_html, id) {
         btn.button('loading')    
     }
     
+    obj_snap.close();
+    obj_loading.show();
+    $('#' + div_display).hide();
         
 	var data_post = {};
 	if (id != undefined) data_post = {
@@ -310,10 +299,8 @@ function history_click(obj_ele_html, id) {
 		success: function(data) {
             if (typeof btn != "undefined")
                 btn.button('reset');
-           	var selected = $("#slide-nav").hasClass('slide-active');
-			if (selected)
-				$('#aside_menu').click();
 			//data = JSON.parse(data);
+			obj_loading.hide();
 			if (data.result) {
 			      
 				if (data.is_ticket_result) {
@@ -321,10 +308,10 @@ function history_click(obj_ele_html, id) {
 				} else {
 					$("#lottery_history").html(data.html);
 				}
-				$('#' + div_display).slideUp(1000, function() {
+				//$('#' + div_display).slideUp(1000, function() {
 					$('#lottery_history').slideDown();
                     div_display = "lottery_history";
-				});
+				//});
 			}
             else {
                 if (typeof data.err != "undefined" )

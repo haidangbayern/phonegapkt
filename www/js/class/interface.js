@@ -80,8 +80,14 @@ var obj_interface = {
 	},
 	changing_loading: function(text)
 	{
+		var parentElement = document.getElementById("deviceready_status");
+        var listeningElement = parentElement.querySelector('.listening');
+        var receivedElement = parentElement.querySelector('.received');
+
+        listeningElement.setAttribute('style', 'display:none;');
+        receivedElement.setAttribute('style', 'display:block;');
 		//$('#lottery_introduce *[l-ele=text]').html(text);
-		$('#deviceready p.received').html(text);
+		$('#deviceready_status p.received').html(text);
 	},
 	hide_introduction: function()
 	{
@@ -107,11 +113,12 @@ var obj_interface = {
 			setTimeout(function(){
 				obj_interface.changing_loading("Starting game ...");
 				obj_interface.hide_introduction();
+				$('.snap-drawers').show();
 				$('#page-content').show();
 				$('#slide-nav').show();
 				$('#aside_menu').show();
-			}, 300);
-		},300);
+			}, 500);
+		},500);
 		
 	},
 	load_choose_normal_number_area: function(obj) 

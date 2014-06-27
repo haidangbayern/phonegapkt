@@ -1,59 +1,54 @@
 $(document).ready(function () {
 
-        window.menu_aside_touchDown = false;
+        // window.menu_aside_touchDown = false;
             
-            $(document).bind( "touchstart", function ( event ) {
-                var touch = event.originalEvent.touches[0] || event.originalEvent.changedTouches[0];
+        //     $(document).bind( "touchstart", function ( event ) {
+        //         var touch = event.originalEvent.touches[0] || event.originalEvent.changedTouches[0];
 
-                window.menu_aside_touchDown = true;
-                window.menu_aside_originalPosition = {
-                    x: touch.pageX,
-                    y: touch.pageY
-                };
-                window.menu_aside_newPosition = {
-                    x: touch.pageX,
-                    y: touch.pageY
-                };
-            } );
+        //         window.menu_aside_touchDown = true;
+        //         window.menu_aside_originalPosition = {
+        //             x: touch.pageX,
+        //             y: touch.pageY
+        //         };
+        //         window.menu_aside_newPosition = {
+        //             x: touch.pageX,
+        //             y: touch.pageY
+        //         };
+        //     } );
 
-            $(document).bind( "touchend", function () {
-                var p_x =  Math.abs(window.menu_aside_newPosition.x - window.menu_aside_originalPosition.x);
-                if (window.menu_aside_newPosition.x < window.menu_aside_originalPosition.x && p_x >= $(window).width()/5)
-                {
-                     $("#aside_menu").click();        
-                }
-                // var p_x = ( window.menu_aside_newPosition.x < window.menu_aside_originalPosition.x )
-                // if (p_x)
-                // {
-                //     $("#aside_menu").click();    
-                // }
-                // else
-                // {
-                //     if (( window.menu_aside_newPosition.x - window.menu_aside_originalPosition.x ) > $(window).width()/5)
-                //     {
-                //         $("#aside_menu").click();    
-                //     }
+        //     $(document).bind( "touchend", function () {
+        //         var p_x = ( window.menu_aside_newPosition.x < window.menu_aside_originalPosition.x )
+        //         if (p_x)
+        //         {
+        //             $("#aside_menu").click();    
+        //         }
+        //         else
+        //         {
+        //             if (( window.menu_aside_newPosition.x - window.menu_aside_originalPosition.x ) > $(window).width()/5)
+        //             {
+        //                 $("#aside_menu").click();    
+        //             }
 
-                // }
+        //         }
 
-                window.menu_aside_touchDown = false;
-                window.menu_aside_originalPosition = null;
-                window.menu_aside_newPosition = null;
+        //         window.menu_aside_touchDown = false;
+        //         window.menu_aside_originalPosition = null;
+        //         window.menu_aside_newPosition = null;
 
 
-            } );
+        //     } );
 
-            $(document).bind('touchmove mousemove',function(e){
-                if (!window.menu_aside_touchDown)
-                    return;
+        //     $(document).bind('touchmove mousemove',function(e){
+        //         if (!window.menu_aside_touchDown)
+        //             return;
                 
-                var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+        //         var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
 
-                window.menu_aside_newPosition = {
-                    x: touch.pageX,
-                    y: touch.pageY
-                };
-            });
+        //         window.menu_aside_newPosition = {
+        //             x: touch.pageX,
+        //             y: touch.pageY
+        //         };
+        //     });
 
     //stick in the fixed 100% height behind the navbar but don't wrap it
     /*$('#slide-nav.navbar .container').append($('<div id="navbar-height-col"></div>'));*/
@@ -74,76 +69,63 @@ $(document).ready(function () {
 
         if (!selected)   //slide-active
         {
-            // $(document).bind('touchmove',function(e){
-            //     e.preventDefault();
+            window.menu_aside_touchDown = false;
 
-                // if (!window.menu_aside_touchDown)
-                //     return;
+            $(document).bind('touchmove',function(e){
+                e.preventDefault();
+
+                if (!window.menu_aside_touchDown)
+                    return;
                 
-                // var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+                var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
 
-                // window.menu_aside_newPosition = {
-                //     x: touch.pageX,
-                //     y: touch.pageY
-                // };
-            //});
-
-            // window.menu_aside_touchDown = false;
-            
-            // $(document).bind( "touchstart", function ( event ) {
-            //     var touch = event.originalEvent.touches[0] || event.originalEvent.changedTouches[0];
-
-            //     window.menu_aside_touchDown = true;
-            //     window.menu_aside_originalPosition = {
-            //         x: touch.pageX,
-            //         y: touch.pageY
-            //     };
-            //     window.menu_aside_newPosition = {
-            //         x: touch.pageX,
-            //         y: touch.pageY
-            //     };
-            // } );
-
-            // $(document).bind( "touchend", function () {
-            //     var p_x = ( window.menu_aside_newPosition.x < window.menu_aside_originalPosition.x )
-            //     if (p_x)
-            //     {
-            //         $("#aside_menu").click();    
-            //     }
-            //     else
-            //     {
-            //         if (( window.menu_aside_newPosition.x - window.menu_aside_originalPosition.x ) > $(window).width()/5)
-            //         {
-            //             $("#aside_menu").click();    
-            //         }
-
-            //     }
-
-            //     window.menu_aside_touchDown = false;
-            //     window.menu_aside_originalPosition = null;
-            //     window.menu_aside_newPosition = null;
-
-
-            // } );
-
-            // $(document).bind('touchmove mousemove',function(e){
-            //     if (!window.menu_aside_touchDown)
-            //         return;
-                
-            //     var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-
-            //     window.menu_aside_newPosition = {
-            //         x: touch.pageX,
-            //         y: touch.pageY
-            //     };
-            // });
-
+                window.menu_aside_newPosition = {
+                    x: touch.pageX,
+                    y: touch.pageY
+                };
+            });
 
             
+            
+            $(document).bind( "touchstart", function ( event ) {
+                var touch = event.originalEvent.touches[0] || event.originalEvent.changedTouches[0];
+
+                window.menu_aside_touchDown = true;
+                window.menu_aside_originalPosition = {
+                    x: touch.pageX,
+                    y: touch.pageY
+                };
+                window.menu_aside_newPosition = {
+                    x: touch.pageX,
+                    y: touch.pageY
+                };
+            } );
+
+            $(document).bind( "touchend", function () {
+                var p_x = ( window.menu_aside_newPosition.x < window.menu_aside_originalPosition.x )
+                if (p_x)
+                {
+                    $("#aside_menu").click();    
+                }
+                else
+                {
+                    if (( window.menu_aside_newPosition.x - window.menu_aside_originalPosition.x ) > $(window).width()/5)
+                    {
+                        $("#aside_menu").click();    
+                    }
+
+                }
+
+                window.menu_aside_touchDown = false;
+                window.menu_aside_originalPosition = null;
+                window.menu_aside_newPosition = null;
+
+
+            } );
         }
         else
         {
-            //$(document).unbind("touchmove");
+            $(document).unbind("touchmove");
             // $(document).bind('touchmove',function(e){
                 
 

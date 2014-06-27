@@ -76,6 +76,10 @@ var lottery = {
 	view_tickets: function(obj_ele_html, page) {
         var btn = $(obj_ele_html)
         btn.button('loading')
+
+        obj_snap.close();
+        obj_loading.show();
+        $('#' + div_display).hide();
         
         var data = {};
         if (typeof page != "undefined")
@@ -99,23 +103,22 @@ var lottery = {
 			} , 
 			success: function(data) {
                 btn.button('reset');
-                var selected = $("#slide-nav").hasClass('slide-active');
-				if (selected)
-					$('#aside_menu').click();
 				//append data
 				$('#lottery_tickets').html(data.html);
 				//effect
-                $('#' + div_display).slideUp(1000, function() {
-					$('#lottery_tickets').slideDown();
-                    div_display = "lottery_tickets";
-				});
+				obj_loading.hide();
+				$('#lottery_tickets').slideDown();
+                div_display = "lottery_tickets";
+
+    //             $('#' + div_display).slideUp(1000, function() {
+				// 	$('#lottery_tickets').slideDown();
+    //                 div_display = "lottery_tickets";
+				// });
 			}
 		});
 	},
 	view_buy_ticket: function() {		
-        var selected = $("#slide-nav").hasClass('slide-active');
-		if (selected)
-			$('#aside_menu').click();
+        obj_snap.close();
         if (div_display == "lottery_buy")
             return;
         $('#' + div_display).slideUp(1000, function() {
