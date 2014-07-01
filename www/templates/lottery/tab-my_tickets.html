@@ -1,0 +1,45 @@
+<ion-view title="My Tickets">
+
+  <!-- ************* CONTENT *************** -->
+  <ion-content class="has-header" ng-controller="loadMyTicketCtrl">
+      <div id="my_tickets">
+        
+
+      </div>
+      <div style="display:none;">
+        <input type="hidden" id="page" value="1">
+      </div>
+      <ion-infinite-scroll
+        on-infinite="loadMoreTicket()"
+        distance="1%">
+      </ion-infinite-scroll>
+
+  </ion-content>
+
+  <!-- ************* FOOTER *************** -->
+  <ion-footer-bar class="bar-stable" style="padding-top:43px;">
+  
+
+
+   <ion-tabs class="tabs-icon-top">
+    
+    <!-- Buy Ticket Tab -->
+    <ion-tab title="Add Ticket" icon="icon ion-plus-circled" href="#/app/add_ticket">
+      
+    </ion-tab>
+    <!-- My Ticket Tab -->
+    <ion-tab title="My Tickets" icon="icon ion-ios7-pricetag" href="#/app/my_tickets">
+      
+    </ion-tab>
+    <!-- History Tab -->
+    <ion-tab title="History" icon="icon ion-star" href="#/app/history">
+      
+    </ion-tab>
+     <!-- Setting Tab -->
+    <ion-tab title="Setting" icon="icon ion-gear-a" href="#/app/setting">
+      
+    </ion-tab>
+</ion-tabs>
+</ion-footer-bar>
+
+</ion-view>

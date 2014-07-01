@@ -1,0 +1,146 @@
+<ion-view title="Add Ticket">
+
+  <!-- ************* CONTENT *************** -->
+  <ion-content id="buy_ticket" class="has-header">
+
+    <form id="form_lottery_run">
+
+      <!-- ================ Choose Number ================== -->
+      <div class="list" step="choose_number">
+        <div class="item item-divider">
+          Choose Number
+        </div>
+        <div class="item item-toggle">
+               Random Number
+               <label class="toggle toggle-assertive">
+                 <input id="check_random_number" name="spanlotto[number_random]" type="checkbox" onchange="javascript:lottery.choose_random_number();" value="">
+                 <div class="track">
+                   <div class="handle"></div>
+                 </div>
+               </label>
+        </div>
+
+        <div id="div_choose_number">
+          <div class="item">Choose <span id="span_normal_number"></span> Numbers</div>
+          <div class="item">
+            <div class="row" id="div_normal_number">
+            <!-- Loading html by ajax -->
+            </div>
+
+          </div>
+          <div class="item">Choose <span id="span_power_number"></span> Power</div>
+          <div class="item">
+            <div class="row" id="div_power_number">
+              <!-- Loading html by ajax -->
+            </div>
+          </div>
+        </div>
+
+        <div class="item">
+          <button class="button button-small button-positive" onclick="javascript:lottery.next_to_choose_date()">
+            <i class="icon ion-arrow-right-c"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ================ Choose Date ================== -->
+      <div class="list" step="choose_date" style="display:none;">
+        <div class="item item-divider">
+          Choose Lottery Date
+        </div>
+        <div id="div_choose_time_lottery">
+          <!-- Loading html by ajax -->
+        </div>
+        <div class="item">
+          <button class="button button-small button-positive" onclick="javascript:lottery.back_to_choose_number();">
+            <i class="icon ion-arrow-left-c"></i>
+          </button>
+          <button class="button button-small button-positive" onclick="javascript:lottery.next_to_summary();">
+            <i class="icon ion-arrow-right-c"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ================ Summary ================== -->
+      <div class="list card" step="summary" style="display:none;">
+
+        <div class="item item-avatar">
+          <!--<img src="images/logo_kootoro.png">-->
+          <h2>summary</h2>
+          <p id="summary_datetime"></p>
+        </div>
+
+        <div class="item item-body" id="div_notice_transaction">
+          
+        </div>
+
+        <div class="text-center padding">
+          <button class="button button-link" onclick="javascript:lottery.back_to_choose_date();">
+            <i class="icon ion-arrow-left-c"></i>
+          </button>
+
+          <button class="button button-positive" onclick="javascript:lottery.buy_ticket(this)">
+            <i class="icon ion-ios7-pricetag"></i>
+            Buy
+          </button>
+        </div>
+      </div>
+
+      <!-- ================ Value ==================== -->
+      <div style="display:none;">
+        <input type="hidden" name="spanlotto[five_number]" value="" />
+        <input type="hidden" name="spanlotto[one_number]" value="" />
+        <input type="hidden" id="price" value="10" />
+                                            
+        <!-- begin device -->
+        <input type="hidden" id="device_model" name="device[model]" value="" />
+        <input type="hidden" id="device_cordova" name="device[cordova]" value="" />
+        <input type="hidden" id="device_platform" name="device[platform]" value="" />
+        <input type="hidden" id="device_uuid" name="device[uuid]" value="c39c466124bc0b74" />
+        <input type="hidden" id="device_version" name="device[version]" value="" />
+        <input type="hidden" id="device_name" name="device[name]" value="" />
+        <!-- end device -->
+
+      </div>
+
+      <div id="img_cached" style="display:none;">
+        <img name="ball" src="images/ball.png" alt="" />
+        <img name="background" src="images/bg.png" alt="" />
+        <img name="ticket" src="images/ticket.png" alt="" />
+        <img name="ticket_4" src="images/ticket_4.png" alt="" />
+        <img name="ticket_5" src="images/ticket_5.png" alt="" />
+      </div>
+      <div id="lottery_animation" style="display:none;"></div>
+      <div id="canvas_lottery_ticket" style="display:none;"></div>
+    </form>
+
+    <div id="lottery_tickets">
+      
+    </div>
+
+  </ion-content>
+
+  <!-- ************* FOOTER *************** -->
+   <ion-footer-bar class="bar-stable" style="padding-top:43px;">
+  
+   <ion-tabs class="tabs-icon-top">
+    <!-- Buy Ticket Tab -->
+    <ion-tab title="Add Ticket" icon="icon ion-plus-circled" href="#/app/add_ticket">
+      
+    </ion-tab>
+    <!-- My Ticket Tab -->
+    <ion-tab title="My Tickets" icon="icon ion-ios7-pricetag" href="#/app/my_tickets">
+      
+    </ion-tab>
+    <!-- History Tab -->
+    <ion-tab title="History" icon="icon ion-star" href="#/app/history">
+      
+    </ion-tab>
+     <!-- Setting Tab -->
+    <ion-tab title="Setting" icon="icon ion-gear-a" href="#/app/setting">
+      
+    </ion-tab>
+</ion-tabs>
+</ion-footer-bar>  
+
+</ion-view>

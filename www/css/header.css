@@ -1,0 +1,19 @@
+ion-nav-bar.bar-header {
+	  background: #d14014;
+  background-image: -webkit-linear-gradient(top, #d14014, #990000);
+  background-image: -moz-linear-gradient(top, #d14014, #990000);
+  background-image: -ms-linear-gradient(top, #d14014, #990000);
+  background-image: -o-linear-gradient(top, #d14014, #990000);
+  background-image: linear-gradient(to bottom, #d14014, #990000);
+    border-color: #b2b2b2;
+      color: #FFF;
+}
+ion-nav-bar.bar-header .back-button {
+  color: #FFF;
+}
+ion-nav-bar.bar-header div.buttons button{
+	color: #FFF;
+}
+ion-nav-bar.bar-header h1 {
+	color: #FFF;
+}

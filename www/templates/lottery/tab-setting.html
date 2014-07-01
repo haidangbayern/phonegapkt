@@ -1,0 +1,44 @@
+<ion-view title="Setting">
+
+  <!-- ************* CONTENT *************** -->
+  <ion-content class="has-header">
+    <div class="range">
+      <i class="icon ion-volume-low"></i>
+      <input type="range" name="volume">
+      <i class="icon ion-volume-high"></i>
+    </div>
+
+    <div class="list">
+      <div class="item range range-positive">
+        <i class="icon ion-ios7-sunny-outline"></i>
+        <input type="range" name="volume" min="0" max="100" value="33">
+        <i class="icon ion-ios7-sunny"></i>
+      </div>
+    </div>
+
+  </ion-content>
+  
+  <!-- ************* FOOTER *************** -->
+  <ion-footer-bar class="bar-stable" style="padding-top:43px;">
+  
+   <ion-tabs class="tabs-icon-top">
+    <!-- Buy Ticket Tab -->
+    <ion-tab title="Add Ticket" icon="icon ion-plus-circled" href="#/app/add_ticket">
+      
+    </ion-tab>
+    <!-- My Ticket Tab -->
+    <ion-tab title="My Tickets" icon="icon ion-ios7-pricetag" href="#/app/my_tickets">
+      
+    </ion-tab>
+    <!-- History Tab -->
+    <ion-tab title="History" icon="icon ion-star" href="#/app/history">
+      
+    </ion-tab>
+     <!-- Setting Tab -->
+    <ion-tab title="Setting" icon="icon ion-gear-a" href="#/app/setting">
+      
+    </ion-tab>
+</ion-tabs>
+</ion-footer-bar>  
+
+</ion-view>
