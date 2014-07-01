@@ -2,17 +2,20 @@
     <widget xmlns = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         xmlns:cdv = "http://cordova.apache.org/ns/1.0"
-        id          = "com.phonegap.example"
-        version     = "1.0.78"
+        id          = "com.abcv.kootoro2"
+        version     = "2.0.4"
         versionCode = "10" >
 
         <!-- versionCode is optional and Android only -->
         <preference name="phonegap-version" value="3.4.0" />
 
-        <name>Kootoro Lottery</name>
+        <name>Kootoro Lottery 2</name>
 
         <description>
             ABCV product
+            - Using IONIC framework for mobile http://ionicframework.com
+            - AugularJS
+            - NodeJS
         </description>
 
         <author href="http://yoursite.com" email="you@youremail.com">
