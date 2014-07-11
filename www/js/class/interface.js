@@ -1,23 +1,34 @@
 var obj_interface = {
 	is_redesign: false,
 	data : {},
+	//ok
 	analyze_data : function(data)
 	{
+		//alert("nterface: analyze_data");
+		console.log("Interface: analyze_data");
 		this.is_redesign = true;
+		
+		app.bindDeviceInformation();
+
 		lottery_draw_tickets.initialize();
+
 		obj_loading.show();
 		var data_after = {
 			"count_normal_number" : 4,
 			"normal_number_max" : 20,
+			"normal_number_min" : 1,
 
         	"count_power_number" : 1,
         	"power_number_max" : 20,
+        	"power_number_min" : 1,
         	
         	"time_lottery" : new Array(),
 
         	"price" : 10,
 
         	"count_lottery_date" : 2,
+
+        	"version" : 1,
 			
 		};
 
@@ -31,6 +42,10 @@ var obj_interface = {
 			{
 				data_after.normal_number_max = data[i]['value'];
 			}
+			else if (data[i]['name'] == 'normal_number_min')
+			{
+				data_after.normal_number_min = data[i]['value'];
+			}
 			else if (data[i]['name'] == 'count_power_number')
 			{
 				data_after.count_power_number = data[i]['value'];
@@ -38,6 +53,10 @@ var obj_interface = {
 			else if (data[i]['name'] == 'power_number_max')
 			{
 				data_after.power_number_max = data[i]['value'];
+			}
+			else if (data[i]['name'] == 'power_number_min')
+			{
+				data_after.power_number_min = data[i]['value'];
 			}
 			else if (data[i]['name'] == 'time_lottery')
 			{
@@ -55,187 +74,143 @@ var obj_interface = {
 
 		data_after.price = 0;
 
-		this.data = data_after;
+		obj_interface.data = data_after;
 		
-		this.initialize_interface();
+		obj_interface.initialize_interface();
 	},
 	initialize_controls: function(data)
 	{
 		$('#price').val(data.price);
-		// $("input[sf-data=spinner]").spinner({
-		// 	min: 0,
-		// 	max: 10,
-		// 	spin: function(event, ul) {
-		// 		if (ul.value == 0) {
-		// 			var name = $(event.target).attr('name');
-		// 			name = name.replace('time', 'is_different');
-		// 			var number_other_day = $('input[type=checkbox][name="' + name + '"]:checked');
-		// 			if (number_other_day.length != 0) {
-		// 				setTimeout(function() {
-		// 					$(event.target).val("1");
-		// 				}, 100);
-		// 			}
-		// 		}
-		// 		setTimeout(function() {
-		// 			notice_transaction_content();
-		// 		}, 300);
-		// 	},
-		// });
-		// $("input[sf-data=spinner]").spinner("value", 0);
-	    
-	 //    $("input[sf-data=spinner]").numeric({ decimal: false, negative: false }, function() { alert("Positive integers only"); this.value = ""; this.focus(); });
-	},
-	changing_loading: function(text)
-	{
-		return;
-		var parentElement = document.getElementById("deviceready_status");
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
+		
+		$("input[type=number]").numeric({ decimal: false, negative: false }, function() { alert("Positive integers only"); this.value = ""; this.focus(); });
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
 
-		//$('#lottery_introduce *[l-ele=text]').html(text);
-		$('#deviceready_status p.received').html(text);
-	},
-	hide_introduction: function()
-	{
-		$('body').css('background-image','url(images/skin3/bg.png)');
-		$('#lottery_introduce').animate({
-			transform: 'scale(0,0)'
-		}, function() {
-			$('#lottery_tools').show();
-			$('#lottery_introduce').hide();
-			$('#lottery_buy').show();
-            div_display = "lottery_buy";
+		$("input[data-name=input_normal]").bind("keyup",function(){
+			if ($(this).val() == "") return;
+			if (typeof obj_lottery.normal_number[$(this).val()] != "undefined")
+			{
+				$(this).val("");
+				alert("This number was chosen.");
+			}
+			else
+			{
+				var val = $(this).val();
+				var length = $(this).val().length;
+				var max_length = obj_interface.data.normal_number_max.toString().length;
+				if (length == max_length)
+				{
+					//next to input
+					if (Number(obj_interface.data.normal_number_min) <= Number(val)
+						&& Number(val) <= Number(obj_interface.data.normal_number_max))
+					{
+						var no = Number($(this).attr('data-no'));
+						no++;//3 -> 4
+						if( no < $("input[data-name=input_normal]").length)	//4
+						{
+							$($('*[data-name=input_normal]')[no]).focus();		
+						}
+						else
+						{
+							$($('*[data-name=input_power]')[0]).focus();
+						}
+					}
+					else
+					{
+						//fail 
+						$(this).val("");
+						alert("Enter normal number from "+ obj_interface.data.normal_number_min + " to "+ obj_interface.data.normal_number_max+".");
+					}
+				}
+				else
+				{
+					//do not thing
+				}
+			}
 		});
+
+		$("input[data-name=input_power]").bind("keyup",function(){
+			if ($(this).val() == "") return;
+			if (typeof obj_lottery.power_number[$(this).val()] != "undefined"){
+				$(this).val("");
+				alert("This number was chosen.");
+			}
+			else
+			{
+				var val = $(this).val();
+				var length = $(this).val().length;
+				var max_length = obj_interface.data.power_number_max.length;
+				if (length == max_length)
+				{
+					//next to input
+					if (Number(obj_interface.data.power_number_min) <= Number(val)
+						&& Number(val) <= Number(obj_interface.data.power_number_max))
+					{
+						
+					}
+					else
+					{
+						//fail 
+						$(this).val("");
+						alert("Enter power number from "+ obj_interface.data.power_number_min + " to "+ obj_interface.data.power_number_max+".");
+					}
+				}
+				else
+				{
+					//do not thing
+				}
+			}
+		});
+
 	},
+
 	initialize_interface: function(){
+
 		if (!obj_interface.is_redesign)
+		{
 			return;
-		this.is_redesign = false;
-		obj_interface.changing_loading("Loading game ...");
-		
-		setTimeout(function(){
-			//then load html
-			obj_interface.load_choose_normal_number_area(obj_interface.data);
-			obj_interface.load_choose_power_number_area(obj_interface.data);
-			obj_interface.load_time_lottery_area(obj_interface.data);
-			obj_interface.load_notice_transaction(obj_interface.data);
-			obj_interface.initialize_controls(obj_interface.data);
-			setTimeout(function(){
-				obj_loading.hide();
+		}
+		//alert("Interface: initialize_interface");
 
-				$($('*[data-name=input_normal]')[0]).focus();
-
-				// obj_interface.changing_loading("Starting game ...");
-				// obj_interface.hide_introduction();
-				// $('.snap-drawers').show();
-				// $('#page-content').show();
-				// $('#slide-nav').show();
-				// $('#aside_menu').show();
-			}, 500);
-		},500);
+		console.log("Interface: initialize_interface");
 		
+		obj_interface.is_redesign = false;
+		
+		app.bindDeviceInformation();
+
+		lottery_draw_tickets.initialize();
+
+		//then load html
+		$('#div_choose_number').html("");
+		obj_interface.load_choose_normal_number_area(obj_interface.data);
+		obj_interface.load_choose_power_number_area(obj_interface.data);
+		obj_interface.load_time_lottery_area(obj_interface.data);
+		obj_interface.initialize_controls(obj_interface.data);
+
+		obj_loading.hide();
+		//$($('*[data-name=input_normal]')[0]).focus();
+		//alert("The end");
 	},
 	load_choose_normal_number_area: function(obj) 
 	{
-		$('#span_normal_number').val(obj.count_normal_number);
 		var html = "";
 		for(var i=0; i<obj.count_normal_number; i++)
 		{
-			html += "<div class='col col-25'>";
 			html += "<label class='ball'>";
-			html += "<input data-name='input_normal' type='text' onchange='javascript:lottery.input_normal_number();' />";
-			html += "</label>";
-			html += "</div>";
+			html += "<input data-name='input_normal' data-no='"+ i +"' type='number' pattern='([0-9])' maxlength='2' onchange='javascript:lottery.input_normal_number();' />";
+			html += "</label> ";
 		}
-		$('#div_normal_number').html(html);
-		return;
-
-        // ***************** old desgin
-		//Normal 
-		$('#span_normal_number').val(obj.count_normal_number);
-		var html = "";
-		for(var i=0; i<6; i++)
-		{
-			for(j=(i*10)+1; j<=(i*10)+10; j++)
-			{
-				if (j <= obj.normal_number_max)
-				{
-					var img_ball_png = 'images/ball/png/';
-					if (j < 10)
-						img_ball_png += "0" + j +".png";
-					else
-						img_ball_png += j + ".png";
-                                            
-					img_ball_gif = 'images/ball/gif/';
-
-					if (j < 10)
-						img_ball_gif += "0" + j + ".gif";
-					else
-						img_ball_gif += j + ".gif";
-                                            
-					html += "<div class='spanlotto' onclick='javascript:spanlotto_run_5_selected(this)'>";
-					html += "<img name=no_selected src='" + img_ball_png + "' />";
-					html += "<img name=selected style='display:none;' src='" + img_ball_gif +"' />";
-					html += "<input type='hidden' sf-data='spanlotto_selected' value='0' />";
-					html += "<input type='hidden' sf-data='spanlotto_number' value='"+ j +"' />";
-					html += "</div>";
-				}
-			}
-		}
-		html += '<div style="clear:both;"></div>';
-        $('#div_normal_number').html(html);
+		$('#div_choose_number').append(html);
 	},
 	load_choose_power_number_area : function(obj)
 	{
-		$('#span_power_number').val(obj.count_power_number);
 		var html = "";
 		for(var i=0; i<obj.count_power_number; i++)
 		{
-			html += "<div class='col col-25'>";
 			html += "<label class='ball power-ball'>";
-			html += "<input data-name='input_power' type='text' onchange='javascript:lottery.input_power_number();' />";
-			html += "</label>";
-			html += "</div>";
+			html += "<input data-name='input_power' data-no='"+ i +"' type='number' pattern='([0-9])' maxlength='2' onchange='javascript:lottery.input_power_number();' />";
+			html += "</label> ";
 		}
-		$('#div_power_number').html(html);
-		return;
-		// ***************** old desgin
-		//power
-		$('#span_power_number').val(obj.count_power_number);
-		var html = "";
-		for(var i=0; i<6; i++)
-		{
-			for(j=(i*10)+1; j<=(i*10)+10; j++)
-			{
-				if (j <= obj.power_number_max)
-				{
-					var img_ball_png = 'images/ball/png/';
-					if (j < 10)
-						img_ball_png += "0" + j +".png";
-					else
-						img_ball_png += j + ".png";
-                                            
-					img_ball_gif = 'images/ball/gif/';
-
-					if (j < 10)
-						img_ball_gif += "0" + j + ".gif";
-					else
-						img_ball_gif += j + ".gif";
-                                            
-					html += "<div class='spanlotto' onclick='javascript:spanlotto_run_1_selected(this)'>";
-					html += "<img name=no_selected src='" + img_ball_png + "' />";
-					html += "<img name=selected style='display:none;' src='" + img_ball_gif +"' />";
-					html += "<input type='hidden' sf-data='spanlotto_selected' value='0' />";
-					html += "<input type='hidden' sf-data='spanlotto_number' value='"+ j +"' />";
-					html += "</div>";
-				}
-			}
-		}
-		html += '<div style="clear:both;"></div>';
-        $('#div_power_number').html(html);
+		$('#div_choose_number').append(html);
 	},
 	load_time_lottery_area: function(obj)
 	{
@@ -245,11 +220,11 @@ var obj_interface = {
 		for (var iday = 1; iday <= Number(obj.count_lottery_date); iday++)
 		{  
 			if (iday ==1 )
-				html += "<div class='item text-center'>Today</div>";
+				html += "<div class='item text-center item-divider item-sub-heading'>Today</div>";
 			else if (iday == 2) 
-				html += "<div class='item text-center'>Tomorrow</div>";
+				html += "<div class='item text-center item-divider item-sub-heading'>Tomorrow</div>";
 			else
-				html += "<div class='item text-center'>Day " + iday + "</div>"; 
+				html += "<div class='item text-center item-divider item-sub-heading'>Day " + iday + "</div>"; 
 			
 
 			for (var i=0; i < time_lottery.length; i++) 
@@ -258,84 +233,32 @@ var obj_interface = {
 
                 var date = new Date(time_server.year, Number(time_server.month), time_server.day);
                 date.addDays(iday-1);
-				var t = date.getMonth() +  "-" + date.getDate() + "-" + date.getFullYear() + " " + time["value"] + ":00";
+				var t = date.getMonth() +  "/" + date.getDate() + "/" + date.getFullYear() + " " + time["value"] ;
 
-				html += '<label class="item item-radio">';
+				html += '<label class="item item-checkbox" onclick="javascript:obj_interface.selected_date(this)">';
+				html += '<div class="checkbox checkbox-input-hidden disable-pointer-events">';
 				html += '<input type="checkbox" ele-ref="time_'+time["id"]+'_'+iday+'" onchange="javascript:lottery.input_choose_date(this);" value="" />';
-				html += '<div class="item-content">';
-			    html += t;
-
-			    html += '<input data-value="'+t+'" id="time_'+time["id"]+'_'+iday+'" data-name="input_time"';
+				html += '<input data-value="'+t+'" id="time_'+time["id"]+'_'+iday+'" data-name="input_time"';
                 html += 'name="spanlotto[time]['+time["id"]+'_'+iday+']" value="0"/> ';
 
-				html += '</div>';
-			    html += '<i class="radio-icon ion-checkmark"></i>';
-			    html += '</label>';
+				html += '<i id="ic_time_'+time["id"]+'_'+iday+'" class="radio-icon ion-ios7-circle-outline" style="font-size:20px"></i></div>';
+				html += '<div ng-transclude="" class="item-content disable-pointer-events">';
+			    html += '<span>'+ t +'</span></div></label>';
+			    
 			}
-		}
-		$('#div_choose_time_lottery').html(html);
-		return;
-
-		// ***************** old desgin
-		var html = "";
-		var time_lottery = obj.time_lottery;
-		
-		for (var iday = 1; iday <= Number(obj.count_lottery_date); iday++)
-		{  
-			html += '<div class="col-md-6 col-sm-6" style="margin-bottom: 2px;">';
-			html += '<div class="text-center" style="margin-bottom: 2px;"><h5>';
-			
-			if (iday ==1 )
-				html += "Today";
-			else if (iday == 2) 
-				html += "Tomorrow";
-			else
-				html += "Day " + iday; 
-			html += '</h5></div>';
-
-			for (var i=0; i < time_lottery.length; i++) 
-			{ 
-				var time = time_lottery[i];
-
-                var date = new Date(time_server.year, Number(time_server.month), time_server.day);
-                date.addDays(iday-1);
-				//html += "Date: " + date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate() + " ( " + number_ticket + " ticket(s) ) <br/>";
-				// html += number_series;
-				// html += "<br/>";
-				var t = date.getMonth() +  "-" + date.getDate() + "-" + date.getFullYear() + "-" + time["value"] + ":00";
-
-				html += '<div style="margin-bottom: 2px;" class="text-center">';
-				html += t + "&nbsp;";
-				html += '<input sf-data="spinner" sf-obj="lottery_time" data-time="'+time["value"]+'" data-iday="'+iday+'"';
-                html += 'name="spanlotto[time]['+time["id"]+'_'+iday+']" onchange="javascript:spinner_time_change(this)" /> ';
-				html += '</div>';
-
-				// html += '<div class="col-md-6 col-sm-6" style="margin-bottom: 2px;">';
-				// html += time["value"];
-				// html += '<input sf-data="spinner" sf-obj="lottery_time" data-time="'+time["value"]+'"';
-				// html += 'name="spanlotto[time]['+time["id"]+']" onchange="javascript:spinner_time_change(this)" /> ';
-				// html += '<input type="checkbox" name="spanlotto[is_different]['+time["id"]+']" id="checkbox_'+time["id"]+'" value="on" onchange="javascript:other_day_change(this)" />';
-				// html += '<label for="checkbox_'+time["id"]+'"></label>';
-				// html += 'Other Day';
-				// html += '</div>';
-			}
-			html += '</div>';
 		}
 		$('#div_choose_time_lottery').html(html);
 	},
-	load_notice_transaction : function (obj)
+	selected_date: function(ele)
 	{
-		//$('#price').val(obj.price);
-
-		var html ="";
-		html += '<div class="error" style="display: none;"></div>';
-		html += '<div class="success" style="display: none;"></div>';
-		html += '<div sf-data="first">Good luck to you! ';
-		//html += ' <span class="pull-right">( '+ obj.price +' Toros / ticket )</span>';
-		html += '</div>';
-		html += '<div sf-data="content">';
-		html += '</div>';
-		$('#div_notice_transaction').html(html);
-		$('#summary_datetime').html(time_server.string);
+		var selected = $(ele).hasClass("item-selected");
+		if (selected)
+		{
+			$(ele).removeClass("item-selected");
+		}
+		else
+		{
+			$(ele).addClass("item-selected");	
+		}
 	},
 };

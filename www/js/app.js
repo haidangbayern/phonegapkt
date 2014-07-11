@@ -7,6 +7,7 @@
 angular.module('kootoro', ['ionic', 'starter.controllers'])
 
 .run(function($ionicPlatform) {
+  
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -18,9 +19,15 @@ angular.module('kootoro', ['ionic', 'starter.controllers'])
       StatusBar.styleDefault();
     }
   });
+
+
+  $ionicPlatform.registerBackButtonAction(function () {
+    app.onBackKeyDown();
+  }, 100);
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+
   $stateProvider
 
     .state('app', {
@@ -66,13 +73,24 @@ angular.module('kootoro', ['ionic', 'starter.controllers'])
         }
       }
     })
+    //*************** for Home page *******************************
+    .state('app.home', {
+      url: "/home",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/home.html",
+          controller: 'homeCtrl'
+        }
+      }
+    })
     
+    //*************** for lottery *******************************
     .state('app.lottery', {
       url: "/lottery",
       views: {
         'menuContent' :{
-          templateUrl: "templates/lottery/tab-add_ticket.html",
-          controller: 'addTicketCtrl'
+          templateUrl: "templates/lottery/main.html",
+          controller: 'mainLotteryCtrl'
         }
       }
     })
@@ -116,6 +134,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers'])
     })
     ;
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
+  $urlRouterProvider.otherwise('/app/home');
 });
+
 

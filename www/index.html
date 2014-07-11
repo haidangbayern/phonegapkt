@@ -14,7 +14,8 @@
     <link href="css/style.css" rel="stylesheet">
     <link href="css/header.css" rel="stylesheet">
     <link href="css/content.css" rel="stylesheet">
-
+    <link href="css/side_menu_left.css" rel="stylesheet">
+    <link href="css/app_home.css" rel="stylesheet">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -29,45 +30,114 @@
     <!-- your app's js -->
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
-
-
+    
     <script src="js/lib/jquery/jquery-1.8.2.min.js" type="text/javascript" ></script>
-    <script src="js/lib/jquery/jquery-ui-1.9.1.js" type="text/javascript" ></script>
     <script src="js/lib/jquery/jquery.numeric.js" type="text/javascript" ></script>
     <script src="js/lib/jquery/jquery.transform2d.js" type="text/javascript" ></script>
     <script src="js/lib/jquery/jquery.blockUI.js" type="text/javascript" ></script>
     <script src="js/lib/swipebox/js/jquery.swipebox.js" type="text/javascript"></script>
     
-    <script src="js/lib/other/fastclick.js" type="text/javascript"></script>
     <script src="js/lib/other/snap.js" type="text/javascript"></script>
-    <script src="js/lib/other/swipe.js" type="text/javascript"></script>
     <script src="js/lib/other/date.js" type="text/javascript" ></script>
-    <script src="js/lib/buzz/buzz.min.js"></script>
     <script src="js/lib/kinetic/kinetic-v5.1.0.min.js"></script>
 
     <!-- config JS -->
     <script src="js/config/constants.js" type="text/javascript" ></script>
+    <script src="js/config/core.js" type="text/javascript" ></script>
+    <script src="js/config/db.js" type="text/javascript" ></script>
+
 
   </head>
 
   <body ng-app="kootoro">
+    <script type="text/javascript">
+        var mySound = "";
+        var path_music = "music";
+        if (typeof Media != "undefined" ){
+            //path_music = window.server_url + "/libgames/abcv/lottery/music";
+            path_music = "file:///android_asset/www/music";
+        }
+        var mySoundIntro = "";
+        var time_server = undefined;
+        var div_display = "lottery_introduce";
+        var obj_lottery = {
+            "normal_number" : {},
+            "power_number" : {},
+        };
+        var is_time_check_server = false;
+        var stask_back_page = [];
+    </script>
     <ion-nav-view></ion-nav-view>
     
-    
     <!-- Class -->
-    <!--<script type="text/javascript" charset="utf-8" src="js/navbar.js"></script>-->
-    <script type="text/javascript" charset="utf-8" src="js/class/custom_snap.js"></script>
+
+    <script type="text/javascript" charset="utf-8" src="js/app_home_page.js"></script>
+    <!--<script type="text/javascript" charset="utf-8" src="js/class/lottery_home_page.js"></script>-->
+
     <script type="text/javascript" charset="utf-8" src="js/class/loading.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/class/socket.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/class/app.js"></script>
+
     <script type="text/javascript" charset="utf-8" src="js/class/interface.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/class/lottery.js"></script>
-    <script type="text/javascript" charset="utf-8" src="js/class/lottery_animation.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/class/lottery_draw_tickets.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/class/lottery_music.js"></script>
 
-    <!-- Action -->
-    <script type="text/javascript" charset="utf-8" src="js/lottery_game_run.js"></script>
-    <script type="text/javascript" charset="utf-8" src="js/lottery_game_socket.js"></script>
+    
+
+    <script type="text/javascript">
+$(function(){
+    console.log("Index: get script socket.io.js");
+
+    $.getScript(
+        "http://"+window.server_ip+":"+window.server_post+"/socket.io/socket.io.js",
+        function( response, status) {
+            
+            clearTimeout(is_time_check_server);
+
+            if (status != "success")
+            {
+              console.log("Index: Server out");
+              navigator.app.exitApp();
+              return;
+            }
+            
+            window.is_connect_server = true;
+            
+            /**** For database ****/
+            obj_db.openDatabase();
+
+            /**** For Socket ****/
+            lottery_socket = io.connect("http://" + window.server_ip +":"+window.server_post+"/lottery");
+
+            if (!window.is_device)
+            {
+              console.log("obj_socket.initialize");
+              obj_socket.initialize();
+            }
+            else
+            {
+              console.log("app.initialize");
+              app.initialize();
+            }
+
+            /**** For App Home Page ****/
+            console.log("Index: Server Is Ready");
+            app_home_page.change_app_status("Server Is Ready");
+            app_home_page.call_server_get_data();
+        });
+
+    is_time_check_server = setTimeout(function(){
+        if (typeof io == 'undefined')
+        {
+            $('#animated_loading span').html("Cannot Connect Server");
+            window.is_connect_server = false;
+            alert("Sorry! Server Out.");
+            console.log("Index: Server out");
+            navigator.app.exitApp();
+        }
+    }, 5000);
+})
+    </script>
   </body>
 </html>

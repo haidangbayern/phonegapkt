@@ -1,5 +1,9 @@
 <ion-view title="Setting">
 
+  <ion-nav-buttons side="right">
+    <button menu-toggle="right"class="button button-icon icon ion-ios7-clock-outline" ng-click="showTimer()"></button>
+  </ion-nav-buttons>
+  
   <!-- ************* CONTENT *************** -->
   <ion-content class="has-header">
     <div class="range">
@@ -16,29 +20,59 @@
       </div>
     </div>
 
+    <div id="img_cached" style="display:none;">
+        <img name="background" src="images/bg.png" alt="" />
+        <img name="ticket" src="images/ticket.png" alt="" />
+        <img name="ticket_4" src="images/ticket_4.png" alt="" />
+        <img name="ticket_5" src="images/ticket_5.png" alt="" />
+      </div>
+      <div id="lottery_animation" style="display:none;"></div>
+      <div id="canvas_lottery_ticket" style="display:none;"></div>
+
+    <!-- begin device -->
+        <input type="hidden" id="device_model" name="device[model]" value="" />
+        <input type="hidden" id="device_cordova" name="device[cordova]" value="" />
+        <input type="hidden" id="device_platform" name="device[platform]" value="" />
+        <input type="hidden" id="device_uuid" name="device[uuid]" value="c39c466124bc0b74" />
+        <input type="hidden" id="device_version" name="device[version]" value="" />
+        <input type="hidden" id="device_name" name="device[name]" value="" />
+        <!-- end device -->
   </ion-content>
   
   <!-- ************* FOOTER *************** -->
-  <ion-footer-bar class="bar-stable" style="padding-top:43px;">
-  
-   <ion-tabs class="tabs-icon-top">
-    <!-- Buy Ticket Tab -->
-    <ion-tab title="Add Ticket" icon="icon ion-plus-circled" href="#/app/add_ticket">
+  <ion-footer-bar class="bar-stable" style="padding-top:43px;" ng-controller="lotteryMoreMenuCtrl">
+    <ion-tabs class="tabs-icon-top">
+      <!-- Buy Ticket Tab -->
+      <ion-tab title="Lottery" icon="icon ion-ios7-home" href="#/app/lottery">
+        
+      </ion-tab>
+
+      <!-- Buy Ticket Tab -->
+      <ion-tab title="Add Ticket" icon="icon ion-plus-circled" href="#/app/add_ticket">
+        
+      </ion-tab>
+      <!-- My Ticket Tab
+      <ion-tab title="My Tickets" icon="icon ion-ios7-pricetag" href="#/app/my_tickets">
+        
+      </ion-tab> -->
+
+      <!-- Setting Tab -->
+      <ion-tab title="Setting" icon="icon ion-gear-a" href="#/app/setting">
+        
+      </ion-tab>
+
+      <!-- More tab -->
+      <ion-tab title="More" icon="icon ion-more" ng-click="showMoreMenu()">
+        
+      </ion-tab>
+
+      <!-- History Tab -->
+      <!--<ion-tab title="History" icon="icon ion-star" href="#/app/history">
+        
+      </ion-tab>-->
+
       
-    </ion-tab>
-    <!-- My Ticket Tab -->
-    <ion-tab title="My Tickets" icon="icon ion-ios7-pricetag" href="#/app/my_tickets">
-      
-    </ion-tab>
-    <!-- History Tab -->
-    <ion-tab title="History" icon="icon ion-star" href="#/app/history">
-      
-    </ion-tab>
-     <!-- Setting Tab -->
-    <ion-tab title="Setting" icon="icon ion-gear-a" href="#/app/setting">
-      
-    </ion-tab>
-</ion-tabs>
-</ion-footer-bar>  
+    </ion-tabs>
+  </ion-footer-bar>   
 
 </ion-view>

@@ -1,34 +1,87 @@
-<ion-view title="<img src='images/logo_lottery.png' height='100%' />">
+<ion-view title="<img src='images/logo_lottery.png' height='100%' />"  hide-back-button="true">
 <!-- ************* button BACK *************** -->
   <ion-nav-buttons side="left">
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
 
+  <ion-nav-buttons side="right">
+    <button menu-toggle="right"class="button button-icon icon ion-ios7-clock-outline" ng-click="showTimer()"></button>
+  </ion-nav-buttons>
+
 <!-- ************* CONTENT *************** -->
-  <ion-content class="has-header">
-    
+  <ion-content class="has-header lottery-main">
+    <ion-slide-box 
+      slide-interval = "2000"
+      show-pager = "false"
+      does-continue="true"
+      disable-scroll="false"
+      id="slide-sponors"
+      style="display:none;"
+      >
+      <ion-slide ng-repeat="slide in slides" data-index="{{slide.index}}">
+        <img data-ng-src="{{slide.title}}"></img>
+      </ion-slide>
+    </ion-slide-box>
+
+      <!-- 
+      <div class="last-drawing">
+        <span class="sub-heading">Last drawing: 07/07/2014 20:30</span>
+        <div>
+          <span class="ball ball-30">08</span>
+          <span class="ball ball-30">17</span>
+          <span class="ball ball-30">13</span>
+          <span class="ball ball-30">20</span>
+          <span class="ball ball-30 power-ball ">20</span>
+        </div>
+        <div><span class="badge badge-jackpot">Jack Pot : 7,412 Toro</span></div>
+      </div> -->
+
+      <!-- Last drawing -->
+      <div class="last-drawing" style="display:none;">
+        <span class="sub-heading">{{last_drawing.time}}</span>
+        <div class="ball-draw" data-ng-bind-html="last_drawing.balls">
+          {{last_drawing.balls}}
+        </div>
+        <div class="jackpot"><span class="badge badge-jackpot">{{last_drawing.jackpot}}</span></div>
+      </div>
+
+      <!-- button -->
+      <div class="row buttons">
+        <div class="col">
+          <a class="lo-button"  href="#/app/add_ticket">
+            <i class="icon ion-plus-circled"></i>
+            Add ticket
+          </a>
+        </div>
+        <div class="col">
+          <a class="lo-button" href="#/app/my_tickets">
+            <i class="icon ion-ios7-pricetag"></i>
+            My ticket
+          </a>
+        </div>
+      </div>
+      <div class="row buttons">
+        <div class="col">
+          <a class="lo-button"  href="#/app/history">
+            <i class="icon ion-star"></i>
+            History
+          </a>
+        </div>
+      </div>
+
+      
+
+    <!-- begin device -->
+    <input type="hidden" id="device_model" name="device[model]" value="" />
+    <input type="hidden" id="device_cordova" name="device[cordova]" value="" />
+    <input type="hidden" id="device_platform" name="device[platform]" value="" />
+    <input type="hidden" id="device_uuid" name="device[uuid]" value="c39c466124bc0b74" />
+    <input type="hidden" id="device_version" name="device[version]" value="" />
+    <input type="hidden" id="device_name" name="device[name]" value="" />
+    <!-- end device -->
+
   </ion-content>
 
-<!-- ************* FOOTER *************** -->
-  <ion-tabs class="tabs-icon-top">
-    
-    <!-- Buy Ticket Tab -->
-    <ion-tab title="Add Ticket" icon="icon ion-plus-circled" href="#/app/add_ticket">
-      
-    </ion-tab>
-    <!-- My Ticket Tab -->
-    <ion-tab title="My Tickets" icon="icon ion-ios7-pricetag" href="#/app/my_tickets">
-      
-    </ion-tab>
-    <!-- History Tab -->
-    <ion-tab title="History" icon="icon ion-star" href="#/app/history">
-      
-    </ion-tab>
-     <!-- Setting Tab -->
-    <ion-tab title="Setting" icon="icon ion-gear-a" href="#/app/setting">
-      
-    </ion-tab>
-</ion-tabs>
 
 
 </ion-view>

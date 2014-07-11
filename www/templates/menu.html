@@ -7,15 +7,37 @@
     <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
   </ion-pane>
 
-  <ion-side-menu side="left">
-    <header class="bar bar-header bar-stable">
-      <h1 class="title">Images</h1>
+  <ion-side-menu side="left" class="ko-side-menu-left">
+    <header class="bar bar-header">
+      <h1 class="title">
+        <a href="http://demo.games4fun.abcv.com/" target="_blank" >
+          <img src="images/logo_kootoro.png" style="height:100%;">
+        </a>
+      </h1>
     </header>
     <ion-content class="has-header">
       <ion-list>
-        <ion-item nav-clear menu-close ng-click="login()">
-          Login
+        
+        <!--<ion-item nav-clear menu-close href="#/app/home">
+          Home
+        </ion-item>-->
+
+        <ion-item nav-clear menu-close href="#/app/lottery">
+          Lottery
         </ion-item>
+
+        <!--<ion-item nav-clear menu-close href="#/app/exchange">
+          Toro Exchange
+        </ion-item>
+
+        <ion-item nav-clear menu-close href="#/app/product">
+          Toro Games
+        </ion-item>
+
+        <ion-item nav-clear menu-close href="#/app/product">
+          Toro Rewards
+        </ion-item>
+
         <ion-item nav-clear menu-close href="#/app/searchabcv">
           Search ABCV
         </ion-item>
@@ -25,9 +47,19 @@
         <ion-item nav-clear menu-close href="#/app/playlists">
           Playlists
         </ion-item>
-        <ion-item nav-clear menu-close href="#/app/lottery">
-          Lottery
+        <ion-item nav-clear menu-close ng-click="login()">
+          Login
+        </ion-item>-->
+
+        <ion-item nav-clear menu-close ng-click="app_about()">
+          About
         </ion-item>
+
+        <ion-item nav-clear menu-close ng-click="app_exit()">
+          Exit
+        </ion-item>
+
+
       </ion-list>
     </ion-content>
   </ion-side-menu>

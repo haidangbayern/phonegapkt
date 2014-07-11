@@ -1,24 +1,18 @@
 var obj_socket = {
     initialize : function(){
         if (typeof io == 'undefined'){
-            // $('#lottery_modal .modal-body').html("Sorry! Server Out");
-            // $('#lottery_modal').modal('show');
-            // $('#lottery_modal').on('hidden.bs.modal', function (e) {
-            //     var url = window.location.pathname;
-            //     url = url.replace('/play','');
-            //     window.location = url;
-            //     return;
-            // });
-            alert("Sorry! Server Out");
+            alert("IO Sorry! Server Out");
             app.exit();
         }
 
         //socket realtime
-        lottery_socket = io.connect("http://" + window.server_ip +":"+window.server_post+"/lottery");
+        if (lottery_socket == undefined)
+            lottery_socket = io.connect("http://" + window.server_ip +":"+window.server_post+"/lottery");
+
         lottery_socket.on('lottery_time', function(data) {
             var data_post = {
                 'lottery_time': data,
-                'uuid' : $('device_uuid').val(),
+                'uuid' : $('#device_uuid').val(),
             };
             var lottery_time = data;
             var span_lottery_time = $('#lottery_result').find('span[name=lottery_time]');
@@ -26,75 +20,80 @@ var obj_socket = {
                 $.ajax({
                     url: window.server_url+'/game/mobile_app_lottery/lottery_result?v=' + window.version,
                     data: data_post,
-                    type: "POST",
+                    type: "GET",
                     contentType: "application/json",  
                     dataType: 'jsonp',  
                     crossDomain: true, 
                     success: function(data) {
                         //data = JSON.parse(data);
+                        if ($('div.lottery_alert').length != 0)
+                            $('div.lottery_alert').remove();
+
                         if (data.result) {
                             //showing result 
-                            //$('#lottery_result').show();
-                            $("#lottery_result").html(data.html);
-                         
-                            //Buying ticket
+
                             if (data.is_ticket_result) {
-                                  //if (window.div_id != "")
-    //                              {
-    //                                $(window.div_id).slideUp(1000, function() {
-    //                                    $('#lottery_result').slideDown();
-    //                                });
-    //                              }
-                                $('#' + div_display).slideUp(1000, function() {
-                                  $('#lottery_result').slideDown();
-                                    div_display = "lottery_result";
-                               });
-                                lottery.update_balance();
+                                
+                                $('ion-view ion-content .scroll').prepend(data.html);
+
                             } else { //Don't buy
-                                $('#lottery_result').show();
-                                setTimeout(function() {
-                                    //reset divId
-                                    if (div_display == 'lottery_result')    //Showing the previous of lottery
-                                    {
-                                        $('#lottery_buy').slideDown();
-                                        div_display = "lottery_buy";    
-                                    }
-                                    else
-                                    {
-                                        $('#lottery_result').hide();
-                                    }
-                                }, 30000);
+                                $('ion-view ion-content .scroll').prepend(data.html);
                             }
                         }
                     }
                 });
             }
         });
+
         lottery_socket.on('lottery_data', function(data) {
-            obj_interface.changing_loading("Loading data ...");
-            window.analyze_data = data;
-            reload_analyze_data();
+            //alert("Socket: recived data");
+            console.log("Socket: recived data");
+            obj_interface.analyze_data(data);   
         });
+
         lottery_socket.on('lottery_is_run_time', function(data) {
-            $('#lottery_runtime').find('span[name=time]').text(data.time_down + "s");
-            $('#lottery_runtime').show();
+            var backdrop = $('div.backdrop');
+            if(backdrop.hasClass('active'))
+            {
+                $('#countdown').html(data.time_down);
+            }
+            else
+            {
+                backdrop.addClass('visible');
+                backdrop.addClass('active');
+
+                $('body').addClass('menu-open');
+                $('body').addClass('popup-open');
+
+                var t = "<div class='run_time_down popup popup-showing active'>";
+                t += '<div class="popup-head" style="padding-bottom:0;"><h3>Countdown Timer</h3></div>';
+                t += '<div class="popup-body" style="padding:0;">';
+                t += '<h1 id="countdown" class="text-center">';
+                t += data.time_down;
+                t += '</h1>';
+                t += "</div></div>";
+                backdrop.after(t)    
+            }
+
+            
+
+            // $('ion-view ion-content').append(t);
+            // $('#lottery_runtime').find('span[name=time]').text(data.time_down + "s");
+            // $('#lottery_runtime').show();
             //console.log("lottery_is_run_time");
         });
+
         lottery_socket.on('lottery_hidde_is_run_time', function(data) {
-            $('#lottery_runtime').hide();
+            //$('#lottery_runtime').hide();
+            $('div.run_time_down').remove();
+            $('div.backdrop').removeClass('visible').removeClass('active');
+            $('body').removeClass('menu-open').removeClass('popup-open');
             //console.log("lottery_hidde_is_run_time");
         });
+
         lottery_socket.on('lottery_time_server', function(data) {
-            obj_interface.initialize_interface();
-            //console.log("socket lottey r_time_server");
-            var html = "<i class=\"fa fa-clock-o\"></i> " + data.month + "-" + data.day + "-" + data.year + " " + data.hour + ":" + data.minutes + ":" + data.seconds;
-            html += "<br/>";
-            html += "<span class=note>(" + data.timeZone + ") " + data.timeZoneName + "</span>"; 
-            $('div[l-ele=time_server] div').html(html);
             time_server = data;
-            $('#span_normal_number').text(data.count_normal_number);
-            $('#span_power_number').text(data.count_power_number);
-            
+            $('#popup_time_server').text(time_server.month + "/" + time_server.day + "/" + time_server.year + " " + time_server.hour + ":" + time_server.minutes + ":" + time_server.seconds);
         });
     },
 };
@@ -103,9 +102,7 @@ function reload_analyze_data()
 {
     if (typeof time_server != "undefined")
     {
-        setTimeout(function(){                    
-            obj_interface.analyze_data(window.analyze_data);   
-        },300);    
+        
     }
     else
     {

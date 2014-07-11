@@ -3,28 +3,32 @@ var lottery_draw_tickets = {
 	stage: '',
 	layer: '',
 	background: '',
+	obj : {},
 	//arr_normal_number: new Array(),
-	initialize: function(argument) {
+	initialize: function() {
         if (typeof time_server != "undefined")
         {
-    		//created canvas
-    		this.stage = new Kinetic.Stage({
-    			container: 'canvas_lottery_ticket',
-    			width: 500,
-    			height: 550
-    		});
-    		this.layer = new Kinetic.Layer();
-    		this.stage.add(this.layer);
-    		//create background ticket
-    		this.background = new Kinetic.Image({
-    			x: 0,
-    			y: 0,
-    			image: $('#img_cached').find('img[name=ticket_'+time_server.count_normal_number+']')[0],
-    			width: this.stage.getWidth(),
-    			height: this.stage.getHeight(),
-    		});
-    		this.layer.add(this.background);
-    		this.stage.draw();
+        	if (this.stage == ''){
+        		console.log("draw tickets: initialize stage");
+	    		//created canvas
+	    		this.stage = new Kinetic.Stage({
+	    			container: 'canvas_lottery_ticket',
+	    			width: 500,
+	    			height: 550
+	    		});
+	    		this.layer = new Kinetic.Layer();
+	    		this.stage.add(this.layer);
+	    		//create background ticket
+	    		this.background = new Kinetic.Image({
+	    			x: 0,
+	    			y: 0,
+	    			image: $('#img_cached').find('img[name=ticket_'+time_server.count_normal_number+']')[0],
+	    			width: this.stage.getWidth(),
+	    			height: this.stage.getHeight(),
+	    		});
+	    		this.layer.add(this.background);
+	    		this.stage.draw();
+    		}
         }
         else
         {
@@ -34,6 +38,16 @@ var lottery_draw_tickets = {
         }
 	},
 	draw_all_tickets: function(obj) {
+		this.obj = obj;
+
+		if (this.stage == '' || this.stage == null || this.stage == undefined)
+		{
+			setTimeout(function(){
+				lottery_draw_tickets.draw_all_tickets(lottery_draw_tickets.obj);
+			}, 300);
+			return;
+		}
+
 		for (var i = 0; i < obj.length; i++) {
 			this.draw_ticket(obj[i]);
 			this.stage.draw();
@@ -155,13 +169,14 @@ var lottery_draw_tickets = {
 
 		if ($('#my_tickets').length != 0)
 			div_id = "my_tickets";
-
-        var img = $($('#'+ div_id +' *[name=ticket_' + id + ']')[0]).find('img[name=thumnail]')[0];
+		
+        var img = $($('#'+ div_id +' #ticket_' + id + '')[0]).find('img[name=thumnail]')[0];
         //var img_big = $('#ti_' + id).find('img[name=thumnail]')[0];
 	
 		this.stage.toDataURL({
 			mimeType:"image/jpeg",
 			callback: function(dataUrl) {
+				obj_loading.hide();
                 img.parentElement.href = dataUrl;
 				img.src = dataUrl;
 				//img_big.src = dataUrl;

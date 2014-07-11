@@ -13,42 +13,364 @@ ion-content div.scroll {
 	border-radius: 50%;
     display: inline-block;
 	padding: 10px;
-    
+    color: #000;
+    font-size: 20px;
+    font-weight: bold;
+
     vertical-align: baseline;
     white-space: nowrap;
 
-        /* IE10 Consumer Preview */ 
-        background-image: -ms-linear-gradient(bottom right, #DBDBDB 0%, #666666 100%);
-        /* Mozilla Firefox */ 
-        background-image: -moz-linear-gradient(bottom right, #DBDBDB 0%, #666666 100%);
-        /* Opera */ 
-        background-image: -o-linear-gradient(bottom right, #DBDBDB 0%, #666666 100%);
-        /* Webkit (Safari/Chrome 10) */ 
-        background-image: -webkit-gradient(linear, right bottom, left top, color-stop(0, #DBDBDB), color-stop(1, #666666));
-        /* Webkit (Chrome 11+) */ 
-        background-image: -webkit-linear-gradient(bottom right, #DBDBDB 0%, #666666 100%);
-        /* W3C Markup, IE10 Release Preview */ 
-        background-image: linear-gradient(to top left, #DBDBDB 0%, #666666 100%);
+    background-image: url('../images/ball/ball-white.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+   /* -webkit-box-shadow: 7px 7px 5px 0px rgba(50, 50, 50, 0.75);
+-moz-box-shadow:    7px 7px 5px 0px rgba(50, 50, 50, 0.75);
+box-shadow:         7px 7px 5px 0px rgba(50, 50, 50, 0.75);*/
 }
-.ball > input[type=text]{
+.ball > input[type=text],
+.ball > input[type=number]
+{
 	background-color: transparent;
-	color: #FFFFFF;
+	color: #000;
 	font-size: 20px;
 	font-weight: bold;
     text-align: center;
+    border: 0;
+    box-shadow: none;
 }
+.power-ball {
+    background-image: url('../images/ball/ball-red.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+}
+.ball-30 {
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    font-size: 17px;
+}
+.ball-no-actived {
+    opacity: 0.3;
+}
+.ball-actived {
+    opacity: 1;
+}
+/*** ----------------------- badge --------------------------------- ***/
+.badge-jackpot {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #63b8ee), color-stop(1, #468ccf));
+    background:-moz-linear-gradient(top, #63b8ee 5%, #468ccf 100%);
+    background:-webkit-linear-gradient(top, #63b8ee 5%, #468ccf 100%);
+    background:-o-linear-gradient(top, #63b8ee 5%, #468ccf 100%);
+    background:-ms-linear-gradient(top, #63b8ee 5%, #468ccf 100%);
+    background:linear-gradient(to bottom, #63b8ee 5%, #468ccf 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#63b8ee', endColorstr='#468ccf',GradientType=0);
+    background-color:#63b8ee;
+
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    border-radius:10px;
+
+    border:1px solid #3866a3;
+
+    display:inline-block;
+    
+    color:#ffffff;
+    
+    font-size:15px;
+    font-weight:bold;
+
+    text-shadow:0px 1px 0px #7cacde;
+}
+
+.run_time_down {
+    margin-top: -60.5px; 
+    margin-left: -125px;
+   /* position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    z-index: 9;*/
+
+}
+
+.lottery_alert {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9));
+    background:-moz-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+    background:-webkit-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+    background:-o-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+    background:-ms-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+    background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9',GradientType=0);
+    background-color:#f9f9f9;
+    border:1px solid #dcdcdc;
+    padding: 2px;
+}
+.lottery_alert .button-view-drawing {
+    right: 5px;
+    position: absolute;
+    top: 2.5px;
+}
+
+
+/*** --------------------- Action Sheet Menu ------------------------ ***/
+.action-sheet {
+    margin-left: 50px;
+    margin-right: 50px;
+    -webkit-box-shadow: 1px 1px 12px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow:    1px 1px 12px 0px rgba(50, 50, 50, 0.75);
+    box-shadow:         1px 1px 12px 0px rgba(50, 50, 50, 0.75);
+}
+.action-sheet-group {
+    margin-bottom: 0;
+}
+.action-sheet-backdrop.active {
+    background-color: transparent;
+}
+.action-sheet-group .button{
+    text-align: left;
+    padding-left: 10px;
+    font-weight: normal;
+    color: #414141;
+    font-size: 16px;
+}
+
+/** ========================= Main lottery ==============================**/
+.lottery-main {
+
+}
+.lottery-main #slide-sponors div.slider-slides{
+    /*width: 100% !important;
+    height: 150px;*/
+    padding: 5px 0;
+}
+.lottery-main #slide-sponors div.slider-slides > ion-slide {
+    text-align: center;
+    color: white;
+    /*position: absolute;
+    top: 0;
+    */
+    
+}
+.lottery-main #slide-sponors div.slider-slides > ion-slide > img{
+    width: 150px;
+    height: 150px;  
+     border: 4px solid #ffffff;
+    border-radius: 10px;
+    /*box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);*/
+
+  box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
+    
+}
+
+.lottery-main .last-drawing{
+    border: 3px solid gray;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    border-radius: 10px;
+    margin: 3px;
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9));
+    background:-moz-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+    background:-webkit-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+    background:-o-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+    background:-ms-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+    background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9',GradientType=0);
+    background-color:#f9f9f9;
+} 
+.lottery-main .last-drawing .sub-heading {
+    background-color: #dddddd;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 5px 0 5px 5px;
+}
+.lottery-main .last-drawing > div:nth-child(n) {
+    padding-bottom: 2.5px;
+    padding-left: 6px;
+    padding-top: 6px;
+}
+.lottery-main .last-drawing > div:last-child {
+    padding-top: 2.5px;
+    padding-bottom: 5px;
+}
+
+
+.lottery-main div.buttons a.lo-button {
+    -moz-box-shadow:inset 0px 1px 0px 0px #54a3f7;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #54a3f7;
+    box-shadow:inset 0px 1px 0px 0px #54a3f7;
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #007dc1), color-stop(1, #0061a7));
+    background:-moz-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+    background:-webkit-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+    background:-o-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+    background:-ms-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+    background:linear-gradient(to bottom, #007dc1 5%, #0061a7 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#007dc1', endColorstr='#0061a7',GradientType=0);
+    background-color:#007dc1;
+    -moz-border-radius:30px;
+    -webkit-border-radius:30px;
+    border-radius:30px;
+    border:1px solid #124d77;
+    display:inline-block;
+    color:#ffffff;
+    font-size:18px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #154682;
+    width: 100%;
+    height: 45px;
+    padding: 12px 13px 13px 30px;
+}
+.lottery-main div.buttons a.lo-button:hover {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #0061a7), color-stop(1, #007dc1));
+    background:-moz-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+    background:-webkit-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+    background:-o-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+    background:-ms-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+    background:linear-gradient(to bottom, #0061a7 5%, #007dc1 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#0061a7', endColorstr='#007dc1',GradientType=0);
+    background-color:#0061a7;
+}
+.lottery-main div.buttons a.lo-button:active {
+    position:relative;
+    top:1px;
+}
+
+
 /** ========================= Add Ticket ============================= **/
 #form_lottery_run {
 	position: absolute;
 	width: 100%;
+    padding-bottom: 100px;
 }
 
 #lottery_tickets {
 	width: 100%;
 	position: absolute;
+    padding-bottom: 100px;
+}
+.btn-quick-pick {
+    -moz-box-shadow:inset 0px 1px 0px 0px #54a3f7;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #54a3f7;
+    box-shadow:inset 0px 1px 0px 0px #54a3f7;
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #007dc1), color-stop(1, #0061a7));
+    background:-moz-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+    background:-webkit-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+    background:-o-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+    background:-ms-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+    background:linear-gradient(to bottom, #007dc1 5%, #0061a7 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#007dc1', endColorstr='#0061a7',GradientType=0);
+    background-color:#007dc1;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    border-radius:3px;
+    border:1px solid #124d77;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-size:13px !important;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #154682;
+}
+.btn-quick-pick:hover {
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #0061a7), color-stop(1, #007dc1));
+    background:-moz-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+    background:-webkit-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+    background:-o-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+    background:-ms-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+    background:linear-gradient(to bottom, #0061a7 5%, #007dc1 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#0061a7', endColorstr='#007dc1',GradientType=0);
+    background-color:#0061a7;
+    color: white;
+}
+.btn-quick-pick:active {
+    position:relative;
+    top:1px;
+    color: white;
+}
+#buy_ticket .item-sub-heading {
+    font-size: 14px;
+    background-color: #d9d9d9;
+}
+#div_choose_time_lottery label.item-checkbox{
+    padding-top: 10px; 
+    padding-bottom: 10px;
 }
 
+#div_choose_time_lottery  .item-selected {
+    -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    box-shadow:inset 0px 1px 0px 0px #ffffff;
+    
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #c2c0c2));
+    background:-moz-linear-gradient(top, #f9f9f9 5%, #c2c0c2 100%);
+    background:-webkit-linear-gradient(top, #f9f9f9 5%, #c2c0c2 100%);
+    background:-o-linear-gradient(top, #f9f9f9 5%, #c2c0c2 100%);
+    background:-ms-linear-gradient(top, #f9f9f9 5%, #c2c0c2 100%);
+    background:linear-gradient(to bottom, #f9f9f9 5%, #c2c0c2 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#c2c0c2',GradientType=0);
+    background-color:#f9f9f9;
+
+    /*-moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    border-radius:10px;*/
+    border: 3px solid #636363;
+
+    cursor:pointer;
+    
+}
+
+#lottery_tickets div.item-tickets,
+#my_tickets div.item-tickets {
+    border: 3px solid #cc6a2d;
+    padding-top: 5px;
+    -moz-border-radius:10px;
+    -webkit-border-radius:10px;
+    border-radius:10px;
+    margin-bottom: -3px;
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #c2c0c2));
+    background:-moz-linear-gradient(top, #f9f9f9 5%, #c2c0c2 100%);
+    background:-webkit-linear-gradient(top, #f9f9f9 5%, #c2c0c2 100%);
+    background:-o-linear-gradient(top, #f9f9f9 5%, #c2c0c2 100%);
+    background:-ms-linear-gradient(top, #f9f9f9 5%, #c2c0c2 100%);
+    background:linear-gradient(to bottom, #f9f9f9 5%, #c2c0c2 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#c2c0c2',GradientType=0);
+    background-color:#f9f9f9;
+    padding-bottom: 0px;
+}
+
+
 /** ========================== My Tickets ============================== **/
+#my_tickets  {
+    /*padding-bottom: 100px;*/
+}
 #my_tickets div.item-icon-right{
 	padding-bottom: 0px;
 }
+
+/** ========================== History ================================= **/
+#history div.tabs .active {
+    color: #bc3315;
+    font-weight: bold;
+    border-bottom: 4px solid #bc3315;
+}
+#history_result {
+    display: block;
+    margin-top: 1px;
+    /*position: absolute;*/
+    width: 100%;
+    /*padding-bottom: 100px;*/
+}
+#history_award {
+    display: block;
+    margin-top: 1px;
+    /*position: absolute;*/
+    width: 100%;
+    transform: 'translate3d(1000px, 0px, 0px) scale(1)';
+    /*padding-bottom: 100px;*/
+}
+

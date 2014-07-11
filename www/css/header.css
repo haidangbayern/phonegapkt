@@ -1,12 +1,22 @@
 ion-nav-bar.bar-header {
-	  background: #d14014;
+	/*background: #d14014;
   background-image: -webkit-linear-gradient(top, #d14014, #990000);
   background-image: -moz-linear-gradient(top, #d14014, #990000);
   background-image: -ms-linear-gradient(top, #d14014, #990000);
   background-image: -o-linear-gradient(top, #d14014, #990000);
-  background-image: linear-gradient(to bottom, #d14014, #990000);
-    border-color: #b2b2b2;
-      color: #FFF;
+  background-image: linear-gradient(to bottom, #d14014, #990000);*/
+
+  background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #d14014), color-stop(1, #990000));
+  background:-moz-linear-gradient(top, #d14014 5%, #990000 100%);
+  background:-webkit-linear-gradient(top, #d14014 5%, #990000 100%);
+  background:-o-linear-gradient(top, #d14014 5%, #990000 100%);
+  background:-ms-linear-gradient(top, #d14014 5%, #990000 100%);
+  background:linear-gradient(to bottom, #d14014 5%, #990000 100%);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d14014', endColorstr='#990000',GradientType=0);
+  background-color:#d14014;
+
+  border-color: #b2b2b2;
+  color: #FFF;
 }
 ion-nav-bar.bar-header .back-button {
   color: #FFF;
