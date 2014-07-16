@@ -33,29 +33,34 @@ var app_home_page = {
         $('.backdrop').removeClass('active');
         $('.home_load').remove();
     },
-    call_server_get_data: function(){
-        this.change_app_status("Getting Data");
+    call_server_get_data: function(is_first_load){
+        window.is_first_load = is_first_load;
+        if (typeof window.is_first_load != "undefined")
+            this.change_app_status("Getting Data");
 
         //get data from database
-        obj_db.runQuery();
-        if (obj_db.data_result != null && obj_db.data_result.rows.length != 0)
-        {
-            console.log("app_home_page: get From database");
-            var sponsors = [];
-            for (var i=0; i < obj_db.data_result.rows.length; i++)
-            {
-                sponsors.push({
-                    'id' : obj_db.data_result.rows.item(i).id,
-                    'image' : obj_db.data_result.rows.item(i).image,
-                });
-            }
-            window.store_data.sponsors = sponsors;
+        // obj_db.runQuery();
+        // if (obj_db.data_result != null && obj_db.data_result.rows.length != 0)
+        // {
+        //     console.log("app_home_page: get From database");
+        //     var sponsors = [];
+        //     for (var i=0; i < obj_db.data_result.rows.length; i++)
+        //     {
+        //         sponsors.push({
+        //             'id' : obj_db.data_result.rows.item(i).id,
+        //             'image' : obj_db.data_result.rows.item(i).image,
+        //         });
+        //     }
+        //     window.store_data.sponsors = sponsors;
 
-            app_home_page.off_app_status();
-            window.location.href = "#/app/lottery";
-        }
-        else
-        {
+        //     if (typeof window.is_first_load != "undefined"){
+        //         app_home_page.off_app_status();
+        //         window.location.href = "#/app/lottery";    
+        //     }
+            
+        // }
+        // else
+        // {
             console.log("app_home_page: get From Ajax");
             $.ajax({
                 url: window.server_url+'/game/mobile_app_lottery/request_home_page_data?v=' + window.version,
@@ -148,12 +153,20 @@ var app_home_page = {
                     } else {
                         
                     }
+                    //change interface
+                    if (window.page_name == "app_lottery_main")
+                    {
+                        obj_interface.effect_on_home_page();
+                    }
 
-                    app_home_page.off_app_status();
-                    window.location.href = "#/app/lottery";
+                    //redirect to app/lottery
+                    if (typeof window.is_first_load != "undefined"){
+                        app_home_page.off_app_status();
+                        window.location.href = "#/app/lottery";
+                    }
                 }
             });
-        }
+        //}
     },
     
 };

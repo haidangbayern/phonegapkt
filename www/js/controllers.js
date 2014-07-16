@@ -86,10 +86,12 @@ angular.module('starter.controllers', [])
   console.log("========================> application home page");
   // obj_loading.show();
   app_home_page.initialize();
+  window.page_name = "app_home";
 
 })
 
 .controller('mainLotteryCtrl', function($scope, $http, $log){
+  window.page_name = "app_lottery_main";
   stask_back_page.push({type:'url', action: 'window.location.href = "#/app/lottery"'});
 
   //*** Sponsor
@@ -151,6 +153,7 @@ angular.module('starter.controllers', [])
 })
 
 .controller('addTicketCtrl', function(){
+  window.page_name = "app_lottery_add_ticket";
   stask_back_page.push({type:'url', action: 'window.location.href = "#/app/add_ticket"'});
 
   console.log("========================> add ticket");
@@ -173,12 +176,14 @@ angular.module('starter.controllers', [])
 
 
 .controller('myTicketCtrl', function(){
+  window.page_name = "app_lottery_my_ticket";
   stask_back_page.push({type:'url', action: 'window.location.href = "#/app/my_tickets"'});
   console.log("========================> my ticket");
   $('#page').val("1"); 
 })
 
 .controller('historyTicketCtrl', function(){
+  window.page_name = "app_lottery_history_ticket";
   stask_back_page.push({type:'url', action: 'window.location.href = "#/app/history"'});
   console.log(stask_back_page);
   console.log("========================> history");

@@ -42,6 +42,7 @@
     <script src="js/lib/kinetic/kinetic-v5.1.0.min.js"></script>
 
     <!-- config JS -->
+    <script src="js/config/xml.js" type="text/javascript" ></script>
     <script src="js/config/constants.js" type="text/javascript" ></script>
     <script src="js/config/core.js" type="text/javascript" ></script>
     <script src="js/config/db.js" type="text/javascript" ></script>
@@ -124,7 +125,7 @@ $(function(){
             /**** For App Home Page ****/
             console.log("Index: Server Is Ready");
             app_home_page.change_app_status("Server Is Ready");
-            app_home_page.call_server_get_data();
+            app_home_page.call_server_get_data(true);
         });
 
     is_time_check_server = setTimeout(function(){
@@ -136,7 +137,7 @@ $(function(){
             console.log("Index: Server out");
             navigator.app.exitApp();
         }
-    }, 5000);
+    }, 10000);
 })
     </script>
   </body>

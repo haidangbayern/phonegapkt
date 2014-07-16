@@ -1,9 +1,9 @@
-   <?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
     <widget xmlns = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         xmlns:cdv = "http://cordova.apache.org/ns/1.0"
         id          = "com.abcv.kootoro2"
-        version     = "2.0.71"
+        version     = "2.0.76"
         versionCode = "10" >
 
         <!-- versionCode is optional and Android only -->
@@ -49,6 +49,7 @@
         <gap:plugin name="com.ionic.keyboard" version="1.0.1" />
         <gap:plugin name="com.plugin.datepicker" version="0.3.2" />
         <gap:plugin name="com.millerjames01.sqlite-plugin" version="1.0.1" />
+        
     
     
     

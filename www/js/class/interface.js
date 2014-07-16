@@ -282,4 +282,33 @@ var obj_interface = {
 			$(ele).addClass("item-selected");	
 		}
 	},
+	effect_on_home_page: function()
+	{
+		$('.next-drawing .estimated-date').html('At ' + window.store_data.estimated.datetime);
+		$('.estimated-toros.ng-binding').animate({
+		  transform: 'scale(1,0)'
+		},function(){
+			$('.next-drawing .estimated-toros').html(window.store_data.estimated.jackpot);
+			$('.estimated-toros.ng-binding').animate({
+			  transform: 'scale(1,1)'
+			});	
+		});
+		
+
+		$('.last-drawing').animate({
+		  	transform: 'scale(1,0)'
+		},function(){
+			$('.last-drawing .sub-heading').html(window.store_data.last_drawing.time_text);
+			$('.last-drawing .ball-draw').html(window.store_data.last_drawing.balls);
+			$('.last-drawing .badge-jackpot').html(window.store_data.last_drawing.jackpot);
+
+			$('.last-drawing').animate({
+			  transform: 'scale(1,1)'
+			});	
+		});
+
+
+
+		
+	},
 };

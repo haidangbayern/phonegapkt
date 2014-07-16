@@ -33,13 +33,19 @@ var obj_socket = {
                             //showing result 
 
                             if (data.is_ticket_result) {
-                                
+                                if (navigator != undefined)
+                                {
+                                    navigator.notification.beep(2);
+                                    navigator.notification.vibrate(2500);    
+                                }                                
                                 $('ion-view ion-content .scroll').prepend(data.html);
 
                             } else { //Don't buy
                                 $('ion-view ion-content .scroll').prepend(data.html);
                             }
                         }
+
+                        app_home_page.call_server_get_data();
                     }
                 });
             }
@@ -94,6 +100,10 @@ var obj_socket = {
         lottery_socket.on('lottery_time_server', function(data) {
             time_server = data;
             $('#popup_time_server').text(time_server.month + "/" + time_server.day + "/" + time_server.year + " " + time_server.hour + ":" + time_server.minutes + ":" + time_server.seconds);
+        });
+
+        lottery_socket.on('ajax_home', function(data) {
+            app_home_page.call_server_get_data();
         });
     },
 };

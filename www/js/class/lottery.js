@@ -68,6 +68,11 @@ var lottery = {
 					  		transform: 'translateX(0px)',
 						});
 					});
+
+					//create build information
+					//app_home_page.call_server_get_data();
+
+					lottery_socket.emit("buy_ticket");
 				}
 			}
 		});
