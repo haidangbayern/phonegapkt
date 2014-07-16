@@ -175,18 +175,20 @@ var obj_interface = {
 		
 		obj_interface.is_redesign = false;
 		
-		app.bindDeviceInformation();
+		setTimeout(function(){
+			app.bindDeviceInformation();
+			lottery_draw_tickets.initialize();
 
-		lottery_draw_tickets.initialize();
+			//then load html
+			$('#div_choose_number').html("");
+			obj_interface.load_choose_normal_number_area(obj_interface.data);
+			obj_interface.load_choose_power_number_area(obj_interface.data);
+			obj_interface.load_time_lottery_area(obj_interface.data);
+			obj_interface.initialize_controls(obj_interface.data);
 
-		//then load html
-		$('#div_choose_number').html("");
-		obj_interface.load_choose_normal_number_area(obj_interface.data);
-		obj_interface.load_choose_power_number_area(obj_interface.data);
-		obj_interface.load_time_lottery_area(obj_interface.data);
-		obj_interface.initialize_controls(obj_interface.data);
-
-		obj_loading.hide();
+			obj_loading.hide();
+		},200);
+		
 		//$($('*[data-name=input_normal]')[0]).focus();
 		//alert("The end");
 	},
@@ -226,14 +228,27 @@ var obj_interface = {
 			else
 				html += "<div class='item text-center item-divider item-sub-heading'>Day " + iday + "</div>"; 
 			
-
+			var is_flag_day = false;
 			for (var i=0; i < time_lottery.length; i++) 
 			{ 
 				var time = time_lottery[i];
 
-                var date = new Date(time_server.year, Number(time_server.month), time_server.day);
-                date.addDays(iday-1);
-				var t = date.getMonth() +  "/" + date.getDate() + "/" + date.getFullYear() + " " + time["value"] ;
+				var ti = time["value"].split(":");
+				var hour = ti[0];
+				var minutes = ti[1];
+
+                var datetime = new Date(time_server.year, Number(time_server.month), time_server.day, hour, minutes);
+                datetime.addDays(iday-1);
+
+                //var today = time_server.year + "/" + time_server.month + "/" + time_server.day + " " + time_server.;
+				//var current_datetime = new Date(today + " " + time + ":00");
+				//var current_datetime = new Date(today + " " + time + ":00");
+				var current_datetime = new Date(time_server.year, Number(time_server.month), time_server.day, time_server.hour, time_server.minutes);
+				if (current_datetime > datetime)
+					break;
+
+				is_flag_day = true;
+				var t = datetime.getMonth() +  "/" + datetime.getDate() + "/" + datetime.getFullYear() + " " + (datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours()) + ":"+ (datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes());
 
 				html += '<label class="item item-checkbox" onclick="javascript:obj_interface.selected_date(this)">';
 				html += '<div class="checkbox checkbox-input-hidden disable-pointer-events">';
@@ -244,7 +259,13 @@ var obj_interface = {
 				html += '<i id="ic_time_'+time["id"]+'_'+iday+'" class="radio-icon ion-ios7-circle-outline" style="font-size:20px"></i></div>';
 				html += '<div ng-transclude="" class="item-content disable-pointer-events">';
 			    html += '<span>'+ t +'</span></div></label>';
-			    
+			}
+			if (!is_flag_day)
+			{
+				html += '<label class="item">';
+				html += 'Overtime';
+				html += '</label>';
+
 			}
 		}
 		$('#div_choose_time_lottery').html(html);

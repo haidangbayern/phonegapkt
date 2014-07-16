@@ -89,7 +89,7 @@ var lottery_draw_tickets = {
 				'color': 'black',
 			},
 			'lottery_time': {
-				'x': 110,
+				'x': 50,
 				'y': 358,
 				'fontSize': 24,
 				'fontFamily': 'fake_receipt',
@@ -111,8 +111,14 @@ var lottery_draw_tickets = {
 		var power_number = obj.power_number.replace(/\|/g, " ");
 		barcode += power_number;
 		this.draw_string(barcode, 'barcode', obj_info_kin);
-		this.draw_string(obj.lottery_time, 'lottery_time', obj_info_kin);
-		this.draw_string(obj.purchase_time, 'purchase_time', obj_info_kin);
+		
+		//2014-06-20 DANG
+		this.draw_string(obj.lottery_time + " GMT-06:00", 'lottery_time', obj_info_kin);
+		this.draw_string(obj.purchase_time + " GMT-06:00", 'purchase_time', obj_info_kin);
+		//END DANG
+		//this.draw_string(obj.lottery_time, 'lottery_time', obj_info_kin);
+		//this.draw_string(obj.purchase_time, 'purchase_time', obj_info_kin);
+		
 		this.stage.draw();
 	},
 	draw_number: function(numbers, type_number, obj_info_kin) {

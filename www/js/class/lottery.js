@@ -23,7 +23,9 @@ var lottery = {
             return;
         }
         
-       console.log("begin buy ticket");
+		console.log("begin buy ticket");
+
+       	app.bindDeviceInformation();
 		//calling ajax insert to database
 		$.ajax({
 			url: window.server_url+'/game/mobile_app_lottery/buy_ticket?v=' + window.version,

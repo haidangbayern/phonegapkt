@@ -92,6 +92,7 @@ angular.module('starter.controllers', [])
 .controller('mainLotteryCtrl', function($scope, $http, $log){
   stask_back_page.push({type:'url', action: 'window.location.href = "#/app/lottery"'});
 
+  //*** Sponsor
   $log.info("Check");
 
   $('#slide-sponors').show();
@@ -109,6 +110,7 @@ angular.module('starter.controllers', [])
  
   console.log("========================> lottery home page");
 
+  //*** last_drawing
   $scope.last_drawing = {
     'time' : '',
     'balls' : '',
@@ -126,6 +128,20 @@ angular.module('starter.controllers', [])
   else
   {
     $('.last-drawing').hide(); 
+  }
+
+  //*** Estimated
+  if (window.store_data.estimated != undefined)
+  {
+    $scope.estimated = {
+      'datetime' : window.store_data.estimated.datetime,
+      'jackpot' :  window.store_data.estimated.jackpot,
+    };
+    $('.next-drawing').show();
+  }
+  else
+  {
+    $('.next-drawing').hide();
   }
   //obj_loading.show();
   //lottery_home_page.initialize();

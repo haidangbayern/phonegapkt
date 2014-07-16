@@ -143,6 +143,8 @@ var app_home_page = {
                             'balls' : html,
                             'jackpot' : data.jackpot,
                         };
+
+                        window.store_data.estimated = data.estimated;
                     } else {
                         
                     }

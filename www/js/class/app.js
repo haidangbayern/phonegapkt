@@ -25,6 +25,7 @@ var app = {
     },
     bindDeviceInformation : function()
     {
+        
         if (window.is_device){
             console.log("App: bind information device");
             $('#device_model').val(device.model);

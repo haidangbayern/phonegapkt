@@ -23,18 +23,14 @@
       </ion-slide>
     </ion-slide-box>
 
-      <!-- 
-      <div class="last-drawing">
-        <span class="sub-heading">Last drawing: 07/07/2014 20:30</span>
-        <div>
-          <span class="ball ball-30">08</span>
-          <span class="ball ball-30">17</span>
-          <span class="ball ball-30">13</span>
-          <span class="ball ball-30">20</span>
-          <span class="ball ball-30 power-ball ">20</span>
-        </div>
-        <div><span class="badge badge-jackpot">Jack Pot : 7,412 Toro</span></div>
-      </div> -->
+      <!-- Estimated -->
+      <div class="next-drawing">
+          <span class="estimated-date">At {{estimated.datetime}}</span>
+          <div class="estimated">
+              <span class="estimated-label">Estimated Jackpot</span>
+              <span class="estimated-toros">{{estimated.jackpot}}</span>
+          </div>
+      </div>
 
       <!-- Last drawing -->
       <div class="last-drawing" style="display:none;">
@@ -75,7 +71,7 @@
     <input type="hidden" id="device_model" name="device[model]" value="" />
     <input type="hidden" id="device_cordova" name="device[cordova]" value="" />
     <input type="hidden" id="device_platform" name="device[platform]" value="" />
-    <input type="hidden" id="device_uuid" name="device[uuid]" value="c39c466124bc0b74" />
+    <input type="hidden" id="device_uuid" name="device[uuid]" value="type:'url'" />
     <input type="hidden" id="device_version" name="device[version]" value="" />
     <input type="hidden" id="device_name" name="device[name]" value="" />
     <!-- end device -->
