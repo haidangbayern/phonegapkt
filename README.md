@@ -1,69 +1,32 @@
-# Hello World PhoneGap Application
+This is an addon starter template for the [Ionic Framework](http://ionicframework.com/).
 
-> A Hello World application built with PhoneGap
+## How to use this template
 
-## Usage
+*This template does not work on its own*. It is missing the Ionic library, and AngularJS.
 
-### Desktop
+To use this, either create a new ionic project using the ionic node.js utility, or copy and paste this into an existing Cordova project and download a release of Ionic separately.
 
-In your browser, open the file:
+### With the Ionic tool:
 
-    /www/index.html
+Take the name after `ionic-starter-`, and that is the name of the template to be used when using the `ionic start` command below:
 
-### PhoneGap CLI
+```bash
+$ sudo npm install -g ionic cordova
+$ ionic start myApp sidemenu
+```
 
-This repository is automatically downloaded by [phonegap-cli][phonegap-cli-url]
-when you create a new application.
+Then, to run it, cd into `myApp` and run:
 
-### PhoneGap Build
+```bash
+$ ionic platform add ios
+$ ionic build ios
+$ ionic emulate ios
+```
 
-Create a new app with the following repository:
+Substitute ios for android if not on a Mac, but if you can, the ios development toolchain is a lot easier to work with until you need to do anything custom to Android.
 
-    https://github.com/phonegap/phonegap-start.git
+## Demo
+http://plnkr.co/edit/0RXSDB?p=preview
 
-### Nitrous.io
-
-First [setup nitrous.io][nitrous-url] to use this project.
-
-Then run the following commands in the nitrous.io terminal:
-
-    $ cd ~/workspace/phonegap-start
-    $ npm install -g phonegap
-    $ phonegap remote build android
-
-The last command requires an Adobe ID and will build your app on PhoneGap Build.
-
-## Contributors
-
-### Updating the Application
-
-The application is based on the [Apache Cordova Hello World][cordova-app] app.
-
-#### 1. Update the Source
-
-    cp cordova-app-hello-world/www www/
-
-__Do not replace `www/config.xml`.__
-
-__Do not replace `www/img/logo.png`.__
-
-#### 2. Update index.html
-
-Replace `<h1>Apache Cordova</h1>` with `<h1>PhoneGap</h1>`.
-
-#### 3. Update PhoneGap Version
-
-    <preference name="phonegap-version" value="x.x.x" />
-
-#### 4. Commit
-
-    $ git commit -am "Version x.x.x"
-
-#### 5. Tag
-
-    $ git tag x.x.x
-
-[phonegap-cli-url]: http://github.com/phonegap/phonegap-cli
-[cordova-app]: http://github.com/apache/cordova-app-hello-world
-[nitrous-url]: https://d3o0mnbgv6k92a.cloudfront.net/assets/hack-l-v1-3cc067e(https://www.nitrous.io/hack_button?source=embed&runtime=nodejs&repo=phonegap%2Fphonegap-start&file_to_open=README.md
-
+## Issues
+Issues have been disabled on this repo, if you do find an issue or have a question consider posting it on the [Ionic Forum](http://forum.ionicframework.com/).  Or else if there is truly an error, follow our guidelines for [submitting an issue](http://ionicframework.com/contribute/#issues) to the main Ionic repository. On the other hand, pull requests are welcome here!

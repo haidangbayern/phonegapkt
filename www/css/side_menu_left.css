@@ -1,22 +1,35 @@
 ion-side-menu.ko-side-menu-left {
-  background-color: #363738;
+  background-color: #363738 !important;
 }
 ion-side-menu.ko-side-menu-left > header {
-  background: transparent;
-  background-color: transparent !important;
-  border-bottom: 1px solid #080808;
+  background: #363738;
+  background-color: #363738 !important;
+  border-bottom: 1px solid #080808 !important;
 }
-
+ion-side-menu.ko-side-menu-left ion-content div.scroll {
+    background-color: #363738 !important;
+    height: 100%;
+}
+ion-side-menu.ko-side-menu-left ion-content ionic-scroll {
+    background-color: #363738 !important;
+}
 /**************** List menu ************************/
 ion-side-menu.ko-side-menu-left ion-list {
-
+       background-color: #363738 !important;
 }
-ion-side-menu.ko-side-menu-left ion-list ion-item,
+ion-side-menu.ko-side-menu-left ion-list ion-item {
+    color: white;
+    background-color: #363738 !important;
+    border-bottom: 1px solid #080808 !important;
+    border-top: 1px solid #080808 !important;
+    overflow: hidden;
+}
+
 ion-side-menu.ko-side-menu-left ion-list ion-item a
 {
   color: white;
-  background-color: transparent !important;
-  border-bottom: 1px solid #080808;
-  border-top: 0;
+  background-color: #363738 !important;
+/*  border-bottom: 1px solid #080808 !important;
+  border-top: 0 !important;*/
   overflow: hidden;
 }

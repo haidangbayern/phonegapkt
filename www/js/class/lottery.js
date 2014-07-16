@@ -55,6 +55,7 @@ var lottery = {
 					html +=  '</button>';
 			        html +=  '</div>';
 			        r.html += html;
+                    $('#lottery_tickets').show();
 					$('#lottery_tickets').html(r.html);
 
 					$('#form_lottery_run').animate({
