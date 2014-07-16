@@ -263,7 +263,7 @@ var obj_interface = {
 			if (!is_flag_day)
 			{
 				html += '<label class="item">';
-				html += 'Overtime';
+				html += 'Expired';
 				html += '</label>';
 
 			}
