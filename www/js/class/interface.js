@@ -222,11 +222,11 @@ var obj_interface = {
 		for (var iday = 1; iday <= Number(obj.count_lottery_date); iday++)
 		{  
 			if (iday ==1 )
-				html += "<div class='item text-center item-divider item-sub-heading'>Today</div>";
+				html += "<div class='item text-center item-divider item-sub-heading'>"+window.languages[window.current_language].today+"</div>";
 			else if (iday == 2) 
-				html += "<div class='item text-center item-divider item-sub-heading'>Tomorrow</div>";
+				html += "<div class='item text-center item-divider item-sub-heading'>"+window.languages[window.current_language].tomorrow+"</div>";
 			else
-				html += "<div class='item text-center item-divider item-sub-heading'>Day " + iday + "</div>"; 
+				html += "<div class='item text-center item-divider item-sub-heading'>"+window.languages[window.current_language].day+ " "  + iday + "</div>"; 
 			
 			var is_flag_day = false;
 			for (var i=0; i < time_lottery.length; i++) 
@@ -263,7 +263,7 @@ var obj_interface = {
 			if (!is_flag_day)
 			{
 				html += '<label class="item">';
-				html += 'Expired';
+				html += window.languages[window.current_language].overtime;
 				html += '</label>';
 
 			}

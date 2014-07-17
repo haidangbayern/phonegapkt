@@ -19,15 +19,17 @@
       style="display:none;"
       >
       <ion-slide ng-repeat="slide in slides" data-index="{{slide.index}}">
-        <img data-ng-src="{{slide.title}}"></img>
+          <a target="_blank" href="{{slide.url}}">
+        <img data-ng-src="{{slide.title}}" /></a>
+          
       </ion-slide>
     </ion-slide-box>
 
       <!-- Estimated -->
       <div class="next-drawing">
-          <span class="estimated-date">At {{estimated.datetime}}</span>
+          <span class="estimated-date">{{at}} {{estimated.datetime}}</span>
           <div class="estimated">
-              <span class="estimated-label">Estimated Jackpot</span>
+              <span class="estimated-label">{{estimated_jackpot}}</span>
               <span class="estimated-toros">{{estimated.jackpot}}</span>
           </div>
       </div>
@@ -46,13 +48,13 @@
         <div class="col">
           <a class="lo-button"  href="#/app/add_ticket">
             <i class="icon ion-plus-circled"></i>
-            Add ticket
+            {{add_ticket}}
           </a>
         </div>
         <div class="col">
           <a class="lo-button" href="#/app/my_tickets">
             <i class="icon ion-ios7-pricetag"></i>
-            My ticket
+            {{my_tickets}}
           </a>
         </div>
       </div>
@@ -60,7 +62,7 @@
         <div class="col">
           <a class="lo-button"  href="#/app/history">
             <i class="icon ion-star"></i>
-            History
+            {{history}}
           </a>
         </div>
       </div>

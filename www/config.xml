@@ -3,7 +3,7 @@
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         xmlns:cdv = "http://cordova.apache.org/ns/1.0"
         id          = "com.abcv.kootoro2"
-        version     = "2.0.76"
+        version     = "2.0.78"
         versionCode = "10" >
 
         <!-- versionCode is optional and Android only -->
@@ -54,9 +54,9 @@
     
     
 
-        <!-- property of telephone 
-        <preference name="orientation" value="landscape" />
-        <preference name="orientation" value="portrait" />-->
+        <!-- property of telephone -->
+        <!--<preference name="orientation" value="landscape" />-->
+        <preference name="orientation" value="portrait" />
         <preference name="fullscreen" value="true" />
         <preference name="DisallowOverscroll" value="true" />
 

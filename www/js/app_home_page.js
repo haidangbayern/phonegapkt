@@ -99,6 +99,7 @@ var app_home_page = {
                         sponsors.push({
                             'id' : r_sponsors[i].id,
                             'image' : r_sponsors[i].image,
+                            'url' : r_sponsors[i].url_address,
                         });
                     }
                     window.store_data.sponsors = sponsors;
@@ -123,7 +124,7 @@ var app_home_page = {
                             time_text += "0" + date.getMinutes();
                         else
                             time_text += date.getMinutes();
-                        time_text = "Last drawing: " + time_text;
+                        time_text = window.languages[window.current_language].last_drawing+": " + time_text;
                         //$('.last-drawing .sub-heading').html("Last drawing: " + time_text );
 
                         // Ball

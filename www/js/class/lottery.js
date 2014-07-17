@@ -19,7 +19,7 @@ var lottery = {
             //btn.button('reset');
             //$('#lottery_buy div.error').html("The number of purchased tickets exceeds the numbers that system allows");
             //$('#lottery_buy div.error').show();
-            alert("The number of purchased tickets exceeds the numbers that system allows");
+            alert(window.languages[window.current_language].number_purchased_tickets_exceeds);
             return;
         }
         

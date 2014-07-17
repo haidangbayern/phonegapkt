@@ -1,4 +1,4 @@
-<ion-view title="Add Ticket">
+<ion-view title="{{add_ticket}}">
   
   <ion-nav-buttons side="right">
     <button menu-toggle="right"class="button button-icon icon ion-ios7-clock-outline" ng-click="showTimer()"></button>
@@ -11,10 +11,10 @@
       <!-- ================ Choose Number ================== -->
       <div class="list" step="choose_number">
         <div class="item item-divider">
-          Enter Number Or 
+          {{enter_number_or}} 
 
           <button class="button button-small btn-quick-pick" onclick="javascript:lottery.choose_random_number();">
-            Quick Pick
+            {{quick_pick}}
           </button>
           <input id="check_random_number" name="spanlotto[number_random]" type="checkbox"value="" style="display:none;">
         </div>
@@ -25,7 +25,7 @@
         </div>
       
         <div class="item item-divider">
-          Choose Lottery Date
+          {{choose_lottery_date}}
         </div>
 
         <div id="div_choose_time_lottery">
@@ -35,7 +35,7 @@
         <div class="text-center padding">
           <button class="button button-positive" onclick="javascript:lottery.buy_ticket(this)">
             <i class="icon ion-ios7-pricetag"></i>
-            Buy
+            {{buy}}
           </button>
         </div>
       </div>
@@ -77,20 +77,20 @@
   <ion-footer-bar class="bar-stable" style="padding-top:43px;" ng-controller="lotteryMoreMenuCtrl">
     <ion-tabs class="tabs-icon-top">
       <!-- Buy Ticket Tab -->
-      <ion-tab title="Lottery" icon="icon ion-ios7-home" href="#/app/lottery">
+      <ion-tab title="{{lottery}}" icon="icon ion-ios7-home" href="#/app/lottery">
         
       </ion-tab>
 
       <!-- Buy Ticket Tab -->
-      <ion-tab title="Add Ticket" icon="icon ion-plus-circled" href="#/app/add_ticket">
+      <ion-tab title="{{add_ticket}}" icon="icon ion-plus-circled" href="#/app/add_ticket">
         
       </ion-tab>
       <!-- My Ticket Tab -->
-      <ion-tab title="My Tickets" icon="icon ion-ios7-pricetag" href="#/app/my_tickets">
+      <ion-tab title="{{my_tickets}}" icon="icon ion-ios7-pricetag" href="#/app/my_tickets">
         
       </ion-tab>
 
-      <ion-tab title="More" icon="icon ion-more" ng-click="showMoreMenu()">
+      <ion-tab title="{{more}}" icon="icon ion-more" ng-click="showMoreMenu()">
         
       </ion-tab>
       <!-- History Tab -->

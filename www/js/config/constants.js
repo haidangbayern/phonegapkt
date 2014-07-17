@@ -19,14 +19,14 @@
 // 	window.version_application = xmlDoc.getElementsByTagName('widget')[0].getAttribute('version')
 // }
 
-window.server_ip = "demo.games4fun.abcv.com";
+window.server_ip = "192.168.3.18";
 //window.server_ip = "192.168.2.102";
 window.server_post = "8000";
 window.server_url = "http://" + window.server_ip + ":80";
 window.is_device = window.cordova;
 
 window.version = 2;
-window.version_application = "2.0.76";	//It will be updated by config.xml
+window.version_application = "2.0.77";	//It will be updated by config.xml
 
 //getApplicationXML();
 

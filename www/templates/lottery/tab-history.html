@@ -1,4 +1,4 @@
-<ion-view title="History">
+<ion-view title="{{history}}">
 
   <ion-nav-buttons side="right">
     <button menu-toggle="right"class="button button-icon icon ion-ios7-clock-outline" ng-click="showTimer()"></button>
@@ -38,27 +38,27 @@
   <ion-footer-bar class="bar-stable" style="padding-top:43px;" ng-controller="lotteryMoreMenuCtrl">
     <ion-tabs class="tabs-icon-top">
       <!-- Buy Ticket Tab -->
-      <ion-tab title="Lottery" icon="icon ion-ios7-home" href="#/app/lottery">
+      <ion-tab title="{{lottery}}" icon="icon ion-ios7-home" href="#/app/lottery">
         
       </ion-tab>
 
       <!-- Buy Ticket Tab -->
-      <ion-tab title="Add Ticket" icon="icon ion-plus-circled" href="#/app/add_ticket">
+      <ion-tab title="{{add_ticket}}" icon="icon ion-plus-circled" href="#/app/add_ticket">
         
       </ion-tab>
       <!-- My Ticket Tab -->
-      <!--<ion-tab title="My Tickets" icon="icon ion-ios7-pricetag" href="#/app/my_tickets">
+      <!--<ion-tab title="{{my_tickets}}" icon="icon ion-ios7-pricetag" href="#/app/my_tickets">
         
       </ion-tab>-->
 
       <!-- History Tab -->
-      <ion-tab title="History" icon="icon ion-star" href="#/app/history">
+      <ion-tab title="{{history}}" icon="icon ion-star" href="#/app/history">
         
       </ion-tab>
 
       <!-- More -->
 
-      <ion-tab title="More" icon="icon ion-more" ng-click="showMoreMenu()">
+      <ion-tab title="{{more}}" icon="icon ion-more" ng-click="showMoreMenu()">
         
       </ion-tab>
 

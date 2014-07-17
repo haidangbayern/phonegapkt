@@ -59,6 +59,8 @@ var core = {
 			}
 			result.push(str_number);
 		}
+        result = result.sort();
+        
 		return result;
 	}
 };

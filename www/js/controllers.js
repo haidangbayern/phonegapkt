@@ -1,6 +1,26 @@
 angular.module('starter.controllers', [])
+.run(function(){
+
+  if (typeof window.current_language == 'undefined'){
+    window.current_language = 'en';
+  }
+
+})
 
 .controller('AppCtrl', function($scope, $ionicModal, $ionicPopup, $timeout) {
+
+
+  $scope.lottery = window.languages[window.current_language].lottery;
+  $scope.about = window.languages[window.current_language].about;
+  $scope.exit = window.languages[window.current_language].exit;
+  $scope.back = window.languages[window.current_language].back;
+  
+  $scope.close = window.languages[window.current_language].close;
+  $scope.username = window.languages[window.current_language].username;
+  $scope.password = window.languages[window.current_language].password;
+  $scope.log_in = window.languages[window.current_language].log_in;
+
+
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -56,7 +76,7 @@ angular.module('starter.controllers', [])
   //an alert timer service
   $scope.showTimer = function() {
     var t = "<b><h3 id='popup_time_server'>"+ time_server.month + "/" + time_server.day + "/" + time_server.year + " " + time_server.hour + ":" + time_server.minutes + ":" + time_server.seconds + "</h3></b>";
-    t += "<em> ( " + time_server.timeZone + " " + time_server.timeZoneName + " ) </em>";
+    t += "<em>( " + time_server.timeZone + " " + time_server.timeZoneName + " )</em>";
    var alertPopup = $ionicPopup.alert({
      //title: '<i class="icon ion-ios7-clock-outline"></i> Server Time',
      template: t
@@ -91,6 +111,13 @@ angular.module('starter.controllers', [])
 })
 
 .controller('mainLotteryCtrl', function($scope, $http, $log){
+
+ $scope.add_ticket = window.languages[window.current_language].add_ticket;
+ $scope.my_tickets = window.languages[window.current_language].my_tickets;
+ $scope.history = window.languages[window.current_language].history;
+ $scope.estimated_jackpot = window.languages[window.current_language].estimated_jackpot;
+ $scope.at      = window.languages[window.current_language].at;
+
   window.page_name = "app_lottery_main";
   stask_back_page.push({type:'url', action: 'window.location.href = "#/app/lottery"'});
 
@@ -104,7 +131,8 @@ angular.module('starter.controllers', [])
     slides.push({
       title : window.server_url + window.store_data.sponsors[i].image,
       index : i,
-    }) ;
+    url : window.store_data.sponsors[i].url,
+    }) ;      
   }
 
   $scope.slides = slides;
@@ -152,7 +180,19 @@ angular.module('starter.controllers', [])
   $('body').removeClass('menu-open');
 })
 
-.controller('addTicketCtrl', function(){
+.controller('addTicketCtrl', function($scope){
+
+  $scope.enter_number_or      = window.languages[window.current_language].enter_number_or;
+  $scope.quick_pick      = window.languages[window.current_language].quick_pick;
+  $scope.choose_lottery_date      = window.languages[window.current_language].choose_lottery_date;
+  $scope.buy      = window.languages[window.current_language].buy;
+
+  $scope.lottery = window.languages[window.current_language].lottery;
+  $scope.add_ticket = window.languages[window.current_language].add_ticket;
+  $scope.my_tickets = window.languages[window.current_language].my_tickets;
+  $scope.more = window.languages[window.current_language].more;
+
+
   window.page_name = "app_lottery_add_ticket";
   stask_back_page.push({type:'url', action: 'window.location.href = "#/app/add_ticket"'});
 
@@ -175,14 +215,26 @@ angular.module('starter.controllers', [])
 
 
 
-.controller('myTicketCtrl', function(){
+.controller('myTicketCtrl', function($scope){
+
+  $scope.lottery = window.languages[window.current_language].lottery;
+  $scope.add_ticket = window.languages[window.current_language].add_ticket;
+  $scope.my_tickets = window.languages[window.current_language].my_tickets;
+  $scope.more = window.languages[window.current_language].more;
+
   window.page_name = "app_lottery_my_ticket";
   stask_back_page.push({type:'url', action: 'window.location.href = "#/app/my_tickets"'});
   console.log("========================> my ticket");
   $('#page').val("1"); 
 })
 
-.controller('historyTicketCtrl', function(){
+.controller('historyTicketCtrl', function($scope){
+
+  $scope.lottery = window.languages[window.current_language].lottery;
+  $scope.add_ticket = window.languages[window.current_language].add_ticket;
+  $scope.history = window.languages[window.current_language].history;
+  $scope.more = window.languages[window.current_language].more;
+
   window.page_name = "app_lottery_history_ticket";
   stask_back_page.push({type:'url', action: 'window.location.href = "#/app/history"'});
   console.log(stask_back_page);
@@ -200,10 +252,10 @@ angular.module('starter.controllers', [])
    // Show the action sheet
     hideSheet = $ionicActionSheet.show({
      buttons: [
-       { text: '<i class="icon ion-ios7-home"></i> Lottery' },
-       { text: '<i class="icon ion-plus-circled"></i> Add Ticket' },
-       { text: '<i class="icon ion-ios7-pricetag"></i> My Tickets' },
-       { text: '<i class="icon ion-star"></i> History' },
+       { text: '<i class="icon ion-ios7-home"></i> '+window.languages[window.current_language].lottery },
+       { text: '<i class="icon ion-plus-circled"></i> '+window.languages[window.current_language].add_ticket},
+       { text: '<i class="icon ion-ios7-pricetag"></i> '+window.languages[window.current_language].my_tickets },
+       { text: '<i class="icon ion-star"></i> '+window.languages[window.current_language].history },
        //{ text: '<i class="icon ion-gear-a"></i> Setting' }
      ],
      //destructiveText: 'Delete',

@@ -2,7 +2,7 @@
 
   <ion-pane ion-side-menu-content>
     <ion-nav-bar class="">
-      <ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i> Back</ion-nav-back-button>
+      <ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i> {{back}}</ion-nav-back-button>
     </ion-nav-bar>
     <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
   </ion-pane>
@@ -23,7 +23,7 @@
         </ion-item>-->
 
         <ion-item nav-clear menu-close href="#/app/lottery">
-          Lottery
+          {{lottery}}
         </ion-item>
 
         <!--<ion-item nav-clear menu-close href="#/app/exchange">
@@ -52,11 +52,11 @@
         </ion-item>-->
 
         <ion-item nav-clear menu-close ng-click="app_about()">
-          About
+          {{about}}
         </ion-item>
 
         <ion-item nav-clear menu-close ng-click="app_exit()">
-          Exit
+          {{exit}}
         </ion-item>
       </ion-list>
     </ion-content>

@@ -18,7 +18,7 @@ ion-content div.scroll {
     padding-bottom: 10px;
     padding-left: 4px;
     padding-right: 4px;
-    color: black;
+    color: black !important;
     font-size: 20px;
     font-weight: bold;
     text-decoration: none;
@@ -160,7 +160,7 @@ box-shadow:         7px 7px 5px 0px rgba(50, 50, 50, 0.75);*/
     */
     
 }
-.lottery-main #slide-sponors div.slider-slides > ion-slide > img{
+.lottery-main #slide-sponors div.slider-slides > ion-slide img{
     width: 150px;
     height: 150px;  
      border: 4px solid #ffffff;
