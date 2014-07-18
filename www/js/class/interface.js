@@ -87,45 +87,68 @@ var obj_interface = {
 
 		$("input[data-name=input_normal]").bind("keyup",function(){
 			if ($(this).val() == "") return;
-			if (typeof obj_lottery.normal_number[$(this).val()] != "undefined")
-			{
-				$(this).val("");
-				alert("This number was chosen.");
+
+			if (typeof window.timeout_validate != 'undefined'){
+				clearTimeout(window.timeout_validate);
 			}
-			else
-			{
-				var val = $(this).val();
-				var length = $(this).val().length;
-				var max_length = obj_interface.data.normal_number_max.toString().length;
-				if (length == max_length)
+			var input_normal = this;
+			window.timeout_validate = setTimeout(function(){
+				
+				var choosen_flag = false;
+				var ele_index = $("input[data-name=input_normal]").index(input_normal);
+
+				for (var index in obj_lottery.normal_number){
+					if (obj_lottery.normal_number[index] == $(input_normal).val() && ele_index != index){
+						
+
+						choosen_flag = true;
+						break;
+					}
+				}
+				if (choosen_flag)
+			
+				{	
+					if ($(input_normal).val() != 0){
+
+						alert("This number was chosen.");
+					}
+					$(input_normal).val("");
+				}
+				else
 				{
-					//next to input
-					if (Number(obj_interface.data.normal_number_min) <= Number(val)
-						&& Number(val) <= Number(obj_interface.data.normal_number_max))
+					var val = $(input_normal).val();
+					var length = $(input_normal).val().length;
+					var max_length = obj_interface.data.normal_number_max.toString().length;
+					if (length == max_length)
 					{
-						var no = Number($(this).attr('data-no'));
-						no++;//3 -> 4
-						if( no < $("input[data-name=input_normal]").length)	//4
+						//next to input
+						if (Number(obj_interface.data.normal_number_min) <= Number(val)
+							&& Number(val) <= Number(obj_interface.data.normal_number_max))
 						{
-							$($('*[data-name=input_normal]')[no]).focus();		
+							var no = Number($(input_normal).attr('data-no'));
+							no++;//3 -> 4
+							if( no < $("input[data-name=input_normal]").length)	//4
+							{
+								$($('*[data-name=input_normal]')[no]).focus();		
+							}
+							else
+							{
+								$($('*[data-name=input_power]')[0]).focus();
+							}
 						}
 						else
 						{
-							$($('*[data-name=input_power]')[0]).focus();
+							//fail 
+							$(input_normal).val("");
+							alert("Enter normal number from "+ obj_interface.data.normal_number_min + " to "+ obj_interface.data.normal_number_max+".");
 						}
 					}
 					else
 					{
-						//fail 
-						$(this).val("");
-						alert("Enter normal number from "+ obj_interface.data.normal_number_min + " to "+ obj_interface.data.normal_number_max+".");
+						//do not thing
 					}
 				}
-				else
-				{
-					//do not thing
-				}
-			}
+			}, 2000);
 		});
 
 		$("input[data-name=input_power]").bind("keyup",function(){

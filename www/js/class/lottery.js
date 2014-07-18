@@ -294,19 +294,24 @@ var lottery = {
 	input_normal_number: function()
 	{
 		obj_lottery.normal_number = {};
-		$('input[data-name=input_normal][value!=""]').each(function(index,ele){
-			obj_lottery.normal_number[Number(ele.value)] = true;
+	
+		$('input[data-name=input_normal]').each(function(index,ele){
+		
+			obj_lottery.normal_number[index] = Number(ele.value);
 		});
+	
+
 		var five_number = "";
-	        for(var number in obj_lottery.normal_number )
+	        for(var index in obj_lottery.normal_number )
 	        {
-	            if (obj_lottery.normal_number[number] == true)
-	            {
+	        	var number = obj_lottery.normal_number[index];
+	        	
+	            
 	                if (number < 10) 
 	                    five_number += '0' + number + '|';
 	        		else
 	                    five_number += number + '|';        
-	            }
+	         
 	        }
 	    $('#buy_ticket').find("input[name='spanlotto[five_number]']").val(five_number);
 	    //console.log(five_number);

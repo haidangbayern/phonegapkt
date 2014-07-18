@@ -8,6 +8,10 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AppCtrl', function($scope, $ionicModal, $ionicPopup, $timeout) {
+    $scope.css_hide = "";
+    if (typeof device != "undefined" && device.platform.toUpperCase() == "iOS".toUpperCase()){
+        $scope.css_hide = "display:none";
+    }
 
 
   $scope.lottery = window.languages[window.current_language].lottery;
@@ -19,6 +23,8 @@ angular.module('starter.controllers', [])
   $scope.username = window.languages[window.current_language].username;
   $scope.password = window.languages[window.current_language].password;
   $scope.log_in = window.languages[window.current_language].log_in;
+    
+    $scope.help = window.languages[window.current_language].help;
 
 
   // Form data for the login modal
@@ -52,7 +58,28 @@ angular.module('starter.controllers', [])
     }, 1000);
   };
 
-  //about application
+    
+  // ************* Help
+  $scope.helpData = {};
+
+  // Create the login modal that we will use later
+  $ionicModal.fromTemplateUrl('templates/help.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal_help = modal;
+  });
+
+  // Triggered in the login modal to close it
+  $scope.closeHelp = function() {
+    $scope.modal_help.hide();
+  },
+
+  // Open the login modal
+  $scope.openHelp = function() {
+    $scope.modal_help.show();
+  };
+
+  // ************* about application
   $scope.app_about = function(){
     var t = "ABC Virtual Communications <br/>";
     t += "@ 2014 Copyright All Rights Reserved. Kootoro.com";
@@ -73,7 +100,7 @@ angular.module('starter.controllers', [])
     app.exit();
   };
 
-  //an alert timer service
+  //************* an alert timer service
   $scope.showTimer = function() {
     var t = "<b><h3 id='popup_time_server'>"+ time_server.month + "/" + time_server.day + "/" + time_server.year + " " + time_server.hour + ":" + time_server.minutes + ":" + time_server.seconds + "</h3></b>";
     t += "<em>( " + time_server.timeZone + " " + time_server.timeZoneName + " )</em>";

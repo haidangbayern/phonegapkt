@@ -3,7 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
+    <meta name="format-detection" content="telephone=no">
+      
+    <title>Kootoro - Lottery</title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -99,7 +101,12 @@ $(function(){
             if (status != "success")
             {
               console.log("Index: Server out");
-              navigator.app.exitApp();
+              if (typeof device != "undefined" && device.platform.toUpperCase() == "iOS".toUpperCase()){
+                
+                }
+                else{
+                    navigator.app.exitApp();
+                }
               return;
             }
             
@@ -135,7 +142,13 @@ $(function(){
             window.is_connect_server = false;
             alert("Sorry! Server Out.");
             console.log("Index: Server out");
-            navigator.app.exitApp();
+            if (typeof device != "undefined" && device.platform.toUpperCase() == "iOS".toUpperCase()){
+                
+            }
+            else{
+                navigator.app.exitApp();
+            }
+            
         }
     }, 10000);
 })

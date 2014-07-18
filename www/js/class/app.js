@@ -59,7 +59,12 @@ var app = {
         console.log("onBackKeyDown");
         if ($('.lottery-main').length != 0)
         {
-            app.exit();
+            if (typeof device != "undefined" && device.platform.toUpperCase() == "iOS".toUpperCase()){
+                
+            }
+            else{
+                app.exit();
+            }
         }
         else
         {

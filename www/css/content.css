@@ -18,13 +18,14 @@ ion-content div.scroll {
     padding-bottom: 10px;
     padding-left: 4px;
     padding-right: 4px;
+    
     color: black !important;
+    text-decoration: none !important;
+    
     font-size: 20px;
     font-weight: bold;
-    text-decoration: none;
     vertical-align: baseline;
     white-space: nowrap;
-
     background-image: url('../images/ball/ball-white.png');
     background-repeat: no-repeat;
     background-position: center center;
@@ -50,12 +51,18 @@ box-shadow:         7px 7px 5px 0px rgba(50, 50, 50, 0.75);*/
     background-repeat: no-repeat;
     background-position: center center;
     background-size: 100% 100%;
+    
+    color: black !important;
+    text-decoration: none !important;
 }
 .ball-30 {
     width: 30px;
     height: 30px;
     padding: 5px;
     font-size: 17px;
+    
+    color: black !important;
+    text-decoration: none !important;
 }
 .ball-no-actived {
     opacity: 0.3;

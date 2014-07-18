@@ -3,7 +3,7 @@
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         xmlns:cdv = "http://cordova.apache.org/ns/1.0"
         id          = "com.abcv.kootoro2"
-        version     = "2.0.78"
+        version     = "2.0.91"
         versionCode = "10" >
 
         <!-- versionCode is optional and Android only -->
@@ -59,6 +59,7 @@
         <preference name="orientation" value="portrait" />
         <preference name="fullscreen" value="true" />
         <preference name="DisallowOverscroll" value="true" />
+        <preference name="KeyboardDisplayRequiresUserAction" value="false" />
 
         <access origin="*" subdomains="true" />
         <!--<access origin="http://192.168.3.18:8000" subdomains="true" />

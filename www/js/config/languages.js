@@ -1,5 +1,6 @@
 window.languages = {
 					"en":{
+                        "help":"Help", 
 						"about":"About", 
 						"exit":"Exit", 
 						"lottery" :"Lottery", 
@@ -31,7 +32,7 @@ window.languages = {
 						"day" : "Day",
 						"last_drawing" : "Last Drawing",
 
-						"overtime" : "Expired",
+						"overtime" : "Overtime",
 						"number_purchased_tickets_exceeds" : "The number of purchased tickets exceeds the numbers that system allows"
 
 						}

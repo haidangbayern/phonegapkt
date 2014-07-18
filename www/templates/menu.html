@@ -50,12 +50,16 @@
         <ion-item nav-clear menu-close ng-click="login()">
           Login
         </ion-item>-->
-
+          
+        <ion-item nav-clear menu-close ng-click="openHelp()">
+            {{help}}
+        </ion-item>
+          
         <ion-item nav-clear menu-close ng-click="app_about()">
           {{about}}
         </ion-item>
 
-        <ion-item nav-clear menu-close ng-click="app_exit()">
+        <ion-item style="{{css_hide}}" name="app_exit" nav-clear menu-close ng-click="app_exit()">
           {{exit}}
         </ion-item>
       </ion-list>

@@ -54,15 +54,9 @@ var lottery_draw_tickets = {
 			this.export_ticket(obj[i].id)
 		};
 		this.stage.draw();
-        //$("a[name=thumnail]").touchGallery();
+        
         $("a[name=thumnail]").swipebox();
-//		$("a[name=thumnail]").fancybox({
-//			'transitionIn': 'elastic',
-//			'transitionOut': 'elastic',
-//			'speedIn': 600,
-//			'speedOut': 200,
-//			'overlayShow': false
-//		});
+        
 	},
 	draw_ticket: function(obj) {
 		var obj_info_kin = {
