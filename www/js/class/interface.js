@@ -27,7 +27,7 @@ var obj_interface = {
         	"price" : 10,
 
         	"count_lottery_date" : 2,
-
+            "app_limit_buy_ticket" : 3,
         	"version" : 1,
 			
 		};
@@ -70,6 +70,10 @@ var obj_interface = {
 			{
 				data_after.count_lottery_date = data[i]['value'];	
 			}
+            else if (data[i]['name'] == 'app_limit_buy_ticket')
+            {
+                data_after.app_limit_buy_ticket = data[i]['value'];
+            }
 		}
 
 		data_after.price = 0;
@@ -88,67 +92,77 @@ var obj_interface = {
 		$("input[data-name=input_normal]").bind("keyup",function(){
 			if ($(this).val() == "") return;
 
+
 			if (typeof window.timeout_validate != 'undefined'){
 				clearTimeout(window.timeout_validate);
 			}
-			var input_normal = this;
-			window.timeout_validate = setTimeout(function(){
-				
-				var choosen_flag = false;
-				var ele_index = $("input[data-name=input_normal]").index(input_normal);
-
-				for (var index in obj_lottery.normal_number){
-					if (obj_lottery.normal_number[index] == $(input_normal).val() && ele_index != index){
-						
-
-						choosen_flag = true;
-						break;
-					}
-				}
-				if (choosen_flag)
 			
-				{	
-					if ($(input_normal).val() != 0){
 
-						alert("This number was chosen.");
-					}
-					$(input_normal).val("");
-				}
-				else
+			var input_normal = this;
+
+			var val = $(input_normal).val();
+			var length = $(input_normal).val().length;
+			var max_length = obj_interface.data.normal_number_max.toString().length;
+		
+			if (length >= max_length)
+			{
+				//next to input
+				if (Number(obj_interface.data.normal_number_min) <= Number(val)
+					&& Number(val) <= Number(obj_interface.data.normal_number_max))
 				{
-					var val = $(input_normal).val();
-					var length = $(input_normal).val().length;
-					var max_length = obj_interface.data.normal_number_max.toString().length;
-					if (length == max_length)
+					var no = Number($(input_normal).attr('data-no'));
+					no++;//3 -> 4
+
+					// check duplicated
+					var choosen_flag = false;
+					var ele_index = $("input[data-name=input_normal]").index(input_normal);
+
+					for (var index in obj_lottery.normal_number){
+						if (obj_lottery.normal_number[index] == $(input_normal).val() && ele_index != index){
+							
+
+							choosen_flag = true;
+							break;
+						}
+					}
+					if (choosen_flag){	
+
+						if ($(input_normal).val() != 0){
+
+							alert("This number was chosen.");
+						}
+						$(input_normal).val("");
+						return false;
+					}
+					// end check duplicated
+
+					if( no < $("input[data-name=input_normal]").length)	
 					{
-						//next to input
-						if (Number(obj_interface.data.normal_number_min) <= Number(val)
-							&& Number(val) <= Number(obj_interface.data.normal_number_max))
-						{
-							var no = Number($(input_normal).attr('data-no'));
-							no++;//3 -> 4
-							if( no < $("input[data-name=input_normal]").length)	//4
-							{
-								$($('*[data-name=input_normal]')[no]).focus();		
-							}
-							else
-							{
-								$($('*[data-name=input_power]')[0]).focus();
-							}
-						}
-						else
-						{
-							//fail 
-							$(input_normal).val("");
-							alert("Enter normal number from "+ obj_interface.data.normal_number_min + " to "+ obj_interface.data.normal_number_max+".");
-						}
+						//duplicated focus to fix on mobile
+						$("input[data-name=input_normal][data-no='"+no+"']")[0].focus();
+
+
+						$("input[data-name=input_normal][data-no='"+no+"']")[0].focus();
 					}
 					else
 					{
-						//do not thing
+						
+						$("input[data-name=input_power]")[0].focus();
 					}
+					
 				}
-			}, 2000);
+				else
+				{
+					//fail 
+					$(input_normal).val("");
+					alert("Enter normal number from "+ obj_interface.data.normal_number_min + " to "+ obj_interface.data.normal_number_max+".");
+				}
+			}
+			else
+			{
+				//do not thing
+			}
+			
 		});
 
 		$("input[data-name=input_power]").bind("keyup",function(){
@@ -168,7 +182,9 @@ var obj_interface = {
 					if (Number(obj_interface.data.power_number_min) <= Number(val)
 						&& Number(val) <= Number(obj_interface.data.power_number_max))
 					{
-						
+						//fixed changed power number value
+						$("input[data-name=input_normal][data-no='0']")[0].focus();
+						$("input[data-name=input_normal][data-no='0']")[0].focus();
 					}
 					else
 					{

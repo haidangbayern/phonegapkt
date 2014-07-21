@@ -33,7 +33,9 @@ window.languages = {
 						"last_drawing" : "Last Drawing",
 
 						"overtime" : "Overtime",
-						"number_purchased_tickets_exceeds" : "The number of purchased tickets exceeds the numbers that system allows"
+						"number_purchased_tickets_exceeds" : "The number of purchased tickets exceeds the numbers that system allows",
+                        
+                        "update_soon": "We will soon update",
 
 						}
 					

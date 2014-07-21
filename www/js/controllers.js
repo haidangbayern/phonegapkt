@@ -25,7 +25,7 @@ angular.module('starter.controllers', [])
   $scope.log_in = window.languages[window.current_language].log_in;
     
     $scope.help = window.languages[window.current_language].help;
-
+$scope.update_soon = window.languages[window.current_language].update_soon;
 
   // Form data for the login modal
   $scope.loginData = {};
@@ -209,6 +209,9 @@ angular.module('starter.controllers', [])
 
 .controller('addTicketCtrl', function($scope){
 
+  if (typeof obj_lottery != 'undefined'){
+    obj_lottery.normal_number = {};
+  }
   $scope.enter_number_or      = window.languages[window.current_language].enter_number_or;
   $scope.quick_pick      = window.languages[window.current_language].quick_pick;
   $scope.choose_lottery_date      = window.languages[window.current_language].choose_lottery_date;
