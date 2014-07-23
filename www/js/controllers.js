@@ -24,8 +24,8 @@ angular.module('starter.controllers', [])
   $scope.password = window.languages[window.current_language].password;
   $scope.log_in = window.languages[window.current_language].log_in;
     
-    $scope.help = window.languages[window.current_language].help;
-$scope.update_soon = window.languages[window.current_language].update_soon;
+  $scope.help = window.languages[window.current_language].help;
+  $scope.update_soon = window.languages[window.current_language].update_soon;
 
   // Form data for the login modal
   $scope.loginData = {};
@@ -112,6 +112,18 @@ $scope.update_soon = window.languages[window.current_language].update_soon;
      console.log('Thank you');
      $('body').removeClass("menu-open");
    });
+  };
+
+
+  // An alert dialog
+  window.showAlert = function(title, message) {
+    var alertPopup = $ionicPopup.alert({
+      title: title,
+      template: message,
+    });
+    alertPopup.then(function(res) {
+      
+    });
   };
 
 })
@@ -211,6 +223,7 @@ $scope.update_soon = window.languages[window.current_language].update_soon;
 
   if (typeof obj_lottery != 'undefined'){
     obj_lottery.normal_number = {};
+    obj_lottery.power_number = {};
   }
   $scope.enter_number_or      = window.languages[window.current_language].enter_number_or;
   $scope.quick_pick      = window.languages[window.current_language].quick_pick;

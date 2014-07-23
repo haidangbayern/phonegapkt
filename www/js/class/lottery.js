@@ -45,7 +45,15 @@ var lottery = {
 				obj_loading.hide();
                 var r = data;
 				if (r.result != undefined && r.result == false) {
-					alert(r.err);
+					if (r.err != undefined)
+					{
+						alert(r.err);
+					}
+					if (r.ionic_err != undefined)
+					{
+						window.showAlert('Error', r.ionic_err);
+					}
+					
 				} else {
 					$('#buy_ticket div.scroll').css('transform','translate3d(0px, 0px, 0px) scale(1)');
 					var html ='<div class="text-center padding">';
@@ -278,16 +286,6 @@ var lottery = {
 
 		this.input_normal_number();
 		this.input_power_number();
-		// if($('#check_random_number:checked').length != 0)
-		// {
-		// 	$('#check_random_number').val("on");
-		// 	$('#div_choose_number').hide();
-		// }
-		// else
-		// {
-		// 	$('#check_random_number').val("");
-		// 	$('#div_choose_number').show();	
-		// }
 
 	},
 
@@ -321,18 +319,18 @@ var lottery = {
 	{
 		obj_lottery.power_number = {};
 		$('input[data-name=input_power][value!=""]').each(function(index,ele){
-			obj_lottery.power_number[Number(ele.value)] = true;
+			obj_lottery.power_number[index] = Number(ele.value);
 		});
 		var one_number = "";
-	        for(var number in obj_lottery.power_number )
+         	for(var index in obj_lottery.power_number )
 	        {
-	            if (obj_lottery.power_number[number] == true)
-	            {
-	                if (number < 10) 
-	                    one_number += '0' + number + '|';
-	        		else
-	                    one_number += number + '|';        
-	            }
+	        	var number = obj_lottery.power_number[index];
+	        	
+                if (number < 10) 
+                    one_number += '0' + number + '|';
+        		else
+                    one_number += number + '|';        
+	            
 	        }
 	    $('#buy_ticket').find("input[name='spanlotto[one_number]']").val(one_number);
 	    //console.log(one_number);
