@@ -227,7 +227,7 @@ angular.module('starter.controllers', [])
   }
   $scope.enter_number_or      = window.languages[window.current_language].enter_number_or;
   $scope.quick_pick      = window.languages[window.current_language].quick_pick;
-  $scope.choose_lottery_date      = window.languages[window.current_language].choose_lottery_date;
+  //$scope.choose_lottery_date      = window.languages[window.current_language].choose_lottery_date;
   $scope.buy      = window.languages[window.current_language].buy;
 
   $scope.lottery = window.languages[window.current_language].lottery;

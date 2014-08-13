@@ -25,7 +25,7 @@ var obj_interface = {
         	"time_lottery" : new Array(),
 
         	"price" : 10,
-
+        	"is_show_datetime_on_mobile" : 0,
         	"count_lottery_date" : 2,
             "app_limit_buy_ticket" : 3,
         	"version" : 1,
@@ -73,6 +73,10 @@ var obj_interface = {
             else if (data[i]['name'] == 'app_limit_buy_ticket')
             {
                 data_after.app_limit_buy_ticket = data[i]['value'];
+            }
+            else if (data[i]['name'] == 'is_show_datetime_on_mobile')
+            {
+            	data_after.is_show_datetime_on_mobile = Number(data[i]['value']);
             }
 		}
 
@@ -259,59 +263,116 @@ var obj_interface = {
 	},
 	load_time_lottery_area: function(obj)
 	{
-		var html = "";
-		var time_lottery = obj.time_lottery;
-		
-		for (var iday = 1; iday <= Number(obj.count_lottery_date); iday++)
-		{  
-			if (iday ==1 )
-				html += "<div class='item text-center item-divider item-sub-heading'>"+window.languages[window.current_language].today+"</div>";
-			else if (iday == 2) 
-				html += "<div class='item text-center item-divider item-sub-heading'>"+window.languages[window.current_language].tomorrow+"</div>";
-			else
-				html += "<div class='item text-center item-divider item-sub-heading'>"+window.languages[window.current_language].day+ " "  + iday + "</div>"; 
+		if (obj.is_show_datetime_on_mobile == 1)
+		{
+			$('#choose_lottery_date_title').html(window.languages[window.current_language].choose_lottery_date);	
+			var html = "";
+			var time_lottery = obj.time_lottery;
 			
-			var is_flag_day = false;
-			for (var i=0; i < time_lottery.length; i++) 
-			{ 
-				var time = time_lottery[i];
+			for (var iday = 1; iday <= Number(obj.count_lottery_date); iday++)
+			{  
+				//if (iday ==1 )
+				//	html += "<div class='item text-center item-divider item-sub-heading'>"+window.languages[window.current_language].today+"</div>";
+				//else if (iday == 2) 
+				//	html += "<div class='item text-center item-divider item-sub-heading'>"+window.languages[window.current_language].tomorrow+"</div>";
+				//else
+				//	html += "<div class='item text-center item-divider item-sub-heading'>"+window.languages[window.current_language].day+ " "  + iday + "</div>"; 
+				
+				var is_flag_day = false;
+				for (var i=0; i < time_lottery.length; i++) 
+				{ 
+					var time = time_lottery[i];
 
-				var ti = time["value"].split(":");
-				var hour = ti[0];
-				var minutes = ti[1];
+					var ti = time["value"].split(":");
+					var hour = ti[0];
+					var minutes = ti[1];
 
-                var datetime = new Date(time_server.year, Number(time_server.month), time_server.day, hour, minutes);
-                datetime.addDays(iday-1);
+	                var datetime = new Date(time_server.year, Number(time_server.month) - 1, time_server.day, hour, minutes);
+	                datetime.addDays(iday-1);
 
-                //var today = time_server.year + "/" + time_server.month + "/" + time_server.day + " " + time_server.;
-				//var current_datetime = new Date(today + " " + time + ":00");
-				//var current_datetime = new Date(today + " " + time + ":00");
-				var current_datetime = new Date(time_server.year, Number(time_server.month), time_server.day, time_server.hour, time_server.minutes);
-				if (current_datetime > datetime)
-					break;
+	                //var today = time_server.year + "/" + time_server.month + "/" + time_server.day + " " + time_server.;
+					//var current_datetime = new Date(today + " " + time + ":00");
+					//var current_datetime = new Date(today + " " + time + ":00");
+					var current_datetime = new Date(time_server.year, Number(time_server.month - 1), time_server.day, time_server.hour, time_server.minutes);
+					if (current_datetime > datetime)
+						break;
 
-				is_flag_day = true;
-				var t = datetime.getMonth() +  "/" + datetime.getDate() + "/" + datetime.getFullYear() + " " + (datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours()) + ":"+ (datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes());
+					is_flag_day = true;
+					var t = (datetime.getMonth() + 1) +  "/" + datetime.getDate() + "/" + datetime.getFullYear() + " " + (datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours()) + ":"+ (datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes());
+					
+					if(window.d == undefined)
+						window.d = datetime;
+					var text_datetime = "Buy " + (datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours()) + ":"+ (datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes()) + " - " + datetime.getMonthName() + " " + datetime.getDate() + ", " + datetime.getFullYear();
+					//html += '<label class="item item-checkbox" onclick="javascript:obj_interface.selected_date(this)">';
+					html += '<label class="item item-checkbox">';
+					html += '<div class="checkbox checkbox-input-hidden disable-pointer-events">';
+					html += '<input type="checkbox" ele-ref="time_'+time["id"]+'_'+iday+'" onchange="javascript:lottery.input_choose_date(this);" value="" />';
+					html += '<input data-value="'+t+'" id="time_'+time["id"]+'_'+iday+'" data-name="input_time"';
+	                html += 'name="spanlotto[time]['+time["id"]+'_'+iday+']" value="0"/> ';
 
-				html += '<label class="item item-checkbox" onclick="javascript:obj_interface.selected_date(this)">';
-				html += '<div class="checkbox checkbox-input-hidden disable-pointer-events">';
-				html += '<input type="checkbox" ele-ref="time_'+time["id"]+'_'+iday+'" onchange="javascript:lottery.input_choose_date(this);" value="" />';
-				html += '<input data-value="'+t+'" id="time_'+time["id"]+'_'+iday+'" data-name="input_time"';
-                html += 'name="spanlotto[time]['+time["id"]+'_'+iday+']" value="0"/> ';
-
-				html += '<i id="ic_time_'+time["id"]+'_'+iday+'" class="radio-icon ion-ios7-circle-outline" style="font-size:20px"></i></div>';
-				html += '<div ng-transclude="" class="item-content disable-pointer-events">';
-			    html += '<span>'+ t +'</span></div></label>';
+					html += '<i id="ic_time_'+time["id"]+'_'+iday+'" class="radio-icon ion-ios7-circle-outline" style="font-size:20px"></i></div>';
+					html += '<div ng-transclude="" class="item-content disable-pointer-events">';
+				    html += '<span>'+ text_datetime +'</span></div></label>';
+				}
+				// if (!is_flag_day)
+				// {
+				// 	html += '<label class="item">';
+				// 	html += window.languages[window.current_language].overtime;
+				// 	html += '</label>';
+				// }
 			}
-			if (!is_flag_day)
-			{
-				html += '<label class="item">';
-				html += window.languages[window.current_language].overtime;
-				html += '</label>';
-
-			}
+			$('#div_choose_time_lottery').html(html);
+			$('#buy_btn').hide();
 		}
-		$('#div_choose_time_lottery').html(html);
+		else
+		{
+			
+
+			var html = "";
+			var time_lottery = obj.time_lottery;
+			var is_flag_exsits_datetime = false;
+			var time_lottery_title =  "";
+			for (var iday = 1; iday <= Number(obj.count_lottery_date) && !is_flag_exsits_datetime; iday++)
+			{  
+				for (var i=0; i < time_lottery.length && !is_flag_exsits_datetime; i++) 
+				{ 
+					var time = time_lottery[i];
+
+					var ti = time["value"].split(":");
+					var hour = ti[0];
+					var minutes = ti[1];
+
+	                var datetime = new Date(time_server.year, Number(time_server.month) - 1, time_server.day, hour, minutes);
+	                datetime.addDays(iday-1);
+
+	        		var current_datetime = new Date(time_server.year, Number(time_server.month - 1), time_server.day, time_server.hour, time_server.minutes);
+					if (current_datetime > datetime)
+						break;
+
+					var t = (datetime.getMonth() + 1) +  "/" + datetime.getDate() + "/" + datetime.getFullYear() + " " + (datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours()) + ":"+ (datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes());
+					
+					if(window.d == undefined)
+						window.d = datetime;
+					var text_datetime = "Buy " + (datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours()) + ":"+ (datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes()) + " - " + datetime.getMonthName() + " " + datetime.getDate() + ", " + datetime.getFullYear();
+					var time_lottery_title = (datetime.getHours() < 10 ? "0" + datetime.getHours() : datetime.getHours()) + ":"+ (datetime.getMinutes() < 10 ? "0" + datetime.getMinutes() : datetime.getMinutes()) + " - " + datetime.getMonthName() + " " + datetime.getDate() + ", " + datetime.getFullYear();
+					//html += '<label class="item item-checkbox" onclick="javascript:obj_interface.selected_date(this)">';
+					html += '<label class="item item-checkbox" style="display:none;">';
+					html += '<div class="checkbox checkbox-input-hidden disable-pointer-events">';
+					html += '<input type="checkbox" ele-ref="time_'+time["id"]+'_'+iday+'" onchange="javascript:lottery.input_choose_date(this);" value="on" />';
+					html += '<input data-value="'+t+'" id="time_'+time["id"]+'_'+iday+'" data-name="input_time"';
+	                html += 'name="spanlotto[time]['+time["id"]+'_'+iday+']" value="1"/> ';
+
+					html += '<i id="ic_time_'+time["id"]+'_'+iday+'" class="radio-icon ion-checkmark-circled" style="font-size:20px"></i></div>';
+					html += '<div ng-transclude="" class="item-content disable-pointer-events">';
+				    html += '<span>'+ text_datetime +'</span></div></label>';
+
+				    is_flag_exsits_datetime = true;
+				}
+			}
+			$('#choose_lottery_date_title').html(window.languages[window.current_language].lottery_draw + ": " + time_lottery_title );	
+			$('#div_choose_time_lottery').html(html);
+			$('#buy_btn').show();
+		}		
 	},
 	selected_date: function(ele)
 	{

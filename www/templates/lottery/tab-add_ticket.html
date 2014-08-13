@@ -11,13 +11,7 @@
       <!-- ================ Choose Number ================== -->
       <div class="list" step="choose_number">
         <div class="item item-divider">
-          {{enter_number_or}}
-
-        
-<!--          <button class="button button-small btn-quick-pick" onclick="javascript:lottery.choose_random_number();">
-            {{quick_pick}}
-          </button>-->
-          
+          {{enter_number_or}}         
             <label class="item button button-small btn-quick-pick" onclick="javascript:lottery.choose_random_number();">{{quick_pick}}</label>
 
           <input id="check_random_number" name="spanlotto[number_random]" type="checkbox"value="" style="display:none;">
@@ -29,8 +23,8 @@
 
         </div>
       
-        <div class="item item-divider">
-          {{choose_lottery_date}}
+        <div class="item item-divider" id="choose_lottery_date_title">
+         
         </div>
 
         <div id="div_choose_time_lottery">
@@ -39,12 +33,7 @@
 
         <div class="text-center padding">
         
-<!--<button class="button button-positive" onclick="javascript:lottery.buy_ticket(this)">
-            <i class="icon ion-ios7-pricetag"></i>
-            {{buy}}
-          </button>-->
-		  
-		  <label id="buy_btn" class="button button-positive" onclick="javascript:lottery.buy_ticket(this);"><i class='icon ion-ios7-pricetag'></i> {{buy}}</label>
+		        <label id="buy_btn" style="display:none;" class="button button-positive" onclick="javascript:lottery.buy_ticket(this);"><i class='icon ion-ios7-pricetag'></i> {{buy}}</label>
         </div>
       </div>
 

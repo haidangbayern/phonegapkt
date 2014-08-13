@@ -26,13 +26,14 @@ window.languages = {
 						"enter_number_or" : "Enter Number Or",
 						"quick_pick" : "Quick Pick",
 						"choose_lottery_date" : "Choose Lottery Date",
+						"lottery_draw" : "Lottery Draw",
 
 						"today" : "Today",
 						"tomorrow" : "Tomorrow",
 						"day" : "Day",
 						"last_drawing" : "Last Drawing",
 
-						"overtime" : "Overtime",
+						"overtime" : "Expired",
 						"number_purchased_tickets_exceeds" : "The number of purchased tickets exceeds the numbers that system allows",
                         
                         "update_soon": "We will soon update",

@@ -339,6 +339,13 @@ var lottery = {
 	// OK
 	input_choose_date: function(ele)
 	{
+		//only choose 1 time
+		$('#div_choose_time_lottery label i.radio-icon').removeClass('ion-checkmark-circled');
+		$('#div_choose_time_lottery label i.radio-icon').addClass('ion-ios7-circle-outline');
+		$('#div_choose_time_lottery label input[data-name=input_time]').val("0");
+		$('#div_choose_time_lottery label input[type=checkbox]').val("");
+
+		//setup buy tickets
 		var id = $(ele).attr('ele-ref');
 		if ($(ele).val() == "on")
 		{
@@ -353,6 +360,8 @@ var lottery = {
 			$("#" + id).val("1");
 			$("#ic_" + id).addClass("ion-checkmark-circled");
 			$("#ic_" + id).removeClass("ion-ios7-circle-outline");
+			//buy ticket
+			this.buy_ticket(ele);
 		}
 		
 	},
