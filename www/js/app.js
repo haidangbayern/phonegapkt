@@ -17,6 +17,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers'])
     if(window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
+      
     }
   });
 

@@ -1,3 +1,7 @@
+icon-content > div{
+  background-color: #363738 !important;
+}
+
 ion-side-menu.ko-side-menu-left {
   background-color: #363738 !important;
 }

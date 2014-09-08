@@ -23,7 +23,7 @@
 
         </div>
       
-        <div class="item item-divider" id="choose_lottery_date_title">
+        <div class="item item-divider" id="choose_lottery_date_title" style="white-space:normal;">
          
         </div>
 
@@ -71,7 +71,7 @@
   </ion-content>
 
   <!-- ************* FOOTER *************** -->
-  <ion-footer-bar class="bar-stable" style="padding-top:43px;" ng-controller="lotteryMoreMenuCtrl">
+  <ion-footer-bar class="bar-stable" style="padding-top:43px;" ondragstart="return false;" ondrop="return false;"  scroll="false" ng-controller="lotteryMoreMenuCtrl">
     <ion-tabs class="tabs-icon-top">
       <!-- Buy Ticket Tab -->
       <ion-tab title="{{lottery}}" icon="icon ion-ios7-home" href="#/app/lottery">

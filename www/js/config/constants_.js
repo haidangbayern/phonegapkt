@@ -26,7 +26,7 @@ window.server_url = "http://" + window.server_ip + ":80";
 window.is_device = window.cordova;
 
 window.version = 2;
-window.version_application = "2.0.118";	//It will be updated by config.xml
+window.version_application = "2.0.115";	//It will be updated by config.xml
 
 //getApplicationXML();
 

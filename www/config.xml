@@ -3,7 +3,7 @@
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         xmlns:cdv = "http://cordova.apache.org/ns/1.0"
         id          = "com.abcv.kootoro.lottery"
-        version     = "2.0.115"
+        version     = "2.0.118"
         versionCode = "10" >
 
         
@@ -19,7 +19,10 @@
         <content src="index.html" />
         <access origin="*" subdomains="true" />
         <preference name="phonegap-version" value="3.4.0" /> <!-- all: current version of PhoneGap -->
-        <preference name="orientation" value="portrait" /> <!-- all: default means both landscape and portrait are enabled -->
+        <preference name="orientation" value="portrait" /> <!-- all: default means both landscape and portrait 
+        are enabled -->
+        <preference name="DisallowOverscroll" value="true" />
+        <preference name="UIWebViewBounce" value="false" />
         
         <!-- Using plugin of cordova -->
         <gap:plugin name="org.apache.cordova.network-information" />

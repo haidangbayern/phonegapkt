@@ -3,3 +3,12 @@
     /*width: auto;*/
     width: 300px;
 }
+
+.pane {
+	background-color: #363738;
+}
+ion-nav-view > ion-view 
+{
+	background-color: white !important;
+}
+
