@@ -19,8 +19,31 @@ var lottery = {
             //btn.button('reset');
             //$('#lottery_buy div.error').html("The number of purchased tickets exceeds the numbers that system allows");
             //$('#lottery_buy div.error').show();
-            alert(window.languages[window.current_language].number_purchased_tickets_exceeds);
+            //alert(window.languages[window.current_language].number_purchased_tickets_exceeds);
+            window.showAlert('Error', window.languages[window.current_language].number_purchased_tickets_exceeds);	
             return;
+        }
+
+        //check number
+        var str = $('*[name="spanlotto[five_number]"]').val();
+        var error = "";
+        if (str.indexOf('00') != -1 || str == "")
+        {
+			error += "Please enter " + obj_interface.data.count_normal_number + " normal number";
+        }
+
+        var str = $('*[name="spanlotto[one_number]"]').val();
+        if (str.indexOf('00') != -1 || str == "")
+        {
+        	if (error != "") error+= "<br/>";
+        	error += "Please enter " + obj_interface.data.count_power_number + " power number"
+        }
+
+        if (error != "")
+        {
+        	obj_loading.hide();
+        	window.showAlert('Warning', error);	
+        	return;
         }
         
 		console.log("begin buy ticket");
@@ -51,7 +74,7 @@ var lottery = {
 					}
 					if (r.ionic_err != undefined)
 					{
-						window.showAlert('Error', r.ionic_err);
+						window.showAlert('Warning', r.ionic_err);
 					}
 					
 				} else {

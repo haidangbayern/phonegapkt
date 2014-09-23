@@ -126,6 +126,13 @@ angular.module('starter.controllers', [])
     });
   };
 
+
+
+  //********************** open broswer
+  $scope.exturl = function(url) {
+    window.open(encodeURI(url), '_system', 'location=no');
+  };
+
 })
 
 .controller('PlaylistsCtrl', function($scope) {
@@ -170,7 +177,8 @@ angular.module('starter.controllers', [])
     slides.push({
       title : window.server_url + window.store_data.sponsors[i].image,
       index : i,
-    url : window.store_data.sponsors[i].url,
+      url: window.store_data.sponsors[i].url,
+      onclick_url : "exturl('" + window.store_data.sponsors[i].url + "')",
     }) ;      
   }
 

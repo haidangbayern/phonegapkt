@@ -19,8 +19,9 @@
       style="display:none;"
       >
       <ion-slide ng-repeat="slide in slides" data-index="{{slide.index}}">
-          <a target="_blank" href="{{slide.url}}">
-        <img data-ng-src="{{slide.title}}" /></a>
+          <a href="javascript:void(0);" ng-click="{{slide.onclick_url}}">
+            <img data-ng-src="{{slide.title}}" />
+          </a>
           
       </ion-slide>
     </ion-slide-box>
