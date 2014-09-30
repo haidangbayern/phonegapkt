@@ -10,57 +10,47 @@
   <ion-side-menu side="left" class="ko-side-menu-left"  style="background-color: #363738 !important;">
     <header class="bar bar-header">
       <h1 class="title">
-        <a href="http://demo.games4fun.abcv.com/" target="_blank" >
+        <a href="javascript:window.open('http://kootoro.com', '_system', 'location=no')" target="_blank" >
           <img src="images/logo_kootoro.png" style="height:100%;">
         </a>
       </h1>
     </header>
     <ion-content class="has-header" style="background-color: #363738 !important;">
       <ion-list  style="color: #363738 !important;">
-        
+        <ion-item id="user_left" class="item-avatar">
+          <img name="avatar" src="{{user.avatar}}">
+          <h2 name="fullname">{{user.full_name}}</h2>
+          <p name="balance">{{user.balance | number}} {{languages.web_currency}}s</p>
+        </ion-item>
         <!--<ion-item nav-clear menu-close href="#/app/home">
           Home
         </ion-item>-->
-
-        <ion-item nav-clear menu-close href="#/app/lottery">
-          {{lottery}}
+        <ion-item nav-clear  class="item-avatar" menu-close href="#/app/lottery">
+          <img src="images/lottery.png">
+          {{languages.lottery}}
         </ion-item>
 
-        <!--<ion-item nav-clear menu-close href="#/app/exchange">
-          Toro Exchange
+        <ion-item nav-clear  class="item-avatar" menu-close href="#/app/trade_in">
+          <img src="images/balance.png">
+          {{languages.trade_in_menu}}
         </ion-item>
-
-        <ion-item nav-clear menu-close href="#/app/product">
-          Toro Games
-        </ion-item>
-
-        <ion-item nav-clear menu-close href="#/app/product">
-          Toro Rewards
-        </ion-item>
-
-        <ion-item nav-clear menu-close href="#/app/searchabcv">
-          Search ABCV
-        </ion-item>
-        <ion-item nav-clear menu-close href="#/app/browse">
-          Browse
-        </ion-item>
-        <ion-item nav-clear menu-close href="#/app/playlists">
-          Playlists
-        </ion-item>
-        <ion-item nav-clear menu-close ng-click="login()">
-          Login
-        </ion-item>-->
-          
+         
         <ion-item nav-clear menu-close ng-click="openHelp()">
-            {{help}}
+            <!-- <i class="icon ion-ios7-help-empty"></i> -->
+            {{languages.help}}
         </ion-item>
           
-        <ion-item nav-clear menu-close ng-click="app_about()">
-          {{about}}
+        <ion-item nav-clear menu-close  ng-click="app_about()">
+          <!-- <i class="icon ion-ios7-information-empty"></i> -->
+          {{languages.about}}
         </ion-item>
-
-        <ion-item style="{{css_hide}}" name="app_exit" nav-clear menu-close ng-click="app_exit()">
-          {{exit}}
+        <ion-item nav-clear menu-close  ng-click="user_logout()">
+          <!-- <i class="icon ion-ios7-unlocked-outline"></i> -->
+          {{languages.logout}}
+        </ion-item>
+        <ion-item style="{{css_hide}}"  name="app_exit" nav-clear menu-close ng-click="app_exit()">
+          <!-- <i class="icon ion-iphone"></i> -->
+          {{languages.exit}}
         </ion-item>
       </ion-list>
     </ion-content>

@@ -37,3 +37,12 @@ ion-side-menu.ko-side-menu-left ion-list ion-item a
   border-top: 0 !important;*/
   overflow: hidden;
 }
+
+/*********************** USER LEFT **********************/
+ion-side-menu.ko-side-menu-left ion-item#user_left {
+
+}
+ion-side-menu.ko-side-menu-left ion-item#user_left h2[name=fullname],
+ion-side-menu.ko-side-menu-left ion-item#user_left p[name=balance]{
+  color: white;
+}

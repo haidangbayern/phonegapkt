@@ -45,29 +45,3 @@
     margin:0px 30px;
     padding:2px 0px;
 }
-/*
-#animated_div {
-    animation: 5s ease 0s normal none 1 animated_div;
-}
-@keyframes animated_div {
-0% {
-    left: 0;
-
-}
-25% {
-    left: 0;
-}
-50% {
-    left: 500px;
-}
-55% {
-    left: 500px;
-}
-70% {
-    left: 500px;
-}
-100% {
-    left: 0;
-}
-}
-*/

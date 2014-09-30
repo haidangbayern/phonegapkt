@@ -410,9 +410,12 @@ var obj_interface = {
 			  transform: 'scale(1,1)'
 			});	
 		});
-
-
-
-		
 	},
+
+	html_user_left : function (data)
+	{
+		$('#user_left img[name=avatar]').attr('src', data.avatar);
+		$('#user_left h2[name=fullname]').text(data.full_name);
+		$('#user_left p[name=balance]').text(numeral(data.balance).format('0,0') + " " + window.languages[window.current_language].web_currency +"s");
+	}
 };

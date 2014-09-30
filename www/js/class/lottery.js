@@ -49,10 +49,16 @@ var lottery = {
 		console.log("begin buy ticket");
 
        	app.bindDeviceInformation();
+
+       	var data_post = $('#form_lottery_run').serializeArray();
+       	data_post.push({
+       		"name" : "user_id",
+       		"value" : user.id,
+       	})
 		//calling ajax insert to database
 		$.ajax({
 			url: window.server_url+'/game/mobile_app_lottery/buy_ticket?v=' + window.version,
-			data: $('#form_lottery_run').serialize(),
+			data: data_post,
 			//type: "POST",
          	contentType: "application/json",  
          	dataType: 'jsonp',  
@@ -103,7 +109,8 @@ var lottery = {
 
 					//create build information
 					//app_home_page.call_server_get_data();
-
+					user.balance = r.balance;
+					obj_interface.html_user_left(user);
 					lottery_socket.emit("buy_ticket");
 				}
 			}
@@ -152,6 +159,7 @@ var lottery = {
             };
 
         data.uuid = $('#device_uuid').val(),
+       	data.user_id = user.id;
 
 		$.ajax({
 			url: window.server_url+'/game/mobile_app_lottery/lottery_view_tickets?v=' + window.version,

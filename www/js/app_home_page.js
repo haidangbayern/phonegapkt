@@ -1,28 +1,29 @@
 var app_home_page = {
     data : {},
-    initialize : function()
-    {
-        var backdrop = $('div.backdrop');
-        backdrop.addClass('visible');
-        backdrop.addClass('active');
-        backdrop.addClass('backdrop_loading');
+    // initialize : function()
+    // {
+    //     var backdrop = $('div.backdrop');
+    //     backdrop.addClass('visible');
+    //     backdrop.addClass('active');
+    //     backdrop.addClass('backdrop_loading');
         
-        $('body').addClass('menu-open');
-        $('body').addClass('popup-open');
+    //     $('body').addClass('menu-open');
+    //     $('body').addClass('popup-open');
 
-        var t = "<div class='home_load popup popup-showing active'>";
-        t += '<div class="popup-head" style="padding-bottom:0;">';
-        t += '<img src=\'images/logo_kootoro.png\' style="width:100%;" />';
-        t += '</div>';
-        t += '<div class="popup-body" style="padding:0;">';
-        t += '<h1 class="text-center" id=\'animated_loading\' >';
-        t += '<span> Connect To Server ... </span>';
-        t += '</h1>';
-        t += "</div></div>";
-        backdrop.after(t)    
+    //     var t = "<div class='home_load popup popup-showing active'>";
+    //     t += '<div class="popup-head" style="padding-bottom:0;">';
+    //     t += '<img src=\'images/logo_kootoro.png\' style="width:100%;" />';
+    //     t += '</div>';
+    //     t += '<div class="popup-body" style="padding:0;">';
+    //     t += '<h1 class="text-center" id=\'animated_loading\' >';
+    //     t += '<span> Connect To Server ... </span>';
+    //     t += '</h1>';
+    //     t += "</div>";
+    //     t += "<div class=\"text-center\"> version " + window.version_application + "</div></div>";
+    //     backdrop.after(t)    
 
-        console.log("app_home_page: initialize");
-    },
+    //     console.log("app_home_page: initialize");
+    // },
     change_app_status : function(text){
         $('#animated_loading span').html(text);
     },
@@ -163,7 +164,15 @@ var app_home_page = {
                     //redirect to app/lottery
                     if (typeof window.is_first_load != "undefined"){
                         app_home_page.off_app_status();
-                        window.location.href = "#/app/lottery";
+                        //window.location.href = "#/app/lottery";
+                        //HUY - begin 2014-09-25 
+                        $('ion-content').remove();
+                        //$('ion-content').empty();
+                        window.location.href = "#/login";
+                        //window.login();
+                        //HUY - end 2014-09-25 
+                        // $('body').removeClass('popup-open');
+                        // $('body').removeClass('menu-open');
                     }
                 }
             });
