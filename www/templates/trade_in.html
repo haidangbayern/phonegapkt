@@ -1,0 +1,25 @@
+<ion-view title="Choose A Program">
+  <ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+  <ion-content class="has-header">
+    <ion-list>
+    <div  ng-repeat="item in programs">
+       <div ng-if="item.type === 'first'"class="item item-divider">
+        {{item.unit}} 
+        </div>
+        <a class="item item-avatar" href="#/app/trade_in/{{item.id}}">
+          <img src="{{item.image_icon}}">
+          <h2>{{item.name}}</h2>
+          <p>{{item.notice_every}}.</p>
+        </a>
+    </div>
+    </ion-list>
+
+    <style type="text/css">
+      .item-avatar p {
+        white-space: normal;
+      }
+    </style>
+  </ion-content>
+</ion-view>

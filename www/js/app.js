@@ -40,6 +40,70 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
         templateUrl: "templates/sign-up.html",
         controller: 'signUpCtrl'
     })
+    //*************** for Profile ******************************
+    .state('app.profile', {
+        url: "/profile",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/profile.html",
+                controller: 'profileCtrl'
+            }
+        }
+    })
+    .state('app.general', {
+        url: "/general",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/profile/general.html",
+                controller: 'profileGeneralCtrl'
+            }
+        }
+    })
+    .state('app.change_password', {
+        url: "/change_password",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/profile/change_password.html",
+                controller: 'profileChangePasswordCtrl'
+            }
+        }
+    })
+    .state('app.kootoro_account', {
+        url: "/kootoro_account",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/profile/kootoro_account.html",
+                controller: 'profileKootoroAccountCtrl'
+            }
+        }
+    })
+    .state('app.personal_detail', {
+        url: "/personal_detail",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/profile/personal_detail.html",
+                controller: 'profilePersonalDetailCtrl'
+            }
+        }
+    })
+    .state('app.personal_avatar', {
+        url: "/avatar",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/profile/avatar.html",
+                controller: 'profileAvatarCtrl'
+            }
+        }
+    })
+    .state('app.money_toro_history', {
+        url: "/money_toro_history",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/profile/money_toro_history.html",
+                controller: 'profileMoneyToroHistoryCtrl'
+            }
+        }
+    })
     //*************** for Trade-In ******************************
     .state('app.trade_in', {
         url: "/trade_in",

@@ -1,0 +1,44 @@
+<ion-view>
+<ion-content padding="true" direction="y">
+<div>
+    <h2> {{languages.your_personal_detail}}</h2>
+    <form id="form_personal">
+    <div class="list">
+
+         <div class="item-input-inset-label">
+            <label>{{languages.birthday}}</label>
+        </div>
+        <div class="item-input-inset">
+          <div class="item-input-wrapper">
+              <input type="date" ng-model="user_data.birthday" name="birthday">
+              <button class="button button-clear button-small"
+                      ng-show="user_data.birthday" 
+                      ng-click="user_data.birthday = ''">
+                    <i class="icon ion-close-circled"></i>
+                </button>
+          </div>
+      </div>
+       <div class="item-input-inset-label">
+            <label>{{languages.wedding_day}}</label>
+        </div>
+      <div class="item-input-inset">
+          <div class="item-input-wrapper">
+              <input type="date" ng-model="user_data.weddingday" name="weddingday">
+              <button class="button button-clear button-small"
+                      ng-show="user_data.weddingday" 
+                      ng-click="user_data.weddingday = ''">
+                    <i class="icon ion-close-circled"></i>
+                </button>
+          </div>
+      </div>
+      
+        <div class="item-input-inset">
+            <button class="button button-block  button-small" ng-click="submit_update_personal()"  ng-disabled="is_update_personal(user_data)">
+            {{languages.update}}
+            </button>
+        </div>
+    </div>
+    </form>
+</div>
+</ion-content>
+</ion-view>

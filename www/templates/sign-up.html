@@ -1,0 +1,153 @@
+<ion-content padding="true" class="center-middle" direction="y">
+<form name="form_new_account" id="form_new_account" novalidate>
+    <ion-slide-box show-pager="false" on-slide-changed="slideHasChanged($index)">
+    <ion-slide>
+    <div >
+        <h2> {{languages.enter_your_email_address}}</h2>
+        {{languages.register_step_enter_email}}
+        <div class="item-input-inset">
+            <div class="item-input-wrapper">
+                <input type="email" ng-model="user_data.email" id="email" name="email"  placeholder="{{languages.email}} * ">
+                <button class="button button-clear button-small"
+                ng-show="user_data.email"
+                ng-click="user_data.email = ''">
+                <i class="icon ion-close-circled"></i>
+                </button>
+            </div>
+        </div>
+        <div class="item-input-inset-error" ng-show="form_new_account.email.$dirty && form_new_account.email.$invalid">
+            <span ng-show="form_new_account.email.$error.email">{{languages.this_is_not_a_valid_email}}.</span>
+        </div>
+        <div class="item-input-inset">
+            <div class="item-input-wrapper">
+                <input type="password" maxlength="12" ng-model="user_data.password" name="password"  placeholder="{{languages.password}} * " ng-change="password_match(user_data)" >
+                <button class="button button-clear button-small"
+                ng-show="user_data.password"
+                ng-click="user_data.password = ''">
+                <i class="icon ion-close-circled"></i>
+                </button>
+            </div>
+        </div>
+        <div class="item-input-inset">
+            <div class="item-input-wrapper">
+                <input type="password" maxlength="12" ng-model="user_data.confirmpassword" name="confirmpassword"  placeholder="{{languages.confirm_password}} * "  ng-change="password_match(user_data)" >
+                <button class="button button-clear button-small"
+                ng-show="user_data.confirmpassword"
+                ng-click="user_data.confirmpassword = ''">
+                <i class="icon ion-close-circled"></i>
+                </button>
+            </div>
+        </div>
+        <div class="item-input-inset-error">
+            <span ng-show="dontMatch_password">{{languages.password_do_not_match}}.</span>
+        </div>
+        <div class="item-input-inset">
+            <div class="button-bar">
+                <button class="button button-small" ng-click="redirect_url('#/login')">
+                {{languages.cancel}}
+                </button>
+                <button class="button button-small button-positive" ng-click="next_step_name()"  ng-disabled="isStep1Unchanged(user_data)">
+                {{languages.continue}}
+                </button>
+            </div>
+        </div>
+    </div>
+    </ion-slide>
+    <ion-slide>
+    <div >
+        <h2> {{languages.what_is_your_name}}</h2>
+        {{languages.register_step_enter_name}}
+        <div class="item-input-inset">
+            <div class="item-input-wrapper">
+                <input type="text" id="firstname" ng-model="user_data.firstname" name="firstname"  placeholder="{{languages.first_name}} * ">
+                <button class="button button-clear button-small"
+                ng-show="user_data.firstname"
+                ng-click="user_data.firstname = ''">
+                <i class="icon ion-close-circled"></i>
+                </button>
+            </div>
+        </div>
+        <div class="item-input-inset">
+            <div class="item-input-wrapper">
+                <input type="text" ng-model="user_data.lastname" name="lastname"  placeholder="{{languages.last_name}} * ">
+                <button class="button button-clear button-small"
+                ng-show="user_data.lastname"
+                ng-click="user_data.lastname = ''">
+                <i class="icon ion-close-circled"></i>
+                </button>
+            </div>
+        </div>
+        <div class="item-input-inset">
+            <div class="item-input-wrapper">
+                <input type="text" ng-model="user_data.nickname" name="nickname"  placeholder="{{languages.nickname}} * ">
+                <button class="button button-clear button-small"
+                ng-show="user_data.nickname"
+                ng-click="user_data.nickname = ''">
+                <i class="icon ion-close-circled"></i>
+                </button>
+            </div>
+        </div>
+        <div class="item-input-inset">
+            <div class="item-input-wrapper">
+                <input type="text" ng-model="user_data.zip_code" name="zip_code"  placeholder="{{languages.zip_code}} * " maxlength="9">
+                <button class="button button-clear button-small"
+                ng-show="user_data.zip_code"
+                ng-click="user_data.zip_code = ''">
+                <i class="icon ion-close-circled"></i>
+                </button>
+            </div>
+        </div>
+        <div class="item-input-inset">
+            <div class="button-bar">
+                <button class="button button-small" ng-click="redirect_url('#/login')">
+                {{languages.cancel}}
+                </button>
+                <button class="button button-small button-positive"  ng-click="next_step_personal()"  ng-disabled="isStep2Unchanged(user_data)">
+                {{languages.continue}}
+                </button>
+            </div>
+        </div>
+    </div>
+    </ion-slide>
+    <ion-slide>
+    <div >
+        <h2> {{languages.your_personal_detail}}</h2>
+        <div class="item-input-inset-label">
+            <label>{{languages.birthday}}</label>
+        </div>
+        <div class="item-input-inset">
+            <div class="item-input-wrapper">
+                <input type="date" ng-model="user_data.birthday" name="birthday"  placeholder="{{languages.birthday}}">
+                <button class="button button-clear button-small" style="margin:0;" ng-show="user_data.birthday" ng-click="user_data.birthday = ''">
+                <i class="icon ion-close-circled"></i>
+                </button>
+            </div>
+        </div>
+        <div class="item-input-inset-label">
+            <label>{{languages.wedding_day}}</label>
+        </div>
+        <div class="item-input-inset">
+            <div class="item-input-wrapper">
+                <input type="date" ng-model="user_data.weddingday" name="weddingday"  placeholder="{{languages.wedding_day}}">
+                <button class="button button-clear button-small"
+                ng-show="user_data.weddingday"
+                ng-click="user_data.weddingday = ''">
+                <i class="icon ion-close-circled"></i>
+                </button>
+            </div>
+        </div>
+        <div class="item-input-inset">
+            <div class="button-bar">
+                <button class="button button-small" ng-click="redirect_url('#/login')">
+                {{languages.cancel}}
+                </button>
+                <button class="button button-small button-positive" ng-click="submit_register_new_account()"  ng-disabled="isStep3Unchanged(user_data)">
+                {{languages.submit}}
+                </button>
+            </div>
+        </div>
+    </div>
+    </ion-slide>
+    </ion-slide-box>
+</form>
+</ion-content>

@@ -27,13 +27,13 @@ var app_home_page = {
     change_app_status : function(text){
         $('#animated_loading span').html(text);
     },
-    off_app_status : function()
-    {
-        $('.backdrop').removeClass('backdrop_loading');
-        $('.backdrop').removeClass('visible');
-        $('.backdrop').removeClass('active');
-        $('.home_load').remove();
-    },
+    // off_app_status : function()
+    // {
+    //     $('.backdrop').removeClass('backdrop_loading');
+    //     $('.backdrop').removeClass('visible');
+    //     $('.backdrop').removeClass('active');
+    //     $('.home_load').remove();
+    // },
     call_server_get_data: function(is_first_load){
         window.is_first_load = is_first_load;
         if (typeof window.is_first_load != "undefined")
@@ -148,7 +148,7 @@ var app_home_page = {
                         window.store_data.last_drawing = {
                             'time_text' : time_text,
                             'balls' : html,
-                            'jackpot' : data.jackpot,
+                            'jackpot' : data.jackpot +"s",
                         };
 
                         window.store_data.estimated = data.estimated;
@@ -163,11 +163,11 @@ var app_home_page = {
 
                     //redirect to app/lottery
                     if (typeof window.is_first_load != "undefined"){
-                        app_home_page.off_app_status();
+                        //app_home_page.off_app_status();
                         //window.location.href = "#/app/lottery";
                         //HUY - begin 2014-09-25 
-                        $('ion-content').remove();
-                        //$('ion-content').empty();
+                        //$('ion-content').remove();
+                        $('ion-content').empty();
                         window.location.href = "#/login";
                         //window.login();
                         //HUY - end 2014-09-25 

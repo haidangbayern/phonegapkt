@@ -1,4 +1,4 @@
-<ion-content padding="true" class="center-middle" direction="x">
+<ion-content padding="true" class="center-middle" direction="y">
 <form id="form_account">
     <div >
         <a href="javascript:window.open('http://kootoro.com', '_system', 'location=no')" target="_blank" >
@@ -8,25 +8,35 @@
         <h2 style="padding:0 10px;"> {{languages.login_title}}</h2>
         
         <div class="item-input-inset">
-            <label class="item-input-wrapper">
+            <div class="item-input-wrapper">
                 <input type="text" ng-model="user_data.email" id="email" name="email" value="" placeholder="{{languages.email}} * ">
-            </label>
+                <button class="button button-clear button-small"
+                      ng-show="user_data.email" 
+                      ng-click="user_data.email = ''">
+                <i class="icon ion-close-circled"></i>
+              </button>
+            </div>
         </div>
         <div class="item-input-inset">
-            <label class="item-input-wrapper">
+            <div class="item-input-wrapper">
                 <input type="password" maxlength="12" ng-model="user_data.password" name="password" value="" placeholder="{{languages.password}} * ">
-            </label>
+                <button class="button button-clear button-small"
+                      ng-show="user_data.password" 
+                      ng-click="user_data.password = ''">
+                <i class="icon ion-close-circled"></i>
+              </button>
+            </div>
         </div>
         <div class="item-input-inset">
             <button class="button button-block  button-small" ng-click="submit_login_account(user_data)"  ng-disabled="isUnchanged(user_data)">
-            Submit
+            {{languages.submit}}
             </button>
         </div>
     </div>
 </form>
 <div class="center-middle" >
     <button class="button button-clear button-positive" ng-click="redirect_url('#/register')">
-      Create New Account
+      {{languages.create_new_account}}
     </button>   
 </div>
 </ion-content>

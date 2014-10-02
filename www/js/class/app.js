@@ -55,7 +55,6 @@ var app = {
         app.bindDeviceInformation();
     },
     onBackKeyDown: function() {
-
         console.log("onBackKeyDown");
         if ($('.lottery-main').length != 0)
         {

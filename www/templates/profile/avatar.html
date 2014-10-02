@@ -1,0 +1,25 @@
+<ion-view>
+<ion-content padding="true" direction="y">
+<div>
+    <div class="list card">
+        <div class="item">
+            <h2>{{languages.avatar}}</h2>
+        </div>
+        <div class="item item-body text-center">
+            <img ng-click="fullScreenAvatar()" id="modify_avatar" class="" ng-model="user.avatar"  data-ng-src="{{user.avatar}}" width="200px">
+        </div>
+        <div class="item tabs tabs-secondary tabs-icon-left">
+            <div class="tab-item" ng-click="get_avatar_gallery()">
+                <i class="icon ion-android-folder"></i>
+                Gallery
+            </div>
+            <div class="tab-item" ng-click="get_avatar_camera()">
+                <i class="icon ion-android-camera"></i>
+                Camera
+            </div>
+        </div>
+    </div>
+</div>
+
+</ion-content>
+</ion-view>

@@ -17,10 +17,15 @@
     </header>
     <ion-content class="has-header" style="background-color: #363738 !important;">
       <ion-list  style="color: #363738 !important;">
+        
         <ion-item id="user_left" class="item-avatar">
-          <img name="avatar" src="{{user.avatar}}">
+          <img name="avatar" src="{{user.avatar}}" menu-close ng-click="redirect_url('#/app/profile')">
           <h2 name="fullname">{{user.full_name}}</h2>
-          <p name="balance">{{user.balance | number}} {{languages.web_currency}}s</p>
+          <p name="balance" style="text-overflow:unset;">{{user.balance | number}} {{languages.web_currency}}s
+            <button class="button button-small button-assertive" style="line-height:16px; min-height:22px;" ng-click="refesh_balance();">
+              Refesh
+            </button>
+          </p>
         </ion-item>
         <!--<ion-item nav-clear menu-close href="#/app/home">
           Home

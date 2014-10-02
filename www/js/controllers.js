@@ -22,7 +22,28 @@ angular.module('starter.controllers', []).run(function() {
     $scope.trade_in_menu = window.languages[window.current_language].trade_in_menu;
     $scope.month = window.languages[window.current_language].month;
     $scope.languages = window.languages[window.current_language];
+
     $scope.user = user;
+
+    $scope.refesh_balance = function()
+    {
+        var data = {
+            'user_id' : user.id,
+        };
+        $.ajax({
+            url: window.server_url + '/login/application_get_balance?v=' + window.version,
+            type: "POST",
+            data: data,
+            dataType: 'json',
+            crossDomain: true,
+            success: function(data) {
+                $scope.user.balance = data.balance;
+            }
+        });
+    }
+    $scope.redirect_url = function(url){
+        window.location.href = url;
+    }
 
     $scope.user_logout = function() {
         user.logout();
@@ -240,7 +261,7 @@ angular.module('starter.controllers', []).run(function() {
     //lottery_home_page.initialize();
     $('body').removeClass('popup-open');
     $('body').removeClass('menu-open');
-    if (!user.is_login()) window.showLoginPopup();
+    if (!user.is_login()) window.location.href="#/login";
 }).controller('addTicketCtrl', function($scope) {
     if (typeof obj_lottery != 'undefined') {
         obj_lottery.normal_number = {};
@@ -345,8 +366,253 @@ angular.module('starter.controllers', []).run(function() {
             }
         });
     };
-}).controller('loginCtrl', function($scope, $timeout,  $ionicPopup, $ionicSlideBoxDelegate) {
+})
+.controller('profileCtrl', function($scope)
+{
+    $scope.languages = window.languages[window.current_language];
+})
+.controller('profileGeneralCtrl', function($scope, $timeout,  $ionicPopup)
+{
+    $scope.languages = window.languages[window.current_language];
+    $scope.user = user;    
+})
+.controller('profileMoneyToroHistoryCtrl', function($scope, $timeout,  $ionicPopup)
+{
+    $scope.languages = window.languages[window.current_language];
+    
+    $scope.data = {
+        page: 1,
+        user_id: user.id,
+        records : {},
+        pPaging : new Array(),
+    };
+    
+   
+
+    $scope.fn_paging = function(page_number)
+    {
+        $scope.data = {
+            page: page_number,
+            user_id: user.id,
+            records : {},
+            pPaging : new Array(),
+        };
+        obj_loading.show();
+        $.ajax({
+                url: window.server_url + '/account/application_money_point_history?v=' + window.version,
+                type: "POST",
+                data: $scope.data,
+                dataType: 'json',
+                crossDomain: true,
+                success: function(data) {
+                    $scope.data.records = data.record;
+                    $scope.data.pPaging = new Array();
+                    for (var i = Number(data.pPaging.first); i <= Number(data.pPaging.last) ; i++) {
+                        $scope.data.pPaging.push({page_number : i});
+                    };
+                    //$scope.ipage.page_number = data.pPaging.page;
+                    $timeout(function() {
+                        obj_loading.hide();
+                    }, 1000);
+                }
+            });
+    }
+
+    $scope.fn_paging(1);
+})
+.controller('profileAvatarCtrl', function($scope, $timeout,  $ionicPopup)
+{
+    $scope.languages = window.languages[window.current_language];
+    $scope.user = user;    
+    $scope.get_avatar_camera = function()
+    {
+        obj_avatar.takePictureFromCamera();
+    }
+    $scope.get_avatar_gallery = function()
+    {
+        obj_avatar.takePictureFromGallery();
+    }
+    $scope.fullScreenAvatar = function()
+    {
+            var backdrop = $('div.backdrop');
+        backdrop.addClass('visible');
+        backdrop.addClass('active');
+        backdrop.addClass('backdrop_loading');
+        backdrop.addClass('center-middle');
+         var avatar = user.avatar;
+        avatar = avatar.replace("thumbs/","");
+        var t = "";
+        t += '<div width="100%" class="text-center">';
+        t += '<img src="'+avatar+'" style="width:100%;" />';
+        t += '<button class="button button-small button-positive" onClick="close_fullScreenAvatar()">Close</button>';
+        t += '</div>';
+        backdrop.html(t)  
+    }
+
+    window.close_fullScreenAvatar = $scope.close_fullScreenAvatar = function()
+    {
+        var backdrop = $('div.backdrop');
+        backdrop.removeClass('visible');
+        backdrop.removeClass('active');
+        backdrop.removeClass('backdrop_loading');
+        backdrop.removeClass('center-middle');
+        backdrop.html("");
+    }
+})
+.controller('profileChangePasswordCtrl', function($scope, $timeout,  $ionicPopup)
+{
+    $scope.languages = window.languages[window.current_language];
+    $scope.user = user; 
+    $scope.password_match = function(user_data){
+        $scope.dontMatch_password = user_data.new_password !== user_data.confirm_new_password;
+    };   
+    $scope.is_update_password = function(user_data)
+    {
+        if (user_data != undefined && user_data.current_password && user_data.new_password && user_data.confirm_new_password) 
+        {
+            if (user_data.new_password == user_data.confirm_new_password)
+            {
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
+    $scope.submit_update_password = function()
+    {
+        obj_loading.show();
+        var data = $('#form_update_password').serializeArray();
+        data.push({name:"user_id",value : user.id});
+        $.ajax({
+            url: window.server_url + '/account/application_update_password?v=' + window.version,
+            data: data,
+            type: "POST",
+            dataType: 'json',
+            crossDomain: true,
+            success: function(data) {
+                obj_loading.hide();
+                if (data.result == false) {
+                    if (data.message)
+                    {
+                        window.showAlert(window.languages[window.current_language].warning, data.message);
+
+                    }
+                } else {
+                    if (data.message)
+                    {
+                        window.showAlert(window.languages[window.current_language].success, data.message);
+                        $('#current_password').val("");
+                        $('#new_password').val("");
+                        $('#confirm_new_password').val("");
+                    }
+                }
+            }
+        });
+    }
+})
+.controller('profileKootoroAccountCtrl', function($scope, $timeout,  $ionicPopup)
+{
+    $scope.languages = window.languages[window.current_language];
+    $scope.user_data = {};
+    $scope.user_data.first_name = user.first_name; 
+    $scope.user_data.last_name = user.last_name; 
+    $scope.user_data.zip_code = user.zip_code; 
+    $scope.is_update_profile = function(user_data)
+    {
+        if (user_data != undefined && user_data.first_name && user_data.last_name && user_data.zip_code) 
+        {
+            return false;
+        }
+        return true;
+    }
+    $scope.submit_update_profile = function()
+    {
+        obj_loading.show();
+        var data = $('#form_kootoro_account').serializeArray();
+        data.push({name:"user_id",value : user.id});
+        data.push({name:"weddingday",value : user.weddingday});
+        data.push({name:"birthday",value : user.birthday});
+        $.ajax({
+            url: window.server_url + '/account/application_update_kootoro_account?v=' + window.version,
+            data: data,
+            type: "POST",
+            dataType: 'json',
+            crossDomain: true,
+            success: function(data) {
+                obj_loading.hide();
+                if (data.result == false) {
+                    if (data.message)
+                    {
+                        window.showAlert(window.languages[window.current_language].warning, data.message);
+                    }
+                } else {
+                    if (data.message)
+                    {
+                        window.showAlert(window.languages[window.current_language].success, data.message);
+                        user.set_name($scope.user_data.first_name,$scope.user_data.last_name);
+                        user.zip_code = $scope.user_data.zip_code;
+                    }
+                }
+            }
+        });
+    }
+})
+.controller('profilePersonalDetailCtrl', function($scope, $timeout,  $ionicPopup)
+{
+    $scope.languages = window.languages[window.current_language];
+    $scope.user_data = {};
+    $scope.user_data.weddingday = user.weddingday; 
+    $scope.user_data.birthday = user.birthday;     
+    $scope.is_update_personal = function(user_data)
+    {
+        if (user_data != undefined) 
+        {
+            if (user_data.weddingday || user_data.birthday)
+                return false;
+            return true;
+        }
+        return true;
+    }
+    $scope.submit_update_personal = function()
+    {
+        obj_loading.show();
+        var data = $('#form_personal').serializeArray();
+        data.push({name:"user_id",value : user.id});
+        data.push({name:"first_name",value : user.first_name});
+        data.push({name:"last_name",value : user.last_name});
+        data.push({name:"zip_code",value : user.zip_code});
+
+        $.ajax({
+            url: window.server_url + '/account/application_update_kootoro_account?v=' + window.version,
+            data: data,
+            type: "POST",
+            dataType: 'json',
+            crossDomain: true,
+            success: function(data) {
+                obj_loading.hide();
+                if (data.result == false) {
+                    if (data.message)
+                    {
+                        window.showAlert(window.languages[window.current_language].warning, data.message);
+                    }
+                } else {
+                    if (data.message)
+                    {
+                        window.showAlert(window.languages[window.current_language].success, data.message);
+                        user.weddingday = $scope.user_data.weddingday;
+                        user.birthday = $scope.user_data.birthday;
+                    }
+                }
+            }
+        });
+    }
+})
+.controller('loginCtrl', function($scope, $timeout,  $ionicPopup, $ionicSlideBoxDelegate) {
     $('body').removeClass("menu-open").removeClass("popup-open");
+    obj_loading.show();
+    $timeout(function() {
+        obj_loading.hide();
+    }, 500);
     $scope.languages = window.languages[window.current_language];
     //********************** Alert dialog
     window.showAlert = function(title, message, callback) {
@@ -372,6 +638,10 @@ angular.module('starter.controllers', []).run(function() {
 
 })
 .controller('signUpCtrl', function($scope, $timeout, $ionicPopup,$ionicSlideBoxDelegate) {
+    obj_loading.show();
+    $timeout(function() {
+        obj_loading.hide();
+    }, 500);
     $('body').removeClass("menu-open").removeClass("popup-open");
     $scope.languages = window.languages[window.current_language];
     //********************** Alert dialog
@@ -389,14 +659,7 @@ angular.module('starter.controllers', []).run(function() {
         window.location.href = url;
     }
     $scope.password_match = function(user_data){
-         $scope.dontMatch_password = user_data.password !== user_data.confirmpassword;
-        // if (user_data != undefined)
-        // {
-        //     if (user_data.password == user_data.confirmpassword)
-        //         $scope.form_new_account.confirmpassword.$error.domatch = false;
-            
-        // }
-        // return false;
+        $scope.dontMatch_password = user_data.password !== user_data.confirmpassword;
     };
     $scope.next_step_name = function() {
         $ionicSlideBoxDelegate.next();
@@ -458,7 +721,6 @@ angular.module('starter.controllers', []).run(function() {
             crossDomain: true,
             success: function(data) {
                 obj_loading.hide();
-                console.log(data);
                 if (data.success == false) {
                     if (data.commonResponse.errorDescription) {
                         window.showAlert(window.languages[window.current_language].warning, data.commonResponse.errorDescription);
@@ -474,7 +736,7 @@ angular.module('starter.controllers', []).run(function() {
                         window.content_rs.find('span.cartsubheading').html("<h4>Registration has been submitted!</h4>");
                         content_rs.find('table').remove();
                         content_rs.find('div:last').remove();
-                        window.showAlert(window.languages[window.current_language].success, content_rs.html(), "window.location.href='#/app/lottery';");
+                        window.showAlert(window.languages[window.current_language].success, content_rs.html(), "window.location.href='#/login';");
                     }
                 }
             }

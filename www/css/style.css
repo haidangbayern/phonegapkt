@@ -41,7 +41,6 @@ ion-nav-view > ion-view {
     -ms-flex-align: center;
     align-items: center;
 }
-
 .item-input-inset-error {
     padding: 0 10px;
     color: red;
@@ -49,4 +48,30 @@ ion-nav-view > ion-view {
 }
 .item-input-inset-label {
     padding: 0 10px;
+}
+.personal {
+    font-weight: bold;
+}
+.personal > .item {
+    font-size: 12px;
+    padding: 5px 10px;
+    border-color: #CFCFCF !important;
+}
+.personal > .item > span {
+    padding-left: 20px;
+}
+.personal > .item > .icon {
+    font-size: 16px;
+    font-weight: normal;
+    margin-right: -16px;
+    margin-left: -10px;
+    color: #848484;
+}
+.personal > .item:first-child {
+    border-top-left-radius: 5px !important;
+    border-top-right-radius: 5px !important;
+}
+.personal > .item:last-child {
+    border-bottom-left-radius: 5px !important;
+    border-bottom-right-radius: 5px !important;
 }

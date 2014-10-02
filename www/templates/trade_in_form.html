@@ -1,0 +1,117 @@
+<ion-view title="{{program.name}}">
+<ion-content class="has-header">
+<ion-slide-box show-pager="false" on-slide-changed="slideHasChanged($index)">
+<ion-slide>
+<div class="box">
+    <div class="list">
+        <form id="trade_in_form">
+            <input type="hidden" name="program_id" value="{{program.id}}">
+            <div class="item item-avatar">
+                <img src="{{program.image_icon}}">
+                <h2>{{program.name}}</h2>
+                <p>{{program.notice_every}}</p>
+            </div>
+            <label class="item item-input item-select" ng-if="program.rates">
+                <div class="input-label">
+                    {{languages.choose_time_expiration}}
+                </div>
+                <select name="month">
+                	<option value="-1">{{languages.no_expiration}}</option>
+                    <option ng-repeat="r in program.rates" ng-if="r.month != -1" value="{{r.month}}">
+                    	{{r.month}} {{languages.month}}
+                    </option>
+                </select>
+            </label>
+
+
+            <div class="item item-input-inset">
+                <div class="col-50 input-label" style="display:inline;">
+                    {{languages.your + " " + languages.member_id + " / "}} <br/> {{ languages.card_code}} *
+                </div>
+                <label class="col item-input-wrapper">
+                    <input type="text" name="member_id" value="" >
+                </label>
+            </div>
+
+            <div class="item item-input-inset row">
+                <div class="col-50 input-label" style="display:inline;">{{languages.security_code}}</div>
+                <div class="col item-input-wrapper"><input type="text" name="security_code" value="" ></div>
+            </div>
+            <div class="item item-input-inset">
+                <div class="col-50 input-label" style="display:inline;">
+                    {{languages.how_may + " (" + program.unit + ")"}}  *
+                </div>
+                <label class="col item-input-wrapper">
+                    <input type="number" name="how_many" value="{{program.min_bonus}}">
+                </label>
+            </div>
+            <div class="item item-input-inset">
+                <div class="col-75">
+
+                </div>
+                <div class="col">
+                    <button class="button button-small" ng-click="next_step_fill_credit_card()">
+                    	{{languages.next}} &nbsp;
+                    	<i class="icon ion-ios7-arrow-forward"></i>
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+</ion-slide>
+<ion-slide>
+<div class="box">
+    <div class="list card">
+        <div class="item item-avatar">
+            <img src="{{program.image_icon}}">
+            <h2>{{program.name}}</h2>
+            <p>{{cal.how_many  | number }} {{ " " + program.unit + " for " + cal.points }}</p>
+        </div>
+        <div class="item item-body">
+            <div class="item">
+                Current Toros:
+                <span class="badge badge-assertive">{{user.balance | number}} {{languages.web_currency}}s</span>
+            </div>
+            <div class="item">
+                Toro trade:
+                <span class="badge badge-assertive">{{cal.points}}</span>
+            </div>
+            <div class="item">
+                After Trade:
+                <span class="badge badge-assertive">{{(user.balance + cal.points_value) | number}} {{languages.web_currency}}s</span>
+            </div>
+            <div class="item" ng-if="program.fee != 0">
+                Processing Fee:
+                <span class="badge badge-positive">{{languages.usd_icon}} {{program.fee}}</span>
+            </div>
+            <div class="item" ng-if="program.fee == 0">
+                Processing Fee:
+                <span class="badge badge-positive">{{languages.free}}</span>
+            </div>
+            <div class="item" ng-if="cal.months != '-1'">
+                Expiration Time:
+                <span class="badge badge-positive">{{cal.months}} {{languages.month}}(s)</span>
+            </div>
+        </div>
+        <div class="item tabs tabs-secondary tabs-icon-left">
+            <button class="button button-block button-positive" style="margin: 0;" ng-click="trade_in_check_out()">
+            <i class="icon ion-ios7-paperplane"></i>
+            Trade Now
+            </button>
+        </div>
+    </div>
+</div>
+</ion-slide>
+</ion-slide-box>
+<style type="text/css">
+.item-avatar p {
+	white-space: normal;
+}
+.item-select select {
+	direction: ltr;
+}
+</style>
+</ion-content>
+</ion-view>

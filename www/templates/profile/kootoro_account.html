@@ -1,0 +1,62 @@
+<ion-view>
+<ion-content padding="true" direction="y">
+<div>
+    <h2> {{languages.your_kootoro_account}}</h2>
+    <form id="form_kootoro_account">
+    <div class="list">
+         <div class="item-input-inset-label">
+            <p>
+            <label>{{languages.register_step_enter_name}}</label>
+            </p>
+        </div>
+    
+         <div class="item-input-inset-label">
+            <label>{{languages.first_name}} * </label>
+        </div>
+        <div class="item-input-inset">
+          <div class="item-input-wrapper">
+              <input type="text" id="first_name" ng-model="user_data.first_name" name="first_name">
+              <button class="button button-clear button-small"
+                      ng-show="user_data.first_name" 
+                      ng-click="user_data.first_name = ''">
+                    <i class="icon ion-close-circled"></i>
+                </button>
+          </div>
+      </div>
+       <div class="item-input-inset-label">
+            <label>{{languages.last_name}} * </label>
+        </div>
+      <div class="item-input-inset">
+          <div class="item-input-wrapper">
+              <input type="text" id="last_name" ng-model="user_data.last_name" name="last_name">
+              <button class="button button-clear button-small"
+                      ng-show="user_data.last_name" 
+                      ng-click="user_data.last_name = ''">
+                    <i class="icon ion-close-circled"></i>
+                </button>
+          </div>
+      </div>
+      <div class="item-input-inset-label">
+            <label>{{languages.zip_code}} * </label>
+        </div>
+      <div class="item-input-inset">
+          <div class="item-input-wrapper">
+              <input type="text" ng-model="user_data.zip_code" name="zip_code" maxlength="9">
+               <button class="button button-clear button-small"
+                      ng-show="user_data.zip_code" 
+                      ng-click="user_data.zip_code = ''">
+                    <i class="icon ion-close-circled"></i>
+                </button>
+          </div>
+      </div>
+
+        <div class="item-input-inset">
+            <button class="button button-block  button-small" ng-click="submit_update_profile()"  ng-disabled="is_update_profile(user_data)">
+            {{languages.update}}
+            </button>
+        </div>
+    </div>
+    </form>
+</div>
+</ion-content>
+</ion-view>
