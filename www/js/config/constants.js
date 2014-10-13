@@ -1,5 +1,5 @@
 /** ================ Environment ================== **/
-window.is_dev = true;
+window.is_dev = false;
 /** ================ Server Information ================== **/
 //window.server_ip = "192.168.3.77"; //tram
 window.server_ip = "demo.games4fun.abcv.com"; //huy
