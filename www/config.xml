@@ -3,7 +3,7 @@
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         xmlns:cdv = "http://cordova.apache.org/ns/1.0"
         id          = "com.abcv.kootoro.lottery"
-        version     = "2.0.146"
+        version     = "2.0.175"
         versionCode = "10" >
 
         
@@ -19,10 +19,15 @@
         <content src="index.html" />
         <access origin="*" subdomains="true" />
         <preference name="phonegap-version" value="3.5.0" /> <!-- all: current version of PhoneGap -->
-        <preference name="orientation" value="portrait" /> <!-- all: default means both landscape and portrait 
-        are enabled -->
+        <preference name="orientation" value="portrait" /> <!-- all: default means both landscape and portrait are enabled -->
         <preference name="DisallowOverscroll" value="true" />
         <preference name="UIWebViewBounce" value="false" />
+        
+        <preference name="EnableViewportScale" value="false" />
+        <preference name="HideKeyboardFormAccessoryBar" value="false" />
+        <preference name="KeyboardDisplayRequiresUserAction" value="true" />
+        <preference name="KeyboardShrinksView" value="false" />
+        <preference name="Fullscreen" value="true" />
         
         <!-- Using plugin of cordova -->
         <gap:plugin name="org.apache.cordova.network-information" />
@@ -43,8 +48,8 @@
         <gap:plugin name="org.apache.cordova.dialogs" />
         <gap:plugin name="org.apache.cordova.vibration" />
         
-        <gap:plugin name="com.ionic.keyboard" version="1.0.1" />
-        <!--  <gap:plugin name="com.plugin.datepicker" version="0.3.2" />-->
+        <gap:plugin name="com.ionic.keyboard" version="1.0.3" />
+        <!--<gap:plugin name="com.plugin.datepicker" version="0.3.2" />-->
         <gap:plugin name="com.millerjames01.sqlite-plugin" version="1.0.1" />
         
     

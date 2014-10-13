@@ -66,8 +66,10 @@ var app_home_page = {
             $.ajax({
                 url: window.server_url+'/game/mobile_app_lottery/request_home_page_data?v=' + window.version,
                 data: null,
-                contentType: "application/json",  
-                dataType: 'jsonp',  
+                type: "POST",
+                dataType: 'json',  
+                // contentType: "application/json",  
+                // dataType: 'jsonp',  
                 crossDomain: true,  
                 error: function(e) {  
                     console.log("app_home_page: error");
@@ -76,6 +78,10 @@ var app_home_page = {
                     console.log("app_home_page: complate");
                 }, 
                 success: function(data) {
+                    
+                    obj_countries.setData(data.countries);
+                    obj_states.setData(data.states);
+                    
                     console.log("app_home_page: success");
 
                     //******************* Sponsors

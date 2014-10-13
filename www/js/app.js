@@ -8,7 +8,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins.Keyboard) {
-            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true); //hide done button
         }
         if (window.StatusBar) {
             // org.apache.cordova.statusbar required
@@ -24,21 +24,23 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
         abstract: true,
         templateUrl: "templates/menu.html",
         controller: 'AppCtrl'
-    })
-    .state('home', {
+    }).state('home', {
         url: "/home",
         templateUrl: "templates/home.html",
         controller: 'homeCtrl'
-    })
-    .state('login', {
+    }).state('login', {
         url: "/login",
         templateUrl: "templates/login.html",
         controller: 'loginCtrl'
-    })
-    .state('register', {
+    }).state('register', {
         url: "/register",
         templateUrl: "templates/sign-up.html",
         controller: 'signUpCtrl'
+    })
+    .state('forgot_password', {
+        url: "/forgot_password",
+        templateUrl: "templates/forgot-password.html",
+        controller: 'forgotPasswordCtrl'
     })
     //*************** for Profile ******************************
     .state('app.profile', {
@@ -49,8 +51,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 controller: 'profileCtrl'
             }
         }
-    })
-    .state('app.general', {
+    }).state('app.general', {
         url: "/general",
         views: {
             'menuContent': {
@@ -58,8 +59,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 controller: 'profileGeneralCtrl'
             }
         }
-    })
-    .state('app.change_password', {
+    }).state('app.change_password', {
         url: "/change_password",
         views: {
             'menuContent': {
@@ -67,8 +67,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 controller: 'profileChangePasswordCtrl'
             }
         }
-    })
-    .state('app.kootoro_account', {
+    }).state('app.kootoro_account', {
         url: "/kootoro_account",
         views: {
             'menuContent': {
@@ -76,8 +75,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 controller: 'profileKootoroAccountCtrl'
             }
         }
-    })
-    .state('app.personal_detail', {
+    }).state('app.personal_detail', {
         url: "/personal_detail",
         views: {
             'menuContent': {
@@ -85,8 +83,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 controller: 'profilePersonalDetailCtrl'
             }
         }
-    })
-    .state('app.personal_avatar', {
+    }).state('app.personal_avatar', {
         url: "/avatar",
         views: {
             'menuContent': {
@@ -94,8 +91,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 controller: 'profileAvatarCtrl'
             }
         }
-    })
-    .state('app.money_toro_history', {
+    }).state('app.money_toro_history', {
         url: "/money_toro_history",
         views: {
             'menuContent': {
@@ -104,20 +100,39 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
             }
         }
     })
-    //*************** for Trade-In ******************************
+    //*************** for buy toro ******************************
+    .state('app.buy', {
+        url: "/buy",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/buy.html",
+                controller: 'buyCtrl'
+            }
+        }
+    })
+    .state('app.buy_more_toros', {
+        url: "/buy_more_toros",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/buy/buy_more_toros.html",
+                controller: 'buyMoreTorosCtrl'
+            }
+        }
+    })
+    
     .state('app.trade_in', {
         url: "/trade_in",
         views: {
             'menuContent': {
-                templateUrl: "templates/trade_in.html",
+                templateUrl: "templates/buy/trade_in.html",
                 controller: 'tradeInCtrl'
             }
         }
-    }).state('app.single', {
+    }).state('app.trade_in_form', {
         url: "/trade_in/:programId",
         views: {
             'menuContent': {
-                templateUrl: "templates/trade_in_form.html",
+                templateUrl: "templates/buy/trade_in_form.html",
                 controller: 'tradeInFormCtrl'
             }
         }
@@ -165,4 +180,25 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
     });
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/home');
+}).filter('makeRange', function() {
+    return function(input) {
+        var lowBound, highBound;
+        switch (input.length) {
+            case 1:
+                lowBound = 0;
+                highBound = parseInt(input[0]) - 1;
+                break;
+            case 2:
+                lowBound = parseInt(input[0]);
+                highBound = parseInt(input[1]);
+                break;
+            default:
+                return input;
+        }
+        var result = [];
+        for (var i = lowBound; i <= highBound; i++) result.push(i);
+        return result;
+    };
+    //<div ng-repeat="n in [10] | makeRange">Do something 0..9: {{n}}</div>
+    //<div ng-repeat="n in [20, 29] | makeRange">Do something 20..29: {{n}}</div>
 });

@@ -4,6 +4,13 @@ var lottery_draw_tickets = {
 	layer: '',
 	background: '',
 	obj : {},
+	reset: function()
+    {
+    	this.stage= '';
+    	this.layer= '';
+    	this.background= '';
+    	this.obj= {};
+    },
 	//arr_normal_number: new Array(),
 	initialize: function() {
         if (typeof time_server != "undefined")
@@ -163,8 +170,8 @@ var lottery_draw_tickets = {
 		}
 	},
 	export_ticket: function(id) {
-			//var img = $($('#items').find('li[name=ticket_' + id + ']')[0]).find('img[name=thumnail]')[0];
-//		var img_big = $('#ti_' + id).find('img[name=thumnail]')[0];
+		//var img = $($('#items').find('li[name=ticket_' + id + ']')[0]).find('img[name=thumnail]')[0];
+		//var img_big = $('#ti_' + id).find('img[name=thumnail]')[0];
 		var div_id = "lottery_tickets";
 
 		if ($('#my_tickets').length != 0)

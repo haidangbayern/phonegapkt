@@ -2,7 +2,9 @@ angular.module('starter.controllers', []).run(function() {
     if (typeof window.current_language == 'undefined') {
         window.current_language = 'en';
     }
-}).controller('AppCtrl', function($scope, $ionicModal, $ionicPopup, $timeout) {
+})
+/** =================== Prex App For Menu ======================= **/
+.controller('AppCtrl', function($scope, $ionicModal, $ionicPopup, $timeout) {
     $scope.css_hide = "";
     if (typeof device != "undefined" && device.platform.toUpperCase() == "iOS".toUpperCase()) {
         $scope.css_hide = "display:none";
@@ -89,7 +91,6 @@ angular.module('starter.controllers', []).run(function() {
             template: t
         });
         alertPopup.then(function(res) {
-            console.log('Thank you');
             $('body').removeClass("menu-open");
         });
     };
@@ -100,14 +101,144 @@ angular.module('starter.controllers', []).run(function() {
             template: message,
         });
         alertPopup.then(function(res) {
-            eval(callback);
+            if (callback != undefined)
+                eval(callback);
+            obj_keyboard.waitForClose();
         });
     };
     //********************** open broswer
     $scope.exturl = function(url) {
         window.open(encodeURI(url), '_system', 'location=no');
     };
-}).controller('tradeInCtrl', function($scope, $timeout) {
+})
+/** =================== Buy Toros ======================= **/
+.controller('buyCtrl', function($scope){
+    //set languages
+    $scope.languages = window.languages[window.current_language];
+}).controller('buyMoreTorosCtrl', function($scope, $timeout,$ionicSlideBoxDelegate){
+    $scope.user_chooce_option = function(radio_option, money, toros)
+    {
+        $scope.radio_option = radio_option;
+        if (money && toros)
+        {
+            $scope.data_required.toros = Number(toros);
+            $scope.data_required.money = Number(money);
+        }
+    }
+    $scope.manual_buy = function(toros)
+    {
+        var point = toros != '' ? parseFloat(toros) : 0;
+        var idx = 0;
+        var point_level = 0;
+        var money_amount_level = 0;
+        if (typeof $scope.kootoro_exchange[idx] != 'undefined') {
+            while (point >= $scope.kootoro_exchange[idx]['point']) {
+                idx++;
+                if (typeof $scope.kootoro_exchange[idx] == 'undefined') break;
+            }
+            if (idx != 0) idx--;
+            var point_level = $scope.kootoro_exchange[idx]['point'];
+            var money_amount_level = $scope.kootoro_exchange[idx]['money_amount'];
+        }
+        if (point_level != 0) {
+            var coint = (point * money_amount_level) / point_level;
+        } else {
+            var coint = 0;
+        }
+        //$('#convert_point_to_money_radio').val(coint);
+        $scope.data_required.toros = Number(toros);
+        $scope.data_required.money = coint.toFixed(2);
+    }
+    $scope.isDisableStep1 = function()
+    {
+        if (Number($scope.data_required.toros) <= 0 || Number($scope.data_required.money) <= 0)
+            return true;
+        return false;
+    }
+    $scope.next_step_cc = function() 
+    {
+        obj_keyboard.waitForClose();
+        $ionicSlideBoxDelegate.next();
+    }
+    $scope.slideHasChanged = function(index) {
+        obj_keyboard.waitForClose();
+        if (index == 1) {
+            var rs = $scope.isDisableStep1();
+            if (rs) {
+                $timeout(function() {
+                    $ionicSlideBoxDelegate.previous();
+                }, 200);
+            }
+        }
+    }
+    $scope.pay = function()
+    {
+        $scope.payment.beforePayCheckut();
+        obj_loading.show();
+        var data_post = {
+            "device" : JSON.stringify(device),
+            "payment" : $scope.payment.data_required,
+            "user_id" : user.id,
+            "required" : $scope.data_required,
+        }
+        $.ajax({
+            url: window.server_url+'/pay/application_pay_buy_toros?v=' + window.version,
+            data: data_post,
+            type: "POST",
+            dataType: 'json',  
+            crossDomain: true,  
+            success: function(data) {
+                obj_keyboard.waitForClose();
+                obj_loading.hide();
+                var r = data;
+                if (r.result != undefined && r.result == false) {
+                    $scope.payment.afterPayCheckoutFail();
+                    if (r.message)
+                        window.showAlert($scope.languages.warning, r.message);
+                } else {
+                    $scope.payment.afterPayCheckoutSucc();
+                    if (r.balance)
+                        user.balance = r.balance;
+                    if (r.payment)
+                        user.payment.setData(r.payment);
+                    window.showAlert($scope.languages.success, r.message, "window.location.href='#/app/buy';");
+                }
+            }
+        });
+    }
+    $scope.languages = window.languages[window.current_language];
+    $scope.payment = obj_payment;
+    $scope.payment.__construct();
+    $scope.radio_option = true;
+    $scope.data_required = {
+        toros : 0,
+        money: 0,
+    };
+    if (kootoro_exchange.data)
+    {
+        $scope.kootoro_exchange = kootoro_exchange.data;
+    }
+    else
+    {
+        obj_loading.show();
+        $.ajax({
+            url: window.server_url+'/pay/application_get_exchange?v=' + window.version,
+            data: null,
+            type: "POST",
+            dataType: 'json',  
+            crossDomain: true,  
+            success: function(data) {
+                obj_loading.hide();
+                kootoro_exchange.setData(data);
+                $timeout(function(){
+                    $scope.kootoro_exchange = kootoro_exchange.data;
+                },100);
+            }
+        });
+    }
+})
+/**** Trade In ********/
+.controller('tradeInCtrl', function($scope, $timeout) {
     if (programs.data) {
         $scope.programs = programs.data;
     } else {
@@ -130,30 +261,35 @@ angular.module('starter.controllers', []).run(function() {
     $scope.program = programs.getProgramById($stateParams.programId);
     programs.setCurrentProgramById($stateParams.programId);
     $scope.user = user;
-    $scope.next_step_fill_credit_card = function() {
+    $scope.payment = obj_payment;
+    $scope.payment.__construct();
+    $scope.data_required = {
+        member_id : null,
+        security_code: null,
+        id : programs.current_program.id,
+        month : -1,
+        how_many : programs.current_program.min_bonus,
+        user_id : user.id,
+        fee : programs.current_program.fee,
+    };
+    $scope.next_step = function() {
         $ionicSlideBoxDelegate.next();
     }
-    $scope.slideHasChanged = function(index) {
-        if (index == 1) {
-            var data = $('#trade_in_form').serializeArray();
-            var option = [];
-            for (var i = data.length - 1; i >= 0; i--) {
-                field = data[i];
-                option[field.name] = field.value;
-            }
-            programs.setDataRequired(option);
-            var validate_required = programs.validateDataRequired();
-            if (!validate_required.result) {
-                window.showAlert(window.languages[window.current_language].warning, validate_required.message, "window.validate_trade_in_form = false;");
-                $timeout(function() {
-                    $ionicSlideBoxDelegate.previous();
-                }, 500);
-            } else {
-                obj_loading.show();
+    $scope.is_disable_1 = function(){
+        if ($scope.data_required.how_many < programs.current_program.min_bonus
+            ||
+            !$scope.data_required.member_id
+            )
+            return true;
+        return false;
+    }
+    $scope.calculator = function()
+    {
+        obj_loading.show();
                 var data = {
-                    'program_id': programs.data_required.program_id,
-                    'how_many': programs.data_required.how_many,
-                    'months': programs.data_required.month,
+                    'program_id': $scope.data_required.id,
+                    'how_many': $scope.data_required.how_many,
+                    'months':$scope.data_required.month,
                 };
                 $.ajax({
                     url: window.server_url + '/pay/application_trade_in_cal?v=' + window.version,
@@ -169,15 +305,249 @@ angular.module('starter.controllers', []).run(function() {
                         }, 200);
                     }
                 });
+    }
+    $scope.slideHasChanged = function(index) {
+        if (index == 1) {
+            if ($scope.is_disable_1())
+            {
+                $timeout(function() {
+                    $ionicSlideBoxDelegate.previous();
+                }, 200);
+            }
+            else
+            {
+                $scope.calculator();
             }
         }
     }
     $scope.trade_in_check_out = function() {
         obj_loading.show();
-        programs.beforeTradeInCheckut();
-        var data = programs.data_required;
+        $scope.payment.beforePayCheckut();
+        //programs.beforeTradeInCheckut();
+        var data = $scope.data_required;
+        data.device = JSON.stringify(device);
+        if ($scope.data_required.fee != 0)
+            data.payment = $scope.payment.data_required;
+        console.log(data);
+
         $.ajax({
             url: window.server_url + '/pay/application_trade_in_checkout?v=' + window.version,
+            data: data,
+            type: "POST",
+            dataType: 'json',
+            crossDomain: true,
+            success: function(data) {
+                obj_loading.hide();
+                if (data.success == false) {
+                    $scope.payment.afterPayCheckoutFail();
+                    if (data.commonResponse.errorDescription) {
+                        window.showAlert(window.languages[window.current_language].warning, data.commonResponse.errorDescription);
+                    }
+                } else {
+                    $scope.payment.afterPayCheckoutSucc();
+                    if (data.content) {
+                        var content_rs = $(data.content);
+                        content_rs.find('div').remove();
+                        content_rs.find('em').text(user.full_name + "!");
+                        //programs.afterTradeInCheckout();
+                        window.showAlert(window.languages[window.current_language].success, content_rs.html(), "history.back();");
+                    }
+                }
+            }
+        });
+    }
+})
+/** =================== Home Page ======================= **/
+.controller('homeCtrl', function($scope) {
+    $.getScript(
+        "http://"+window.server_ip+":"+window.server_post+"/socket.io/socket.io.js",
+        function( response, status) {
+            clearTimeout(is_time_check_server);
+            if (status != "success")
+            {
+                if (typeof device != "undefined" && device.platform.toUpperCase() == "iOS".toUpperCase()){
+                
+                }
+                else{
+                    navigator.app.exitApp();
+                }
+              return;
+            }
+            
+            window.is_connect_server = true;
+            
+            /**** For database ****/
+            obj_db.openDatabase();
+
+            /**** For Socket ****/
+            lottery_socket = io.connect("http://" + window.server_ip +":"+window.server_post+"/lottery");
+
+            if (!window.is_device)
+            {
+              console.log("obj_socket.initialize");
+              obj_socket.initialize();
+            }
+            else
+            {
+              console.log("app.initialize");
+              app.initialize();
+            }
+
+            /**** For App Home Page ****/
+            //obj_interface.is_redesign = true;
+            //if (typeof obj_interface.data.version == "undefined") {
+                lottery_socket.emit('request_data');
+            //} else {
+                //obj_interface.initialize_interface();
+            //}
+
+            console.log("Index: Server Is Ready");
+            app_home_page.change_app_status("Server Is Ready");
+            app_home_page.call_server_get_data(true);
+        });
+
+    is_time_check_server = setTimeout(function(){
+        if (typeof io == 'undefined')
+        {
+            $('#animated_loading span').html("Cannot Connect Server");
+            window.is_connect_server = false;
+            alert("Sorry! Server Out.");
+            console.log("Index: Server out");
+            if (typeof device != "undefined" && device.platform.toUpperCase() == "iOS".toUpperCase()){
+                
+            }
+            else{
+                navigator.app.exitApp();
+            }
+        }
+    }, 10000);
+    
+    $scope.version_application = window.version_application;
+    window.page_name = "app_home";
+}).controller('loginCtrl', function($scope, $timeout,  $ionicPopup, $ionicSlideBoxDelegate) {
+    $('body').removeClass("menu-open").removeClass("popup-open");
+    obj_loading.show();
+    $timeout(function() {
+        obj_loading.hide();
+    }, 500);
+    $scope.languages = window.languages[window.current_language];
+
+    //********************** Alert dialog
+    window.showAlert = function(title, message, callback) {
+        var alertPopup = $ionicPopup.alert({
+            title: title,
+            template: message,
+        });
+        alertPopup.then(function(res) {
+            if (callback != undefined)
+                eval(callback);
+            obj_keyboard.waitForClose();
+        });
+    };
+    $scope.isUnchanged = function(user_data) {
+        if (user_data != undefined && user_data.email && user_data.password) return false;
+        return true;
+    }
+    $scope.submit_login_account = function(user_data) {
+        obj_keyboard.waitForClose();
+        user.validate_user(user_data.email, user_data.password);
+    }
+    $scope.redirect_url = function(url){
+        $('ion-content').empty();
+        window.location.href = url;
+    }
+
+    if (window.is_dev)
+    {
+        $scope.user_data = {
+            email : 'tranhanhuy@gmail.com',
+            password : 'p@ssw0rd',
+        };
+    }
+}).controller('signUpCtrl', function($scope, $timeout, $ionicPopup,$ionicSlideBoxDelegate) {
+    obj_loading.show();
+    $timeout(function() {
+        obj_loading.hide();
+    }, 500);
+    $('body').removeClass("menu-open").removeClass("popup-open");
+    $scope.languages = window.languages[window.current_language];
+    //********************** Alert dialog
+    window.showAlert = function(title, message, callback) {
+        var alertPopup = $ionicPopup.alert({
+            title: title,
+            template: message,
+        });
+        alertPopup.then(function(res) {
+            if (callback != undefined)
+                eval(callback);
+            obj_keyboard.waitForClose();
+        });
+    };
+    $scope.redirect_url = function(url){
+        $('ion-content').empty();
+        window.location.href = url;
+    }
+    $scope.password_match = function(user_data){
+        $scope.dontMatch_password = user_data.password !== user_data.confirmpassword;
+    };
+    $scope.next_step_name = function() {
+        obj_keyboard.waitForClose();
+        $ionicSlideBoxDelegate.next();
+    }
+    $scope.next_step_personal = function() {
+        obj_keyboard.waitForClose();
+        $ionicSlideBoxDelegate.next();
+    }
+    $scope.isStep1Unchanged = function(user_data) {
+        if (user_data != undefined && user_data.email && user_data.password && user_data.confirmpassword) 
+        {
+            if (user_data.password == user_data.confirmpassword)
+            {
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
+    $scope.isStep2Unchanged = function(user_data) {
+        if (user_data != undefined && user_data.firstname && user_data.lastname && user_data.nickname && user_data.zip_code) return false;
+        return true;
+    }
+    $scope.isStep3Unchanged = function(user_data) {
+        // if (user_data != undefined && user_data.email && user_data.password && user_data.confirm_password)        
+        //     return false;
+        return false;
+    }
+    $scope.slideHasChanged = function(index) {
+        obj_keyboard.waitForClose();
+        var data = $('#form_new_account').serializeArray();
+        var option = [];
+        for (var i = data.length - 1; i >= 0; i--) {
+            field = data[i];
+            option[field.name] = field.value;
+        }
+        if (index == 1) {
+            var rs = $scope.isStep1Unchanged(option);
+            if (rs) {
+                $timeout(function() {
+                    $ionicSlideBoxDelegate.previous();
+                }, 200);
+            }
+        } else if (index == 2) {
+            var rs = $scope.isStep2Unchanged(option);
+            if (rs) {
+                $timeout(function() {
+                    $ionicSlideBoxDelegate.previous();
+                }, 200);
+            }
+        }
+    }
+    $scope.submit_register_new_account = function() {
+        obj_keyboard.waitForClose();
+        obj_loading.show();
+        var data = $('#form_new_account').serializeArray();
+        $.ajax({
+            url: window.server_url + '/login/application_create_new_player?v=' + window.version,
             data: data,
             type: "POST",
             dataType: 'json',
@@ -188,25 +558,80 @@ angular.module('starter.controllers', []).run(function() {
                     if (data.commonResponse.errorDescription) {
                         window.showAlert(window.languages[window.current_language].warning, data.commonResponse.errorDescription);
                     }
+                    else if (data.message)
+                    {
+                        window.showAlert(window.languages[window.current_language].warning, data.message);
+                    }
                 } else {
                     if (data.content) {
-                        var content_rs = $(data.content);
-                        content_rs.find('div').remove();
-                        content_rs.find('em').text(user.full_name + "!");
-                        programs.afterTradeInCheckout();
-                        window.showAlert(window.languages[window.current_language].success, content_rs.html(), "history.back();");
+                        var content_rs = $("<div>" + data.content + "</div>");
+                        window.content_rs = content_rs;
+                        window.content_rs.find('span.cartsubheading').html("<h4>Registration has been submitted!</h4>");
+                        content_rs.find('table').remove();
+                        content_rs.find('div:last').remove();
+                        window.showAlert(window.languages[window.current_language].success, content_rs.html(), "window.location.href='#/login';");
                     }
                 }
             }
         });
     }
-}).controller('homeCtrl', function($scope) {
-    console.log("========================> application home page");
-    // obj_loading.show();
-    //app_home_page.initialize();
-    $scope.version_application = window.version_application;
-    window.page_name = "app_home";
-}).controller('mainLotteryCtrl', function($scope, $http, $log) {
+}).controller('forgotPasswordCtrl', function($scope, $timeout, $ionicPopup) {
+    obj_loading.show();
+    $timeout(function() {
+        obj_loading.hide();
+    }, 500);
+    $('body').removeClass("menu-open").removeClass("popup-open");
+
+    //********************** Alert dialog
+    window.showAlert = function(title, message, callback) {
+        var alertPopup = $ionicPopup.alert({
+            title: title,
+            template: message,
+        });
+        alertPopup.then(function(res) {
+            if (callback != undefined)
+                eval(callback);
+            obj_keyboard.waitForClose();
+        });
+    };
+    $scope.redirect_url = function(url){
+        $('ion-content').empty();
+        window.location.href = url;
+    }
+
+    $scope.languages = window.languages[window.current_language];
+    $scope.email = "";
+    $scope.submit_forgot_password = function(email)
+    {
+        console.log(email);
+        obj_loading.show();
+        var data = {
+            'email' : email,
+        };
+        $.ajax({
+            url: window.server_url+'/login/application_proccess_forgot_password?v=' + window.version,
+            data: data,
+            type: "POST",
+            dataType: 'json',  
+            crossDomain: true,  
+            success: function(data) {
+                obj_loading.hide();
+                var r = data;
+                if (r.result == false) {
+                    if (r.message != undefined)
+                        window.showAlert($scope.languages.warning, r.message);
+                    obj_keyboard.waitForClose();
+                } else {
+                    if (r.message != undefined)
+                        window.showAlert($scope.languages.success, r.message);
+                    obj_keyboard.waitForClose();
+                }
+            }
+        });
+    }
+})
+/** =================== Lottery ======================= **/
+.controller('mainLotteryCtrl', function($scope, $http, $log) {
     $scope.add_ticket = window.languages[window.current_language].add_ticket;
     $scope.my_tickets = window.languages[window.current_language].my_tickets;
     $scope.history = window.languages[window.current_language].history;
@@ -230,7 +655,7 @@ angular.module('starter.controllers', []).run(function() {
         });
     }
     $scope.slides = slides;
-    console.log("========================> lottery home page");
+    
     //*** last_drawing
     $scope.last_drawing = {
         'time': '',
@@ -262,47 +687,403 @@ angular.module('starter.controllers', []).run(function() {
     $('body').removeClass('popup-open');
     $('body').removeClass('menu-open');
     if (!user.is_login()) window.location.href="#/login";
-}).controller('addTicketCtrl', function($scope) {
-    if (typeof obj_lottery != 'undefined') {
-        obj_lottery.normal_number = {};
-        obj_lottery.power_number = {};
-    }
-    $scope.enter_number_or = window.languages[window.current_language].enter_number_or;
-    $scope.quick_pick = window.languages[window.current_language].quick_pick;
-    //$scope.choose_lottery_date      = window.languages[window.current_language].choose_lottery_date;
-    $scope.buy = window.languages[window.current_language].buy;
-    $scope.lottery = window.languages[window.current_language].lottery;
-    $scope.add_ticket = window.languages[window.current_language].add_ticket;
-    $scope.my_tickets = window.languages[window.current_language].my_tickets;
-    $scope.more = window.languages[window.current_language].more;
+}).controller('addTicketCtrl', function($scope, $ionicActionSheet, $timeout) {
     window.page_name = "app_lottery_add_ticket";
-    stask_back_page.push({
-        type: 'url',
-        action: 'window.location.href = "#/app/add_ticket"'
-    });
-    console.log("========================> add ticket");
-    obj_loading.show();
-    obj_interface.is_redesign = true;
-    if (typeof obj_interface.data.version == "undefined") {
-        //alert("Socket: request_data");
-        console.log("Socket: Request_data");
-        lottery_socket.emit('request_data');
-    } else {
-        console.log("obj_interface has data");
-        obj_interface.initialize_interface();
+    lottery_draw_tickets_v2.reset();
+    $scope.languages = window.languages[window.current_language];
+    $scope.data = obj_interface.data;
+    $scope.__init_tickets = function()
+    {
+        window.new_ticket = $scope.new_ticket = false;
+        $scope.drawing_time = obj_interface.next_time_draw();
+        window.tickets = $scope.tickets = {};
+        $scope.tickets.count = 1;
+        $scope.tickets.ticket = new Array();
+        $scope.tickets.user_id = user.id;
+        $scope.tickets.drawing_time =  $scope.drawing_time.value;
+
+        //creating ticket
+        for (var i = 0; i < $scope.tickets.count; i++) {
+            var ticket = {
+                normal_ball : new Array(),
+                power_ball :  new Array(),
+                error : "",
+                drawing_time : $scope.drawing_time.value,
+            };
+            //creating normal ball
+            var normal_ball = new Array();
+            for (var i_normal = 0; i_normal < $scope.data.count_normal_number; i_normal++) {
+                normal_ball.push("");
+            }
+            ticket.normal_ball = normal_ball;
+            //creating power ball
+            var power_ball = new Array();
+            for (var i_power = 0; i_power< $scope.data.count_power_number; i_power++) {
+                power_ball.push("");
+            }
+            ticket.power_ball = power_ball;        
+            $scope.tickets.ticket.push(ticket);
+        };
     }
-}).controller('myTicketCtrl', function($scope) {
-    $scope.lottery = window.languages[window.current_language].lottery;
-    $scope.add_ticket = window.languages[window.current_language].add_ticket;
-    $scope.my_tickets = window.languages[window.current_language].my_tickets;
-    $scope.more = window.languages[window.current_language].more;
+
+    $scope.__init_tickets();
+
+    $scope.validate_normal_ball = function(ticket_row, i_normal_ball) 
+    {
+
+        $scope.current_ticket_row = ticket_row;
+        
+        var new_ball = $scope.tickets.ticket[ticket_row].normal_ball[i_normal_ball] ;
+        
+        var error = "";
+        if (new_ball)
+        {
+            if (!($scope.data.normal_number_min <= new_ball 
+                && 
+                new_ball <= $scope.data.normal_number_max)) //validate 2
+                error = "Enter normal number from " + $scope.data.normal_number_min + " to " + $scope.data.normal_number_max + ".";
+        }
+        for (var i_normal = 0; i_normal < $scope.data.count_normal_number-1 && error == ""; i_normal++) {
+            var new_ball = $scope.tickets.ticket[ticket_row].normal_ball[i_normal] ;
+            if (!new_ball)
+                continue;
+            else
+            {
+                if (!($scope.data.normal_number_min <= new_ball 
+                    && 
+                    new_ball <= $scope.data.normal_number_max)) //validate 2
+                    error = "Enter normal number from " + $scope.data.normal_number_min + " to " + $scope.data.normal_number_max + ".";
+            }
+
+            for (var j_normal = i_normal+1; j_normal < $scope.data.count_normal_number && error == ""; j_normal++) {
+                var old_ball = $scope.tickets.ticket[ticket_row].normal_ball[j_normal];
+                if (old_ball)
+                {
+                    if ( new_ball == old_ball ) //validate 1
+                        error = "Number " + new_ball + " was chosen.";
+                }
+            }
+        }
+        $scope.tickets.ticket[ticket_row].error = error;
+    }
+
+    $scope.validate_power_ball = function(ticket_row, i_power_number) 
+    {
+
+        $scope.current_ticket_row = ticket_row;
+        
+        var new_ball = $scope.tickets.ticket[ticket_row].power_ball[i_power_number] ;
+        
+        var error = "";
+        if (new_ball)
+        {
+            if (!($scope.data.power_number_min <= new_ball 
+                && 
+                new_ball <= $scope.data.power_number_max)) //validate 2
+                error = "Enter power number from " + $scope.data.power_number_min + " to " + $scope.data.power_number_max + ".";
+        }
+
+        for (var i_normal = 0; i_normal < $scope.data.count_power_number-1 && error == ""; i_normal++) {
+            var new_ball = $scope.tickets.ticket[ticket_row].power_ball[i_normal] ;
+            if (!new_ball)
+                continue;
+            else
+            {
+                if (!($scope.data.power_number_min <= new_ball 
+                    && 
+                    new_ball <= $scope.data.power_number_max)) //validate 2
+                    error = "Enter power number from " + $scope.data.power_number_min + " to " + $scope.data.power_number_max + ".";
+            }
+
+            for (var j_normal = i_normal+1; j_normal < $scope.data.count_power_number && error == ""; j_normal++) {
+                var old_ball = $scope.tickets.ticket[ticket_row].power_ball[j_normal];
+                if (old_ball)
+                {
+                    if ( new_ball == old_ball ) //validate 1
+                        error = "Number " + new_ball + " was chosen.";
+                }
+            }
+        }
+        $scope.tickets.ticket[ticket_row].error = error;
+    }
+
+    $scope.is_disable_buy = function()
+    {
+
+        for (var i = 0; i < $scope.tickets.count; i++) {
+            if ($scope.tickets.ticket[i].error)
+                return true;
+            for (var i_normal = 0; i_normal < $scope.data.count_normal_number; i_normal++) {
+                if (!$scope.tickets.ticket[i].normal_ball[i_normal])
+                    return true;
+            }
+            for (var i_power = 0; i_power< $scope.data.count_power_number; i_power++) {
+                if (!$scope.tickets.ticket[i].power_ball[i_power])
+                    return true;
+            }
+        }
+        return false;
+    }
+    
+    $scope.ticketContextMenu = function(ticket_row) 
+    {
+
+        $scope.current_ticket_row = ticket_row;
+
+        var contentMenu = $ionicActionSheet.show({
+            buttons: [
+                { text: $scope.languages.quick_pick },
+                { text: $scope.languages.clear },
+                { text: $scope.languages.delete },
+                { text: $scope.languages.cancel },
+            ],
+            buttonClicked: function(index) {
+                switch (index) {
+                    case 0: {
+                        $scope.quick_pick($scope.current_ticket_row);
+                        break;
+                    }
+                    case 1: {
+                        $scope.clear($scope.current_ticket_row);
+                        break;
+                    }
+                    case 2: {
+                        $scope.delete($scope.current_ticket_row);
+                        break;
+                    }
+                    case 3: {
+                        contentMenu();
+                        break;
+                    }
+                }
+                return true;
+            },
+        });
+    }
+
+    $scope.quick_pick_all = function()
+    {
+        for (var i = 0; i < $scope.tickets.count; i++) {
+            $scope.quick_pick(i);
+        }
+    }
+
+    $scope.quick_pick = function(ticket_row)
+    {
+        var random_normal = core.random_many_number(
+                $scope.data.normal_number_min,
+                $scope.data.normal_number_max, 
+                $scope.data.count_normal_number, 
+                true, true);
+        for (var i_normal = 0; i_normal < $scope.data.count_normal_number; i_normal++)
+            $scope.tickets.ticket[ticket_row].normal_ball[i_normal] = Number(random_normal[i_normal]);
+        
+        var random_power = core.random_many_number(
+                $scope.data.power_number_min,
+                $scope.data.power_number_max, 
+                $scope.data.count_power_number,
+                true, true);
+        for (var i_power = 0; i_power< $scope.data.count_power_number; i_power++) 
+            $scope.tickets.ticket[ticket_row].power_ball[i_power] = Number(random_power[i_power]);
+    }
+
+    $scope.add_more_ticket = function(count_ticket)
+    {
+        var l = $scope.tickets.count - $scope.tickets.ticket.length;
+        //8 10
+        if (l<0)
+        {
+            //remove
+            $scope.tickets.ticket.splice($scope.tickets.count, Math.abs(l));
+        }
+        else if (l>0)
+        {
+            //plus
+            for (var i = $scope.tickets.ticket.length; i < $scope.tickets.count; i++) {
+                var ticket = {
+                    normal_ball : new Array(),
+                    power_ball :  new Array(),
+                    error : "",
+                    drawing_time : $scope.drawing_time.value,
+                };
+                //creating normal ball
+                var random_normal = core.random_many_number(
+                    $scope.data.normal_number_min,
+                    $scope.data.normal_number_max, 
+                    $scope.data.count_normal_number, 
+                    true, true);
+                for (var i_normal = 0; i_normal < $scope.data.count_normal_number; i_normal++)
+                    ticket.normal_ball.push(Number(random_normal[i_normal]));
+                
+                //creating power ball
+                var random_power = core.random_many_number(
+                    $scope.data.power_number_min,
+                    $scope.data.power_number_max, 
+                    $scope.data.count_power_number,
+                    true, true);
+                for (var i_power = 0; i_power< $scope.data.count_power_number; i_power++) 
+                     ticket.power_ball.push(Number(random_power[i_power]));
+                
+                $scope.tickets.ticket.push(ticket);
+            };
+        }
+        
+    }
+
+    $scope.clear_all = function()
+    {
+        for (var i = 0; i < $scope.tickets.count; i++) {
+            $scope.clear(i);
+        }
+    }
+
+    $scope.clear = function(ticket_row)
+    {
+        for (var i_normal = 0; i_normal < $scope.data.count_normal_number; i_normal++)
+            $scope.tickets.ticket[ticket_row].normal_ball[i_normal] = "";
+        for (var i_power = 0; i_power< $scope.data.count_power_number; i_power++) 
+            $scope.tickets.ticket[ticket_row].power_ball[i_power] = "";
+    }
+
+    $scope.delete = function(ticket_row)
+    {
+        $scope.tickets.count--;
+        $scope.tickets.ticket.splice(ticket_row, 1);
+    }
+
+    $scope.buy = function()
+    {
+        obj_loading.show();
+        var data_post = {
+            "device" : JSON.stringify(device),
+            "tickets" : $scope.tickets.ticket,
+            "user_id" : user.id,
+        }
+        $.ajax({
+            url: window.server_url+'/game/mobile_app_lottery/application_buy_ticket?v=' + window.version,
+            data: data_post,
+            type: "POST",
+            dataType: 'json',  
+            crossDomain: true,  
+            success: function(data) {
+                var r = data;
+                if (r.result != undefined && r.result == false) {
+                    obj_loading.hide();
+                    if (r.error)
+                        window.showAlert('Warning', r.error);
+                } else {
+                    window.new_ticket = $scope.new_ticket = true;
+                    for (var i=0; i<$scope.tickets.ticket.length; i++)
+                    {
+                        $scope.tickets.ticket[i].purchase_time = r.purchase_time;
+                    }
+                    
+                    if (r.balance)
+                        user.balance = r.balance;
+                    //obj_interface.html_user_left(user);
+                    lottery_socket.emit("buy_ticket");
+                    $timeout(function() {
+                        obj_loading.hide();
+                    }, 1000);
+                }
+            }
+        });
+    }
+
+   
+    $scope.buy_more = function()
+    {
+        //reset value
+        $scope.__init_tickets();
+    }
+
+    $scope.draw_ticket = function(ticket_row)
+    {
+        lottery_draw_tickets_v2.initialize();
+        lottery_draw_tickets_v2.draw_ticket($scope.tickets.ticket[ticket_row]);
+        lottery_draw_tickets_v2.full_screen();
+    }
+}).controller('myTicketCtrl', function($scope,$timeout) {
+    $scope.languages = window.languages[window.current_language];
+    $scope.page = 1;
+    $scope.tickets = {};
+    $scope.tickets.total = 0;
+    $scope.tickets.ticket = new Array();
+
     window.page_name = "app_lottery_my_ticket";
-    stask_back_page.push({
-        type: 'url',
-        action: 'window.location.href = "#/app/my_tickets"'
+    lottery_draw_tickets_v2.reset();
+    $scope.draw_ticket = function(ticket_row)
+    {
+        lottery_draw_tickets_v2.initialize();
+        lottery_draw_tickets_v2.draw_ticket($scope.tickets.ticket[ticket_row]);
+        lottery_draw_tickets_v2.full_screen();
+    }
+    $scope.loadMoreTicket = function() {
+        if ($scope.page != 0) {
+            obj_loading.show();
+            var data = {};
+            data.uuid = device.uuid,
+            data.user_id = user.id;
+            data.page = $scope.page;
+            $.ajax({
+                url: window.server_url+'/game/mobile_app_lottery/application_my_ticket?v=' + window.version,
+                data: data,
+                type: "POST",
+                dataType: 'json',  
+                crossDomain: true,  
+                success: function(data) {
+                    $scope.$broadcast('scroll.infiniteScrollComplete');                
+                    for (var i = 0; i < data.tickets.length; i++) {
+                        var data_t = data.tickets[i];
+                        var s_n = data_t.selected_number.split("|");
+                        for (var j = 0; j < s_n.length; j++) {
+                            if (s_n[j] && s_n[j].toString().length < 2)
+                                s_n[j] = "0" + s_n[j];
+                        };
+                        s_n.splice(s_n.length-1, 1);
+                        var p_n = data_t.power_number.split("|");
+                        for (var j = 0; j < p_n.length; j++) {
+                            if (p_n[j] && p_n[j].toString().length < 2)
+                                p_n[j] = "0" + p_n[j];
+                        };
+                        p_n.splice(p_n.length-1, 1);
+                        var dt = data_t.time_lottery.split(/ /g);
+                        var d = dt[0].split(/-/g);
+                        var t = dt[1].split(/:/g);
+                        var datetime = new Date(d[0],Number(d[1])-1,d[2],t[0],t[1]);
+                        var full_drawing_time = datetime.getMonthName() + " " + datetime.getDate() +", " + datetime.getFullYear();
+                        full_drawing_time += " " + dt[1];
+                        var ticket = {
+                            normal_ball : s_n,
+                            power_ball :  p_n,
+                            drawing_time : full_drawing_time,
+                        };
+                        $scope.tickets.ticket.push(ticket);
+                    };
+                    $scope.tickets.total = data.pPaging.total;
+                    if (data.pPaging.page == data.pPaging.end)
+                    {
+                        $scope.page = 0;   
+                        $('ion-infinite-scroll').remove();
+                    }
+                    else
+                    {
+                        $scope.page = Number(data.pPaging.page)+1;
+                    }
+                    $timeout(function(){
+                        obj_loading.hide();
+                    },200);
+                }
+            });
+            
+        } else {
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+        }
+    };
+    $scope.$on('stateChangeSuccess', function() {
+        $scope.loadMoreTicket();
     });
-    console.log("========================> my ticket");
-    $('#page').val("1");
+
 }).controller('historyTicketCtrl', function($scope) {
     $scope.lottery = window.languages[window.current_language].lottery;
     $scope.add_ticket = window.languages[window.current_language].add_ticket;
@@ -313,8 +1094,7 @@ angular.module('starter.controllers', []).run(function() {
         type: 'url',
         action: 'window.location.href = "#/app/history"'
     });
-    console.log(stask_back_page);
-    console.log("========================> history");
+    
     $('#page').val("1");
     obj_loading.show();
     lottery.view_history();
@@ -367,24 +1147,22 @@ angular.module('starter.controllers', []).run(function() {
         });
     };
 })
-.controller('profileCtrl', function($scope)
-{
+/** =================== Profile ======================= **/
+.controller('profileCtrl', function($scope){
+    //set profile
     $scope.languages = window.languages[window.current_language];
-})
-.controller('profileGeneralCtrl', function($scope, $timeout,  $ionicPopup)
-{
+}).controller('profileGeneralCtrl', function($scope, $timeout,  $ionicPopup){
     $scope.languages = window.languages[window.current_language];
     $scope.user = user;    
-})
-.controller('profileMoneyToroHistoryCtrl', function($scope, $timeout,  $ionicPopup)
-{
+}).controller('profileMoneyToroHistoryCtrl', function($scope, $timeout,  $ionicPopup){
     $scope.languages = window.languages[window.current_language];
     
     $scope.data = {
         page: 1,
         user_id: user.id,
         records : {},
-        pPaging : new Array(),
+        pPaging_number : new Array(),
+        pPaging : {},
     };
     
    
@@ -395,7 +1173,8 @@ angular.module('starter.controllers', []).run(function() {
             page: page_number,
             user_id: user.id,
             records : {},
-            pPaging : new Array(),
+            pPaging_number : new Array(),
+            pPaging : {},
         };
         obj_loading.show();
         $.ajax({
@@ -406,9 +1185,10 @@ angular.module('starter.controllers', []).run(function() {
                 crossDomain: true,
                 success: function(data) {
                     $scope.data.records = data.record;
-                    $scope.data.pPaging = new Array();
+                    $scope.data.pPaging = data.pPaging;
+                    $scope.data.pPaging_number = new Array();
                     for (var i = Number(data.pPaging.first); i <= Number(data.pPaging.last) ; i++) {
-                        $scope.data.pPaging.push({page_number : i});
+                        $scope.data.pPaging_number.push({page_number : i});
                     };
                     //$scope.ipage.page_number = data.pPaging.page;
                     $timeout(function() {
@@ -419,9 +1199,7 @@ angular.module('starter.controllers', []).run(function() {
     }
 
     $scope.fn_paging(1);
-})
-.controller('profileAvatarCtrl', function($scope, $timeout,  $ionicPopup)
-{
+}).controller('profileAvatarCtrl', function($scope, $timeout,  $ionicPopup){
     $scope.languages = window.languages[window.current_language];
     $scope.user = user;    
     $scope.get_avatar_camera = function()
@@ -434,7 +1212,7 @@ angular.module('starter.controllers', []).run(function() {
     }
     $scope.fullScreenAvatar = function()
     {
-            var backdrop = $('div.backdrop');
+        var backdrop = $('div.backdrop');
         backdrop.addClass('visible');
         backdrop.addClass('active');
         backdrop.addClass('backdrop_loading');
@@ -458,9 +1236,7 @@ angular.module('starter.controllers', []).run(function() {
         backdrop.removeClass('center-middle');
         backdrop.html("");
     }
-})
-.controller('profileChangePasswordCtrl', function($scope, $timeout,  $ionicPopup)
-{
+}).controller('profileChangePasswordCtrl', function($scope, $timeout,  $ionicPopup){
     $scope.languages = window.languages[window.current_language];
     $scope.user = user; 
     $scope.password_match = function(user_data){
@@ -480,6 +1256,7 @@ angular.module('starter.controllers', []).run(function() {
     }
     $scope.submit_update_password = function()
     {
+        obj_keyboard.waitForClose();
         obj_loading.show();
         var data = $('#form_update_password').serializeArray();
         data.push({name:"user_id",value : user.id});
@@ -509,9 +1286,7 @@ angular.module('starter.controllers', []).run(function() {
             }
         });
     }
-})
-.controller('profileKootoroAccountCtrl', function($scope, $timeout,  $ionicPopup)
-{
+}).controller('profileKootoroAccountCtrl', function($scope, $timeout,  $ionicPopup){
     $scope.languages = window.languages[window.current_language];
     $scope.user_data = {};
     $scope.user_data.first_name = user.first_name; 
@@ -527,6 +1302,7 @@ angular.module('starter.controllers', []).run(function() {
     }
     $scope.submit_update_profile = function()
     {
+        obj_keyboard.waitForClose();
         obj_loading.show();
         var data = $('#form_kootoro_account').serializeArray();
         data.push({name:"user_id",value : user.id});
@@ -556,25 +1332,24 @@ angular.module('starter.controllers', []).run(function() {
             }
         });
     }
-})
-.controller('profilePersonalDetailCtrl', function($scope, $timeout,  $ionicPopup)
-{
+}).controller('profilePersonalDetailCtrl', function($scope, $timeout,  $ionicPopup){
     $scope.languages = window.languages[window.current_language];
     $scope.user_data = {};
     $scope.user_data.weddingday = user.weddingday; 
     $scope.user_data.birthday = user.birthday;     
-    $scope.is_update_personal = function(user_data)
-    {
-        if (user_data != undefined) 
-        {
-            if (user_data.weddingday || user_data.birthday)
-                return false;
-            return true;
-        }
-        return true;
-    }
+    // $scope.is_update_personal = function(user_data)
+    // {
+    //     if (user_data != undefined) 
+    //     {
+    //         if (user_data.weddingday || user_data.birthday)
+    //             return false;
+    //         return true;
+    //     }
+    //     return true;
+    // }
     $scope.submit_update_personal = function()
     {
+        obj_keyboard.waitForClose();
         obj_loading.show();
         var data = $('#form_personal').serializeArray();
         data.push({name:"user_id",value : user.id});
@@ -607,153 +1382,5 @@ angular.module('starter.controllers', []).run(function() {
         });
     }
 })
-.controller('loginCtrl', function($scope, $timeout,  $ionicPopup, $ionicSlideBoxDelegate) {
-    $('body').removeClass("menu-open").removeClass("popup-open");
-    obj_loading.show();
-    $timeout(function() {
-        obj_loading.hide();
-    }, 500);
-    $scope.languages = window.languages[window.current_language];
-    //********************** Alert dialog
-    window.showAlert = function(title, message, callback) {
-        var alertPopup = $ionicPopup.alert({
-            title: title,
-            template: message,
-        });
-        alertPopup.then(function(res) {
-            eval(callback);
-        });
-    };
-    $scope.isUnchanged = function(user_data) {
-        if (user_data != undefined && user_data.email && user_data.password) return false;
-        return true;
-    }
-    $scope.submit_login_account = function(user_data) {
-        user.validate_user(user_data.email, user_data.password);
-    }
-    $scope.redirect_url = function(url){
-        $('ion-content').empty();
-        window.location.href = url;
-    }
 
-})
-.controller('signUpCtrl', function($scope, $timeout, $ionicPopup,$ionicSlideBoxDelegate) {
-    obj_loading.show();
-    $timeout(function() {
-        obj_loading.hide();
-    }, 500);
-    $('body').removeClass("menu-open").removeClass("popup-open");
-    $scope.languages = window.languages[window.current_language];
-    //********************** Alert dialog
-    window.showAlert = function(title, message, callback) {
-        var alertPopup = $ionicPopup.alert({
-            title: title,
-            template: message,
-        });
-        alertPopup.then(function(res) {
-            eval(callback);
-        });
-    };
-    $scope.redirect_url = function(url){
-        $('ion-content').empty();
-        window.location.href = url;
-    }
-    $scope.password_match = function(user_data){
-        $scope.dontMatch_password = user_data.password !== user_data.confirmpassword;
-    };
-    $scope.next_step_name = function() {
-        $ionicSlideBoxDelegate.next();
-    }
-    $scope.next_step_personal = function() {
-        $ionicSlideBoxDelegate.next();
-    }
-    $scope.isStep1Unchanged = function(user_data) {
-        if (user_data != undefined && user_data.email && user_data.password && user_data.confirmpassword) 
-        {
-            if (user_data.password == user_data.confirmpassword)
-            {
-                return false;
-            }
-            return true;
-        }
-        return true;
-    }
-    $scope.isStep2Unchanged = function(user_data) {
-        if (user_data != undefined && user_data.firstname && user_data.lastname && user_data.nickname && user_data.zip_code) return false;
-        return true;
-    }
-    $scope.isStep3Unchanged = function(user_data) {
-        // if (user_data != undefined && user_data.email && user_data.password && user_data.confirm_password)        
-        //     return false;
-        return false;
-    }
-    $scope.slideHasChanged = function(index) {
-        var data = $('#form_new_account').serializeArray();
-        var option = [];
-        for (var i = data.length - 1; i >= 0; i--) {
-            field = data[i];
-            option[field.name] = field.value;
-        }
-        if (index == 1) {
-            var rs = $scope.isStep1Unchanged(option);
-            if (rs) {
-                $timeout(function() {
-                    $ionicSlideBoxDelegate.previous();
-                }, 200);
-            }
-        } else if (index == 2) {
-            var rs = $scope.isStep2Unchanged(option);
-            if (rs) {
-                $timeout(function() {
-                    $ionicSlideBoxDelegate.previous();
-                }, 200);
-            }
-        }
-    }
-    $scope.submit_register_new_account = function() {
-        obj_loading.show();
-        var data = $('#form_new_account').serializeArray();
-        $.ajax({
-            url: window.server_url + '/login/application_create_new_player?v=' + window.version,
-            data: data,
-            type: "POST",
-            dataType: 'json',
-            crossDomain: true,
-            success: function(data) {
-                obj_loading.hide();
-                if (data.success == false) {
-                    if (data.commonResponse.errorDescription) {
-                        window.showAlert(window.languages[window.current_language].warning, data.commonResponse.errorDescription);
-                    }
-                    else if (data.message)
-                    {
-                        window.showAlert(window.languages[window.current_language].warning, data.message);
-                    }
-                } else {
-                    if (data.content) {
-                        var content_rs = $("<div>" + data.content + "</div>");
-                        window.content_rs = content_rs;
-                        window.content_rs.find('span.cartsubheading').html("<h4>Registration has been submitted!</h4>");
-                        content_rs.find('table').remove();
-                        content_rs.find('div:last').remove();
-                        window.showAlert(window.languages[window.current_language].success, content_rs.html(), "window.location.href='#/login';");
-                    }
-                }
-            }
-        });
-    }
-})
 
-function loadMyTicketCtrl($scope, $http) {
-    $scope.loadMoreTicket = function() {
-        if (Number($('#page').val()) != 0) {
-            lottery.view_tickets($('#page').val());
-            window.scope = $scope;
-        } else {
-            $scope.$broadcast('scroll.infiniteScrollComplete');
-        }
-    };
-    $scope.$on('stateChangeSuccess', function() {
-        $scope.loadMoreTicket();
-    });
-}

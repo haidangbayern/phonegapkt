@@ -44,6 +44,9 @@ var app = {
         //document.addEventListener("backbutton", app.onBackKeyDown, false);
         document.addEventListener("menubutton", app.onMenuKeyDown, false);
         document.addEventListener("deviceready", app.onDeviceReady, false);
+        window.addEventListener('native.keyboardshow', obj_keyboard.keyboardShowHandler); 
+        window.addEventListener('native.keyboardhide', obj_keyboard.keyboardHideHandler); 
+        
     },
     // deviceready Event Handler
     //

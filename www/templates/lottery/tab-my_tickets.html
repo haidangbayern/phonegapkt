@@ -4,32 +4,39 @@
     <button menu-toggle="right"class="button button-icon icon ion-ios7-clock-outline" ng-click="showTimer()"></button>
   </ion-nav-buttons>
   <!-- ************* CONTENT *************** -->
-  <ion-content class="has-header" ng-controller="loadMyTicketCtrl">
-      <div id="my_tickets">
-        
-
-      </div>
-      <div style="display:none;">
-        <input type="hidden" id="page" value="1">
-      </div>
-
-      <!-- begin device -->
-        <input type="hidden" id="device_model" name="device[model]" value="" />
-        <input type="hidden" id="device_cordova" name="device[cordova]" value="" />
-        <input type="hidden" id="device_platform" name="device[platform]" value="" />
-        <input type="hidden" id="device_uuid" name="device[uuid]" value="type:'url'" />
-        <input type="hidden" id="device_version" name="device[version]" value="" />
-        <input type="hidden" id="device_name" name="device[name]" value="" />
-        <!-- end device -->
-        
+  <ion-content class="has-header">
       <div id="img_cached" style="display:none;">
         <img name="background" src="images/bg.png" alt="" />
         <img name="ticket" src="images/ticket.png" alt="" />
         <img name="ticket_4" src="images/ticket_4.png" alt="" />
         <img name="ticket_5" src="images/ticket_5.png" alt="" />
       </div>
-      <div id="lottery_animation" style="display:none;"></div>
       <div id="canvas_lottery_ticket" style="display:none;"></div>
+      <div id="lottery_tickets" class="list">
+        <div class="item item-divider">{{languages.tickets}} ({{tickets.total}})</div>
+
+        <div class="item item-icon-right item-tickets" ng-repeat="i_ticket in [tickets.ticket.length] | makeRange" ng-click="draw_ticket({{i_ticket}})">
+            <h2>
+              {{i_ticket+1 | number}}/
+              <span 
+                class="ball ball-30" 
+                ng-repeat="i_ball in [tickets.ticket[i_ticket].normal_ball.length] | makeRange"
+                ng-if="tickets.ticket[i_ticket].normal_ball[i_ball] != ''"
+              >
+                {{tickets.ticket[i_ticket].normal_ball[i_ball]}}
+              </span>
+
+              <span class="ball ball-30 power-ball" 
+                ng-repeat="i_ball in [tickets.ticket[i_ticket].power_ball.length] | makeRange"
+                ng-if="tickets.ticket[i_ticket].power_ball[i_ball] != ''"
+              >
+                {{tickets.ticket[i_ticket].power_ball[i_ball]}}
+              </span>
+            </h2>
+            <p>{{languages.draw_date}} : {{tickets.ticket[i_ticket].drawing_time}}</p>
+            <i class="icon ion-arrow-right-c"></i>
+        </div>
+      </div>
 
       <ion-infinite-scroll
         icon=""
@@ -37,29 +44,26 @@
         on-infinite="loadMoreTicket()">
       </ion-infinite-scroll>
 
-      <div style="height:100px;">
-        
-      </div>
   </ion-content>
 
   <!-- ************* FOOTER *************** -->
   <ion-footer-bar class="bar-stable" style="padding-top:43px;" ng-controller="lotteryMoreMenuCtrl">
     <ion-tabs class="tabs-icon-top">
       <!-- Buy Ticket Tab -->
-      <ion-tab title="{{lottery}}" icon="icon ion-ios7-home" href="#/app/lottery">
+      <ion-tab title="{{languages.lottery}}" icon="icon ion-ios7-home" href="#/app/lottery">
         
       </ion-tab>
 
       <!-- Buy Ticket Tab -->
-      <ion-tab title="{{add_ticket}}" icon="icon ion-plus-circled" href="#/app/add_ticket">
+      <ion-tab title="{{languages.add_ticket}}" icon="icon ion-plus-circled" href="#/app/add_ticket">
         
       </ion-tab>
       <!-- My Ticket Tab -->
-      <ion-tab title="{{my_tickets}}" icon="icon ion-ios7-pricetag" href="#/app/my_tickets">
+      <ion-tab title="{{languages.my_tickets}}" icon="icon ion-ios7-pricetag" href="#/app/my_tickets">
         
       </ion-tab>
 
-      <ion-tab title="{{more}}" icon="icon ion-more" ng-click="showMoreMenu()">
+      <ion-tab title="{{languages.more}}" icon="icon ion-more" ng-click="showMoreMenu()">
         
       </ion-tab>
       <!-- History Tab -->

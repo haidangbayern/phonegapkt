@@ -11,6 +11,10 @@ width: 300px;
 ion-nav-view > ion-view {
     background-color: white !important;
 }
+.text-center {
+    text-align: center;
+    vertical-align: middle;
+}
 .center-middle {
     display: -webkit-box;
     display: -moz-box;
@@ -74,4 +78,54 @@ ion-nav-view > ion-view {
 .personal > .item:last-child {
     border-bottom-left-radius: 5px !important;
     border-bottom-right-radius: 5px !important;
+}
+.personal .item-note {
+    white-space: normal !important;
+}
+
+.button-more {
+    display: inline !important;
+    width: 5px !important;
+    color: black !important;
+    min-width: 5px !important;
+    border: 0;
+    background-color: white;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.button-more > i.ion{
+    width: 5px !important;
+    top: 5px;
+    position: absolute;
+}
+.button-more.activated {
+    color: #444 !important;
+    box-shadow: none !important;
+    background-color: white !important;
+}
+.no-padding {
+    padding: 0;
+}
+
+.phone {
+
+}
+.phone div.col-25,
+.phone div.col-33 {
+    padding-right: 5px;
+    float: left;
+}
+.item-select-inset:after {
+    margin-top: -10px !important;
+}
+.item-select-inset select{
+    background: none repeat scroll 0 0 #eee;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 30px;
+    width:100%; max-width:100%;direction:ltr;
 }

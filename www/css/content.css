@@ -325,7 +325,7 @@ box-shadow:         7px 7px 5px 0px rgba(50, 50, 50, 0.75);*/
 }
 #lottery_tickets {
 	width: 100%;
-	position: absolute;
+	position: relative;
     padding-bottom: 100px;
 }
 .btn-quick-pick {

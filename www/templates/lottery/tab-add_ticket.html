@@ -6,88 +6,161 @@
   <!-- ************* CONTENT *************** -->
   <ion-content id="buy_ticket" class="has-header">
 
-    <form id="form_lottery_run">
-
-      <!-- ================ Choose Number ================== -->
-      <div class="list" step="choose_number">
-        <div class="item item-divider">
-          {{enter_number_or}}         
-            <label class="item button button-small btn-quick-pick" onclick="javascript:lottery.choose_random_number();">{{quick_pick}}</label>
-
-          <input id="check_random_number" name="spanlotto[number_random]" type="checkbox"value="" style="display:none;">
-
-        </div>
-
-        <div class="item " id="div_choose_number" style="white-space: none;">
-          
-
-        </div>
-      
-        <div class="item item-divider" id="choose_lottery_date_title" style="white-space:normal;">
-         
-        </div>
-
-        <div id="div_choose_time_lottery">
-          <!-- Loading html by ajax -->
-        </div>
-
-        <div class="text-center padding">
-        
-		        <label id="buy_btn" style="display:none;" class="button button-positive" onclick="javascript:lottery.buy_ticket(this);"><i class='icon ion-ios7-pricetag'></i> {{buy}}</label>
-        </div>
-      </div>
-
-      <!-- ================ Value ==================== -->
-      <div style="display:none;">
-        <input type="hidden" name="spanlotto[five_number]" value="" />
-        <input type="hidden" name="spanlotto[one_number]" value="" />
-        <input type="hidden" id="price" value="10" />
-                                            
-        <!-- begin device -->
-        <input type="hidden" id="device_model" name="device[model]" value="" />
-        <input type="hidden" id="device_cordova" name="device[cordova]" value="" />
-        <input type="hidden" id="device_platform" name="device[platform]" value="" />
-        <input type="hidden" id="device_uuid" name="device[uuid]" value="type:'url'" />
-        <input type="hidden" id="device_version" name="device[version]" value="" />
-        <input type="hidden" id="device_name" name="device[name]" value="" />
-        <!-- end device -->
-
-      </div>
-
+   
       <div id="img_cached" style="display:none;">
         <img name="background" src="images/bg.png" alt="" />
         <img name="ticket" src="images/ticket.png" alt="" />
         <img name="ticket_4" src="images/ticket_4.png" alt="" />
         <img name="ticket_5" src="images/ticket_5.png" alt="" />
       </div>
-      <div id="lottery_animation" style="display:none;"></div>
       <div id="canvas_lottery_ticket" style="display:none;"></div>
-    </form>
 
-    <div id="lottery_tickets">
+      <!-- ================ Buy Ticket ================== -->
+      <div class="list" ng-show="!new_ticket">
+        <div class="item item-divider">
+        
+            <label class="item button button-small btn-quick-pick" ng-click="quick_pick_all()" style="width:100px;">{{languages.quick_pick_all}}</label>
+            
+            <label class="item button button-small" ng-click="clear_all();" style="width:100px;"> {{languages.clear}}</label>
+
+            <label class="item button button-small item-input item-select " style="padding-right: 5px;padding-left: 5px;width:80px;">
+              {{languages.tickets}} : {{tickets.count}}
+              <select ng-change="add_more_ticket(tickets.count)" ng-model="tickets.count" style="color:white;height:100%;">
+                  <option  ng-repeat="p in [data.limit_buy_ticket] | makeRange" value="{{p+1}}"> {{p+1}}</option>
+                </select>
+            </label>
+          
+        </div>
+        
+          
+        <div class="item item_ticket_ball" ng-repeat="i_ticket in [tickets.ticket.length] | makeRange">
+            
+            <label class="ball" ng-repeat="i_normal_number in [data.count_normal_number] | makeRange">
+              <input type="number" 
+                ng-change="validate_normal_ball(i_ticket, i_normal_number)"
+                ng-click = "validate_normal_ball(i_ticket, i_normal_number)"
+                ng-maxlength="2" 
+                pattern="([0-9])" 
+                ng-model="tickets.ticket[i_ticket].normal_ball[i_normal_number]"
+              >
+            </label>
+
+            <label class="ball power-ball" ng-repeat="i_power_number in [data.count_power_number] | makeRange">
+              <input type="number" 
+                ng-change="validate_power_ball(i_ticket, i_power_number)"
+                ng-click = "validate_power_ball(i_ticket, i_power_number)"
+                ng-maxlength="2" 
+                pattern="([0-9])" 
+                ng-model="tickets.ticket[i_ticket].power_ball[i_power_number]"  
+                
+
+              >
+            </label>
+
+            <button ng-if="tickets.ticket.length != 1" class="button button-more" ng-click="ticketContextMenu({{i_ticket}})">
+              <i class="ion ion-android-more"></i>
+            </button>
+
+            <div class="item-input-inset-error" ng-if="tickets.ticket[i_ticket].error">
+              {{tickets.ticket[i_ticket].error}}
+            </div>
+        </div>
       
-    </div>
+        <div class="item item-divider" id="choose_lottery_date_title" style="white-space:normal;">
+          {{languages.lottery_draw + " : " + drawing_time.value}}
+        </div>
 
+        <div class="text-center padding">        
+		        <label class="button button-positive" 
+              ng-click="buy()"
+              ng-disabled="is_disable_buy()"
+            >
+              <i class='icon ion-ios7-pricetag'></i> {{languages.buy}}
+            </label>
+
+        </div>
+      </div>
+      
+      <!-- ================ Result Buy Ticket ================== -->
+      <div id="lottery_tickets" ng-show="new_ticket">
+        <div class="list">
+          <div class="item item-divider">{{languages.new_tickets}} ( {{tickets.ticket.length}} )</div>
+          <div class="item item-icon-right item-tickets" ng-repeat="i_ticket in [tickets.ticket.length] | makeRange" ng-click="draw_ticket({{i_ticket}})">
+            <h2>
+              {{i_ticket+1 | number}}/
+              <span 
+                class="ball ball-30" 
+                ng-repeat="i_ball in [tickets.ticket[i_ticket].normal_ball.length] | makeRange"
+              >
+              {{(tickets.ticket[i_ticket].normal_ball[i_ball] < 10)?"0"+tickets.ticket[i_ticket].normal_ball[i_ball]:tickets.ticket[i_ticket].normal_ball[i_ball]}}
+              </span>
+
+              <span class="ball ball-30 power-ball" 
+                ng-repeat="i_ball in [tickets.ticket[i_ticket].power_ball.length] | makeRange">
+                {{(tickets.ticket[i_ticket].power_ball[i_ball] < 10)?"0"+tickets.ticket[i_ticket].power_ball[i_ball]:tickets.ticket[i_ticket].power_ball[i_ball]}}
+              </span>
+            </h2>
+            <p>{{languages.draw_date}} : {{tickets.ticket[i_ticket].drawing_time}}</p>
+            <i class="icon ion-arrow-right-c"></i>
+          </div>
+        </div>
+        <div class="text-center padding">
+          <label class="button button-positive" ng-click="buy_more()">
+            <i class="icon ion-ios7-pricetag"></i> {{languages.buy_more}}
+          </label>
+        </div>
+      </div>
+
+      <style type="text/css">
+        .item_ticket_ball {
+          white-space: none; 
+          padding-top: 5px; 
+          padding-bottom: 5px;
+        }
+        .select_add_more_ticket {
+          float: right;
+          padding-right: 25px;
+          position: absolute;
+          right: 6px;
+          top: 6px;
+        }
+        .select_add_more_ticket select {
+          max-height: 100%;
+          color: white;
+
+        }
+        .select_add_more_ticket .input-label {
+          padding-right: 29px;
+        }
+        /* Ticket Context-Menu */
+        /*.action-sheet-backdrop {
+        
+        }
+        .action-sheet-backdrop .action-sheet-wrapper{
+          position: relative;
+          
+        }*/
+      </style>
   </ion-content>
 
   <!-- ************* FOOTER *************** -->
   <ion-footer-bar class="bar-stable" style="padding-top:43px;" ondragstart="return false;" ondrop="return false;"  scroll="false" ng-controller="lotteryMoreMenuCtrl">
     <ion-tabs class="tabs-icon-top">
       <!-- Buy Ticket Tab -->
-      <ion-tab title="{{lottery}}" icon="icon ion-ios7-home" href="#/app/lottery">
+      <ion-tab title="{{languages.lottery}}" icon="icon ion-ios7-home" href="#/app/lottery">
         
       </ion-tab>
 
       <!-- Buy Ticket Tab -->
-      <ion-tab title="{{add_ticket}}" icon="icon ion-plus-circled" href="#/app/add_ticket">
+      <ion-tab title="{{languages.add_ticket}}" icon="icon ion-plus-circled" href="#/app/add_ticket">
         
       </ion-tab>
       <!-- My Ticket Tab -->
-      <ion-tab title="{{my_tickets}}" icon="icon ion-ios7-pricetag" href="#/app/my_tickets">
+      <ion-tab title="{{languages.my_tickets}}" icon="icon ion-ios7-pricetag" href="#/app/my_tickets">
         
       </ion-tab>
 
-      <ion-tab title="{{more}}" icon="icon ion-more" ng-click="showMoreMenu()">
+      <ion-tab title="{{languages.more}}" icon="icon ion-more" ng-click="showMoreMenu()">
         
       </ion-tab>
       <!-- History Tab -->

@@ -35,8 +35,19 @@
     </div>
 </form>
 <div class="center-middle" >
-    <button class="button button-clear button-positive" ng-click="redirect_url('#/register')">
+    <button class="button button-clear button-positive button_height" ng-click="redirect_url('#/forgot_password')" style="no-padding">
+      {{languages.forgot_password}}
+    </button> 
+</div>
+<div class="center-middle" >
+    <button class="button button-clear button-positive button_height" ng-click="redirect_url('#/register')">
       {{languages.create_new_account}}
     </button>   
 </div>
+<style type="text/css">
+  .button_height {
+    min-height: 0 !important;
+    line-height: normal !important;
+  }
+</style>
 </ion-content>

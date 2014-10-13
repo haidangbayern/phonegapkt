@@ -1,43 +1,37 @@
-// function getApplicationXML()
-// {
-// 	var file_path = "../../config.xml";
-// 	if (window.is_device)
-// 		file_path = "file:///android_asset/www/config.xml";
-// 	else
-// 	{
-// 		var www_index = location.pathname.indexOf("www");
-// 		if (www_index != -1)
-// 		{
-// 			file_path = location.pathname.substring(0,www_index + 3);
-// 			file_path = location.protocol + "//" + file_path;
-// 			file_path += "/config.xml";
-// 		}
-		
-// 	}
-	
-// 	var xmlDoc=obj_xml.loadXMLDoc(file_path);
-// 	window.version_application = xmlDoc.getElementsByTagName('widget')[0].getAttribute('version')
-// }
-
-//window.server_ip = "192.168.3.77";
-window.server_ip = "demo.games4fun.abcv.com";
-//window.server_ip = "192.168.2.102";
+/** ================ Environment ================== **/
+window.is_dev = true;
+/** ================ Server Information ================== **/
+//window.server_ip = "192.168.3.77"; //tram
+window.server_ip = "demo.games4fun.abcv.com"; //huy
 window.server_post = "8000";
 window.server_url = "http://" + window.server_ip + ":80";
 window.is_device = window.cordova;
-
+/** ================ Application Information ================== **/
 window.version = 2;
-window.version_application = "2.0.146";	//It will be updated by config.xml
-
-//getApplicationXML();
-
+window.version_application = "2.0.175";	//It will be updated by config.xml
+/** ================ Database ================== **/
 window.database = {
-	name : '_abcv_kootoro_app',
-	version : '1',
-	displayname : 'kootoro_db',
-	size: '200000',
+    name: '_abcv_kootoro_app',
+    version: '1',
+    displayname: 'kootoro_db',
+    size: '200000',
 };
-
-
+/** ================ Location ================== **/
+window.US = 184;
+window.CA = 31;
+window.US_ISO2 = "US";
+window.CA_ISO2 = "CA";
+/** ================ Device ================== **/
+if (typeof device == "undefined") {
+    device = {
+        model: "laptop",
+        cordova: "3.5.0",
+        uuid: "192.168.3.17",
+        version: "window8",
+        name: "ABCV-VN-14",
+        platform: "Android",
+    };
+}
+/** ================ Other ================== **/
 window.store_data = {};
 window.is_connect_server = false;

@@ -4,7 +4,7 @@
     <div class="list">
         <div class="item" ng-repeat="r in data.records">
             <h2> {{r.paydate}} </h2>
-            <p>{{r.description}}.</p>
+            <p ng-bind-html="r.description">.</p>
             <span class="badge badge-balanced" ng-if="r.amount != 0">{{languages.money}}: {{languages.usd_icon}}{{r.amount | number}}</span>
             <span class="badge badge-assertive">{{languages.web_currency}}s: {{r.paytype}}{{r.point | number}} {{languages.web_currency}}s</span>
             <span class="badge badge-positive">{{languages.balance}}: {{r.balance | number}} {{languages.web_currency}}s </span>
@@ -29,6 +29,10 @@
     line-height: 30px !important;
     text-overflow: inherit !important;
 }
+ion-footer-bar {
+    padding: 0 !important;
+    border: 0 !important;
+}
 .footer_paging{
   
 }
@@ -42,18 +46,37 @@
   max-width: 100%;
   padding: 0;
 }
+div.button.activated {
+    color: #444 !important;
+    box-shadow: none !important;
+    background-color: #f8f8f8 !important;
+}
 </style>
 </ion-content>
 <ion-footer-bar class="bar-stable" >
 <div class="footer_paging" style="width:100%;">
-    <label class="item item-input item-select text-center" style="padding:0;">
-        <div class="input-label">
-            {{languages.page}}: {{data.page}}
+    <div class="button-bar">
+        <div class="button" ng-show="data.pPaging.prev == data.pPaging.page">
+            
         </div>
-        <select ng-change="fn_paging(ipage.page_number)" ng-model="ipage" id="page" ng-options="r.page_number for r in data.pPaging">
+        <button class="button" ng-click="fn_paging(data.pPaging.prev)" ng-show="data.pPaging.prev != data.pPaging.page">
+            {{languages.prev}}
+        </button>
+        <label class="button item item-input item-select text-center" style="padding:0;">
+            <div class="input-label">
+                {{languages.page}}: {{data.page}}
+            </div>
+            <select ng-change="fn_paging(ipage.page_number)" ng-model="ipage" id="page" ng-options="r.page_number for r in data.pPaging_number">
 
-        </select>
-    </label>
+            </select>
+        </label>
+        <button class="button" ng-click="fn_paging(data.pPaging.next)"  ng-show="data.pPaging.next != data.pPaging.page">
+            {{languages.next}}
+        </button>
+        <div class="button" ng-show="data.pPaging.next == data.pPaging.page">
+            
+        </div>
+    </div>
 </div>
 </ion-footer-bar>
 </ion-view>
