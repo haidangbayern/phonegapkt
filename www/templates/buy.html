@@ -1,0 +1,44 @@
+<ion-view title="{{languages.menu}}"  hide-back-button="true">
+<!-- ************* button BACK *************** -->
+<ion-nav-buttons side="left">
+<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+</ion-nav-buttons>
+<ion-content direction="y">
+<div class="buy_categories">
+    <a class="button button-light category" href="#/app/buy_more_toros">
+    	<img src="images/balance.png">
+    	<span class="item-note">{{languages.buy_more_toros}}</span>
+    </a>
+    <a class="button button-light category" href="#/app/trade_in">
+    	<img src="images/balance.png">
+    	<span class="item-note">{{languages.trade_in_menu}}</span>
+    </a>
+</div>
+
+<style type="text/css">
+ion-content {
+	/*background-color: #E4E4E4;*/
+}
+.buy_categories > a.category {
+	width: 150px;
+	height: 150px;
+	float: left;
+	/*border-left: 0;*/
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+	padding: 5px;
+	margin: 5px;
+}
+.buy_categories > a.category > img {
+	width: 100px;
+	height: 100px;
+	display: block;
+	margin-left: 20px;
+}
+.buy_categories > a.category > span.item-note {
+	float: none !important;
+}
+</style>
+</ion-content>
+</ion-view>

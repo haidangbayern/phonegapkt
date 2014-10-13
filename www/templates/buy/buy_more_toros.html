@@ -1,0 +1,88 @@
+<ion-view title="{{languages.buy_more_toros}}">
+<ion-content class=" has-header" padding="true" direction="y">
+
+    <ion-slide-box show-pager="false" on-slide-changed="slideHasChanged($index)">
+
+    <!-- How many toros -->
+    <ion-slide>
+    <div >
+        <h3> {{languages.how_many_toros_would_you_like_to_buy}}</h3>
+        <div id="chooce_toros" class="list">
+          <label class="item item-radio {{(radio_option)?'':'item_inactived'}}" ng-repeat="item in kootoro_exchange"
+          ng-click="user_chooce_option(true, item.money_amount, item.point)"
+           style="margin: -1px 0;" 
+          >
+            <input type="radio" name="group">
+            <div class="item-content">
+              {{languages.usd_icon}}{{item.money_amount | number}}&nbsp;for&nbsp;{{item.point | number}} {{languages.web_currency}}s
+            </div>
+            <i class="radio-icon ion-checkmark"></i>
+          </label>
+
+          <label class="item  item-icon-right {{(!radio_option)?'item_actived':'item_inactived'}}" style="margin: -1px 0;" >  
+            
+                <label class="item-input-inset" style="padding:0px;">
+                    <label class="item-input-wrapper">
+                        <input 
+                        style="left:0; position: relative;" 
+                        type="number" 
+                        ng-model="data_required.toros" 
+                        ng-change="manual_buy(data_required.toros)" 
+                        ng-click="user_chooce_option(false)"
+                        >
+                    </label>
+                    {{languages.web_currency}}s for {{languages.usd_icon}}{{data_required.money | number}}
+                </label>
+            
+            <i class="icon radio-icon ion-checkmark" style="font-size:25px;"></i>
+          </label>
+        </div>
+        <div class="item-input-inset">
+            <div class="button-bar">
+                <button class="button button-small" ng-click="redirect_url('#/app/buy')">
+                {{languages.cancel}}
+                </button>
+                <button class="button button-small button-positive" ng-click="next_step_cc()"  ng-disabled="isDisableStep1()">
+                {{languages.continue}}
+                </button>
+            </div>
+        </div>
+    </div>
+    </ion-slide>
+
+
+    <!-- chua su dung den -->
+    <ion-slide>
+    <div >
+        <div ng-include="payment.select_option"></div>
+
+        <div ng-include="payment.current_file" ng-if="!isDisableStep1()"></div>
+
+        <div class="item-input-inset">
+            <div class="button-bar">
+                <button class="button button-small" ng-click="redirect_url('#/app/buy')">
+                {{languages.cancel}}
+                </button>
+                <button class="button button-small button-positive"  ng-click="pay()"  ng-disabled="payment.isDisablePay()">
+                {{languages.pay}}
+                </button>
+            </div>
+        </div>
+    </div>
+    </ion-slide>
+    </ion-slide-box>
+
+
+<style type="text/css">
+    .item_inactived div.item-content{
+        background-color: white !important;
+    }
+    .item_inactived i.radio-icon {
+        display: none;
+    }
+    .item_actived {
+        background: none repeat scroll 0 0 #f7f7f7;
+    }
+</style>
+</ion-content>
+</ion-view>
