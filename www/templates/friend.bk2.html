@@ -1,0 +1,78 @@
+<ion-view hide-nav-bar ="true">
+<ion-header-bar class="bar-header" style="padding:0;display:inline-block;">
+<div style="height:44px; padding:5px;">
+    <div class="buttons left-buttons">
+    <span class="">
+        <button class="button button-icon icon ion-navicon" menu-toggle="left"></button>
+    </span>
+    </div>
+    <h1 id="title_header_bar" class="title" style="text-align:center;">
+    	{{languages.friend}}
+    </h1>
+    <div class="buttons right-buttons"> 
+    <span class="">
+        <button class="button button-icon icon ion-ios7-search-strong" ng-click="setActiveSlide(4)"></button>
+      </span>
+    </div>
+</div>
+
+<div class="tabs-striped has-header" style="position:relative;">
+<div class="tabs ">
+    <div class="tab-item {{(active_index==0)?'active':''}}"  ng-click="setActiveSlide(0)">
+        <i class="icon ion-person-add"></i>
+        {{languages.list_friend}}
+    </div>
+    <div class="tab-item {{(active_index==1)?'active':''}}" ng-click="setActiveSlide(1)">
+        <i class="icon ion-chatboxes"></i>
+        <!-- ion-chatbubbles -->
+        {{languages.message}}s
+    </div>
+    <div class="tab-item {{(active_index==2)?'active':''}}"  ng-click="setActiveSlide(2)">
+        <i class="icon ion-ios7-people"></i>
+        {{languages.list_friend}}
+    </div>
+    <div class="tab-item {{(active_index==3)?'active':''}}"  ng-click="setActiveSlide(3)">
+        <!-- <i class="icon ion-ios7-close-outline"></i> -->
+        <i class="icon ion-navicon"></i>
+        {{languages.blocked}}
+    </div>
+</div>
+</div>
+</ion-header-bar>
+
+
+<ion-content direction="y" style="top:89px;">
+<ion-slide-box show-pager="false" on-slide-changed="slideChanged($index)" style="z-index:-1;">
+<ion-slide>
+<div ng-include="template_url_request_make_friend"></div>
+</ion-slide>
+<ion-slide>
+<div ng-include="template_url_list_chat"></div>
+</ion-slide>
+<ion-slide>
+<div ng-include="template_url_list_friends"></div>
+</ion-slide>
+<ion-slide>
+<div ng-include="template_url_list_friends_blocked"></div>
+</ion-slide>
+<ion-slide>
+<div ng-include="template_url_search"></div>
+</ion-slide>
+</ion-slide-box>
+<style type="text/css">
+.tabs-striped {
+border-bottom: 1px solid #E4E4E4;
+-webkit-box-shadow: 0px 2px 11px 0px rgba(50, 50, 50, 0.3);
+    -moz-box-shadow:    0px 2px 11px 0px rgba(50, 50, 50, 0.3);
+        box-shadow:         0px 2px 11px 0px rgba(50, 50, 50, 0.3);;
+}
+.tab-item > i{
+color: #d14014;
+font-size: 25px !important;
+}
+.tab-item.active {
+border-bottom: 4px solid #d14014;
+}
+</style>
+</ion-content>
+</ion-view>

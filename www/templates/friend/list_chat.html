@@ -1,0 +1,40 @@
+<div id="ele_list_chat" class="list">
+    <div ng-repeat="f in list_chat.friends" class="ele item item-avatar item-icon-right" ng-click="openModalChat(f.player_friend_id)">
+        <img data-ng-src="{{f.user.image}}">
+        <h2>{{f.user.nickname}}</h2>
+        <p class="message {{(f.message.is_user_read == '1')?'read':'unread'}}">{{f.message.message}}</p>
+        <i name="f_on_off_{{f.user.id}}" class="icon ic-{{f.user.online_or_offline}}"></i>
+    </div>
+
+    <div class="item notice" ng-if="list_chat.friends.length ==0 ">
+        {{languages.let_start_making_friends}}
+    </div>
+</div>
+<style type="text/css">
+        #ele_list_chat .ele {
+            padding-top: 10px;
+            padding-bottom: 0;
+        }
+        #ele_list_chat .ele > h2 {
+            color: #676767;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        #ele_list_chat .ele > img {
+            border-radius: 0;
+            left: 8px;
+            max-height: 55px;
+            max-width: 55px;
+            top: 8px;
+        }
+        #ele_list_chat .ele .message {
+            font-size: 12px !important;
+        }
+        #ele_list_chat .ele .unread {
+            font-weight: bold;
+        }
+        #ele_list_chat .notice {
+            font-size: 12px;
+            text-align: center;
+        }
+</style>

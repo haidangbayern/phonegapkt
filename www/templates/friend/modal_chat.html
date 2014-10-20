@@ -1,0 +1,30 @@
+<div class="modal">
+  <ion-header-bar>
+    <h1 class="title">{{user_chat.friend.nickname}}</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeModalChat()">{{close}}</button>
+    </div>
+  </ion-header-bar>
+  <ion-content direction="y">
+      <div id="chat_full" class="messages">
+        <div ng-repeat="m in user_chat.messages" class="{{(m.user_id == user.id)?'user_chat':'friend_chat'}}">
+            <img class="icon_avatar" ng-show="m.avatar" data-ng-src="{{(m.avatar)?m.avatar:''}}">
+            <div class="icon_avatar" ng-show="!m.avatar"></div>
+            <span>{{m.message}}</span>
+        </div>
+        <div class="item notice" ng-if="user_chat.messages == 0 ">
+          {{languages.start_conversations_with}} {{user_chat.friend.nickname}}
+      </div>
+    </div>
+  </ion-content>
+  <ion-footer-bar class="bar-stable" >
+    <div class="item-input-inset" style="width:100%;">
+        <label class="item-input-wrapper">
+            <input type="text" placeholder="{{languages.write_message}}" ng-model="data_chat.chat">
+        </label>
+        <button class="button button-clear" ng-disabled="!data_chat.chat" ng-click="send()">
+        <i class="icon ion-ios7-paperplane"></i>
+        </button>
+    </div>
+    </ion-footer-bar>
+</div>

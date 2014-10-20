@@ -1,11 +1,12 @@
 <ion-view title="{{languages.menu}}"  hide-back-button="true">
 <!-- ************* button BACK *************** -->
 <ion-nav-buttons side="left">
-<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+	<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
 </ion-nav-buttons>
+
 <ion-content direction="y">
 <div class="buy_categories">
-    <a class="button button-light category" href="#/app/buy_more_toros">
+    <a class="button button-light category" ng-if="is_use_payment" href="#/app/buy_more_toros">
     	<img src="images/balance.png">
     	<span class="item-note">{{languages.buy_more_toros}}</span>
     </a>

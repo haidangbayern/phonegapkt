@@ -1,0 +1,37 @@
+<div class="list" id="ele_search_friend">
+    <div class="item-input-inset">
+        <div class="item-input-wrapper">
+            <i class="icon ion-ios7-search placeholder-icon"></i>
+            <input type="search" 
+                ng-model="data_search"
+                ng-change="search_friend(data_search)" 
+                placeholder="Search">
+            <button class="button button-clear button-small"
+                ng-show="data_search" 
+                ng-click="data_search='';__init_search()">
+                <i class="icon ion-close-circled"></i>
+            </button>
+        </div>
+    </div>
+    <div ng-repeat="f in list_search" class="ele item item-avatar item-icon-right">
+        <img data-ng-src="{{f.image}}">
+        <h2>{{f.nickname}}</h2>
+        <p>
+        <button class="button button-small button-stable button-extend-left-right" ng-click="request_make_friend(f.id)">
+        <i class="ion ion-person-add"></i>
+        {{languages.add_friend}}
+        </button>
+        </p>
+        <button class="button button-more" ng-click="openPopoverProfile($event,f.id)">
+            <i class="ion ion-android-more"></i>
+        </button>
+    </div>
+</div>
+
+<ion-infinite-scroll
+        icon=""
+        distance="1%"
+        on-infinite="paging_search_friend()"
+        style="display:none;"
+>
+</ion-infinite-scroll>

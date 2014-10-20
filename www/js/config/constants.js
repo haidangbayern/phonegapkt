@@ -1,14 +1,16 @@
 /** ================ Environment ================== **/
 window.is_dev = false;
+window.is_use_payment = true;
 /** ================ Server Information ================== **/
 //window.server_ip = "192.168.3.77"; //tram
 window.server_ip = "demo.games4fun.abcv.com"; //huy
+//window.server_ip = "demo.games4fun.abcv.com"; //demo server
 window.server_post = "8000";
 window.server_url = "http://" + window.server_ip + ":80";
 window.is_device = window.cordova;
 /** ================ Application Information ================== **/
 window.version = 2;
-window.version_application = "2.0.175";	//It will be updated by config.xml
+window.version_application = "3.0.14";	//It will be updated by config.xml
 /** ================ Database ================== **/
 window.database = {
     name: '_abcv_kootoro_app',

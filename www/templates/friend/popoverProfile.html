@@ -1,0 +1,164 @@
+<ion-popover-view style="height: 200px; width:200px;">
+<ion-content padding="false" scroll="false">
+	<div class="popoverProfile" ng-click="closePopoverProfile();openModalProfileUser(current_friend.personal.id);">
+		<img name="avatar" data-ng-src="{{current_friend.personal.image}}">
+		<div name="quick_button">
+			<p name="nick_name">
+				{{current_friend.personal.nickname}}
+			</p>
+			
+            <button name="button" class="button button-small button-clear"  ng-if="current_friend.is_your_friend && current_friend.is_user_block_friend && current_friend.personal.id != user.id">
+              ( {{languages.block}} )
+            </button>
+            <button name="button" class="button button-small button-clear"  ng-if="current_friend.is_your_friend && !current_friend.is_user_block_friend && current_friend.personal.id != user.id">
+              <i class="icon ion-trash-a"></i>
+              ( {{languages.friend}} )
+            </button>
+			
+			<div style="display:none">
+			<!-- UnBlock-->
+            <button name="button" class="button button-small button-clear"  ng-if="current_friend.is_your_friend && current_friend.is_user_block_friend && current_friend.personal.id != user.id">
+              <i class="icon ion-unlocked"></i> 
+              {{languages.unblock}}
+            </button>
+            <!-- UnFriend-->
+            <button name="button" class="button button-small button-clear"  ng-if="current_friend.is_your_friend && current_friend.personal.id != user.id">
+              <i class="icon ion-trash-a"></i>
+              {{languages.unfriend}}
+            </button>
+            <!-- Block-->
+            <button name="button" class="button button-small button-clear"  ng-if="current_friend.is_your_friend && !current_friend.is_user_block_friend  && current_friend.personal.id != user.id">
+              <i class="icon ion-close-circled"></i>
+              {{languages.block}}
+            </button>
+            <!-- Request Make Friend-->
+            <button name="button" class="button button-small button-clear" ng-if="!current_friend.is_your_friend && current_friend.personal.is_block_request_friend == 0  && current_friend.personal.id != user.id">
+              <i class="icon ion-person-add"></i>
+              {{languages.add_friend}}
+            </button>
+            </div>
+		</div>
+	</div>
+
+	<div class="tabs-striped sub_header_mini">
+	    <div class="tabs"  style="top: 0; position: relative;">
+	        <div class="tab-item {{(popoverActiveIndex==0)?'active':''}}"  ng-click="popoverProfileSetActive(0)">
+	            <i class="icon ion-person"></i>
+	        </div>
+	        <div class="tab-item {{(popoverActiveIndex==1)?'active':''}}" ng-click="popoverProfileSetActive(1)">
+	            <i class="icon ion-star"></i>
+	        </div>
+	        <div class="tab-item {{(popoverActiveIndex==2)?'active':''}}"  ng-click="popoverProfileSetActive(2)">
+	            <i class="icon ion-game-controller-b"></i>
+	        </div>
+	        <div class="tab-item {{(popoverActiveIndex==3)?'active':''}}"  ng-click="popoverProfileSetActive(3)">
+	            <i class="icon ion-ios7-people"></i>
+	            {{languages.blocked}}
+	        </div>
+	    </div>
+	</div>
+
+	<ion-slide-box class="popoverProfileSlideBox" scroll="false" show-pager="false" style="z-index:-1;" delegate-handle="popoverProfile" on-slide-changed="popoverProfileSlideChanged($index)">
+	<ion-slide>
+		<div name="personal">
+		    <b>Member since:</b> {{current_friend.personal.created_at}}<br/>
+			<b>Full name:</b> {{current_friend.personal.first_name}} {{current_friend.personal.last_name}}<br/>
+			<b>Last login:</b> {{current_friend.personal.last_login}} 
+		</div>
+	</ion-slide>
+	<ion-slide>
+	    <div name="games">
+		    <a ng-repeat="g in current_friend.games_favorited" href="#/app/games/detail/{{g.id}}">
+		    	<img data-ng-src="{{g.image}}"> 
+	    	</a>
+		</div>
+	</ion-slide>
+	<ion-slide>
+	    <div name="games">
+		    <a ng-repeat="g in current_friend.games_played" href="#/app/games/detail/{{g.id}}">
+		    	<img data-ng-src="{{g.image}}"> 
+	    	</a>
+		</div>
+	</ion-slide>
+	<ion-slide>
+	    <div name="friends">
+		    <div ng-repeat="f in current_friend.friends" ng-click="closePopoverProfile();openModalProfileUser(f.user.id);">
+		    	<img data-ng-src="{{f.user.image}}"> 
+	    	</div>
+		</div>
+	</ion-slide>
+	</ion-slide-box>
+	<style type="text/css">
+
+	.popoverProfile {
+		position: relative;
+		text-align: center;
+		height: 100px;
+	}
+	.popoverProfile > img[name=avatar] {
+		height: 100px;
+		width: 100px;
+		text-align: center;
+	}
+	.popoverProfile > div[name=quick_button] {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		background-color: #5A5A5A;
+		text-align: left;
+    	opacity: 0.7;
+    	-moz-box-shadow:    inset 0 0 10px #000000;
+   		-webkit-box-shadow: inset 0 0 10px #000000;
+   		box-shadow:         inset 0 0 10px #000000;
+	}
+	.popoverProfile > div[name=quick_button] > p[name=nick_name]
+	{
+		overflow: hidden;
+		text-overflow: ellipsis;
+    	white-space: nowrap;
+    	color: white;
+    	font-weight: bold;
+    	line-height: 30px;
+    	margin: 0 0 0 5px;
+    	font-size: 14px;
+    	max-width: 150px;
+    	float: left;
+	}
+	.popoverProfile > div[name=quick_button] > button[name=button]
+	{
+		float: right;
+	}
+
+	.popoverProfileSlideBox .slider-slide
+	{
+		height: 60px;
+	}
+	.popoverProfileSlideBox div[name=personal]
+	{
+		padding: 2px;
+		font-size: 12px;
+	}
+	.popoverProfileSlideBox div[name=games],
+	.popoverProfileSlideBox div[name=friends]
+	{
+		padding: 7px 0;
+	}
+	.popoverProfileSlideBox div[name=games] a,
+	.popoverProfileSlideBox div[name=friends] div
+	{
+		float: left;
+		width: 50px;
+		height: 50px;
+		padding: 5px;
+		
+	}
+	.popoverProfileSlideBox div[name=games] a img,
+	.popoverProfileSlideBox div[name=friends] div img
+	{
+		width: 100%;
+		height: 100%;
+	}
+	</style>
+</ion-content>
+</ion-popover-view>

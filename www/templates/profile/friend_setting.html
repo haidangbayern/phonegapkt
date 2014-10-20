@@ -1,0 +1,26 @@
+<ion-view>
+<ion-content padding="true" direction="y">
+<div>
+    <h2> {{languages.friend_setting}}</h2>
+    <form id="form_personal">
+        <div class="list">
+            <div class="item item-toggle">
+                {{languages.lock_function_friend_request}}
+                <label class="toggle toggle-assertive">
+                    <input type="checkbox" ng-model="user_data.is_block_request_friend">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </div>
+        </div>
+        <div class="item-input-inset">
+            <button class="button button-block  button-small" ng-click="submit_update_friend()">
+            {{languages.update}}
+            </button>
+        </div>
+    </div>
+</form>
+</div>
+</ion-content>
+</ion-view>

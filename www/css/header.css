@@ -1,29 +1,72 @@
-ion-nav-bar.bar-header {
-	/*background: #d14014;
+ion-header-bar.bar-header, ion-nav-bar.bar-header {
+    /*background: #d14014;
   background-image: -webkit-linear-gradient(top, #d14014, #990000);
   background-image: -moz-linear-gradient(top, #d14014, #990000);
   background-image: -ms-linear-gradient(top, #d14014, #990000);
   background-image: -o-linear-gradient(top, #d14014, #990000);
   background-image: linear-gradient(to bottom, #d14014, #990000);*/
 
-  background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #d14014), color-stop(1, #990000));
-  background:-moz-linear-gradient(top, #d14014 5%, #990000 100%);
-  background:-webkit-linear-gradient(top, #d14014 5%, #990000 100%);
-  background:-o-linear-gradient(top, #d14014 5%, #990000 100%);
-  background:-ms-linear-gradient(top, #d14014 5%, #990000 100%);
-  background:linear-gradient(to bottom, #d14014 5%, #990000 100%);
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d14014', endColorstr='#990000',GradientType=0);
-  background-color:#d14014;
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #d14014), color-stop(1, #990000));
+    background: -moz-linear-gradient(top, #d14014 5%, #990000 100%);
+    background: -webkit-linear-gradient(top, #d14014 5%, #990000 100%);
+    background: -o-linear-gradient(top, #d14014 5%, #990000 100%);
+    background: -ms-linear-gradient(top, #d14014 5%, #990000 100%);
+    background: linear-gradient(to bottom, #d14014 5%, #990000 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#d14014', endColorstr='#990000', GradientType=0);
+    background-color: #d14014;
+    border-color: #b2b2b2;
+    color: #FFF;
+}
+ion-header-bar.bar-header .back-button, ion-nav-bar.bar-header .back-button {
+    color: #FFF;
+}
+ion-header-bar.bar-header div.buttons button, ion-nav-bar.bar-header div.buttons button {
+    color: #FFF;
+}
+ion-header-bar.bar-header h1, ion-nav-bar.bar-header h1 {
+    color: #FFF;
+}
+/************************************* SUB HEADER **********************/
+.sub_header {
+    border-bottom: 1px solid #E4E4E4;
+    -webkit-box-shadow: 0px 2px 11px 0px rgba(50, 50, 50, 0.3);
+    -moz-box-shadow: 0px 2px 11px 0px rgba(50, 50, 50, 0.3);
+    box-shadow: 0px 2px 11px 0px rgba(50, 50, 50, 0.3);
+}
+.sub_header .tab-item:hover {
+    border-top: 0 none;
+}
+.sub_header .tab-item > i {
+    color: #d14014;
+    font-size: 25px !important;
+}
+.sub_header .tab-item.active {
+    border-bottom: 4px solid #d14014;
+    border-top: 0 none;
+    margin-top: 0;
+}
 
-  border-color: #b2b2b2;
-  color: #FFF;
+
+.sub_header_mini {
+    border-bottom: 1px solid #E4E4E4;
+    /*-webkit-box-shadow: 0px 2px 11px 0px rgba(50, 50, 50, 0.3);
+    -moz-box-shadow: 0px 2px 11px 0px rgba(50, 50, 50, 0.3);
+    box-shadow: 0px 2px 11px 0px rgba(50, 50, 50, 0.3);*/
+    height: 35px;
 }
-ion-nav-bar.bar-header .back-button {
-  color: #FFF;
+.sub_header_mini .tabs {
+    height: 35px;
 }
-ion-nav-bar.bar-header div.buttons button{
-	color: #FFF;
+.sub_header_mini .tab-item:hover {
+    border-top: 0 none;
 }
-ion-nav-bar.bar-header h1 {
-	color: #FFF;
+.sub_header_mini .tab-item > i {
+    color: #d14014;
+    font-size: 20px !important;
+    margin-top: -8px;
+}
+.sub_header_mini .tab-item.active {
+    border-bottom: 4px solid #d14014;
+    border-top: 0 none;
+    margin-top: 0;
 }

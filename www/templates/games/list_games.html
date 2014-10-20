@@ -1,0 +1,10 @@
+<ion-view title="{{category.name}}">
+<!-- ************* CONTENT *************** -->
+<ion-content class="has-header">
+	<div class="list">
+	    <a class="item" ng-repeat="item in list_games" href="#/app/games/play/{{item.id}}">
+	    {{item.name}}
+	    </a>
+	</div>
+</ion-content>
+</ion-view>

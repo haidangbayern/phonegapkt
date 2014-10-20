@@ -1,0 +1,22 @@
+<div class="list" id="ele_list_blocked">
+    <div ng-repeat="f in list_blocked" class="ele item item-avatar item-icon-right">
+        <img data-ng-src="{{f.user.image}}">
+        <h2>{{f.user.nickname}}</h2>
+        <p>
+        <button class="button button-small button-state button-extend-left-right" ng-click="unblock_my_friend(f.id)">
+        <i class="ion ion-unlocked"></i>
+        {{languages.unblock}}
+        </button>
+        <button class="button button-small button-assertive button-extend-left-right"  ng-click="unfriend_my_friend(f.id, f.user.nickname)">
+        <i class="ion ion-trash-a"></i>
+        {{languages.unfriend}}
+        </button>
+        </p>
+        <button class="button button-more" ng-click="openPopoverProfile($event,f.user.id)">
+            <i class="ion ion-android-more"></i>
+        </button>
+    </div>
+    <div class="item notice" ng-if="list_blocked.length == 0">
+        {{languages.no_friends_black_list}}
+    </div>
+</div>

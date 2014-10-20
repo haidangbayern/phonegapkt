@@ -15,6 +15,7 @@ var user = {
     "weddingday" : "",
     "balance" : 0,
     "full_name" : "",
+    "is_block_request_friend" : false,
     "payment" : obj_payment_account,
     set_name : function(first_name, last_name)
     {
@@ -43,12 +44,18 @@ var user = {
         this.birthday = (option.birthday != undefined)?option.birthday:"";
         this.weddingday = (option.weddingday != undefined)?option.weddingday:"";
         this.balance = (option.balance != undefined)?option.balance:"";
+        this.is_block_request_friend = (option.is_block_request_friend != undefined)?option.is_block_request_friend:false;
+
         this.full_name = this.first_name + " " + this.last_name;
         this.number_view = Number(this.number_view);
         this.is_private_profile = Number(this.is_private_profile);
         if (this.birthday == "0000-00-00") this.birthday = "";
         if (this.weddingday == "0000-00-00") this.weddingday = "";
         this.balance = Number(this.balance);
+        if (this.is_block_request_friend == "0")
+            this.is_block_request_friend = false;
+        else
+            this.is_block_request_friend = true;
 
         obj_interface.html_user_left(user);
     },
@@ -91,6 +98,7 @@ var user = {
                 } else {
                     user.login(r.user);
                     user.payment.setData(r.payment);
+                    obj_socket.chat_socket();
                     window.location.href = "#/app/lottery";
                 }
             }

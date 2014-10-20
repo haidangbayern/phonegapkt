@@ -1,0 +1,40 @@
+<ion-view title="{{languages.toro_games}}"  hide-back-button="true">
+<!-- ************* button BACK *************** -->
+<ion-nav-buttons side="left">
+<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+</ion-nav-buttons>
+
+<ion-content id="main-content" direction="y" scroll="false" delegate-handle="mainScroll">
+
+<div class="tabs-striped sub_header" id="header-tabs">
+    <div class="tabs"  style="top: 0; position: relative;">
+        <div class="tab-item {{(active_index==0)?'active':''}}"  ng-click="setActiveSlide(0)">
+            {{languages.categories}}
+        </div>
+        <div class="tab-item {{(active_index==1)?'active':''}}" ng-click="setActiveSlide(1)">
+	        {{languages.playing_games}}
+		</div>
+        <div class="tab-item {{(active_index==2)?'active':''}}"  ng-click="setActiveSlide(2)">
+	        {{languages.favorite_games}}
+        </div>
+    </div>
+</div>
+<ion-slide-box show-pager="false" on-slide-changed="slideChanged($index)" style="z-index:-1;">
+<ion-slide>
+	<ion-scroll direction="y" locking="false" name="sub-content">
+		<div ng-include="template_url_categories"></div>
+	</ion-scroll>
+</ion-slide>
+<ion-slide>
+	<ion-scroll direction="y" locking="false" name="sub-content">
+		<div ng-include="template_url_playing_games"></div>
+	</ion-scroll>
+</ion-slide>
+<ion-slide>
+	<ion-scroll direction="y" locking="false" name="sub-content">
+    	<div ng-include="template_url_favorite_games"></div>
+    </ion-scroll>
+</ion-slide>
+</ion-slide-box>
+</ion-content>
+</ion-view>

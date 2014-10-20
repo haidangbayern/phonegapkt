@@ -1,0 +1,63 @@
+<ion-view title="{{languages.friend}}"  hide-back-button="true">
+
+<ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+</ion-nav-buttons>
+<ion-nav-buttons side="right">
+    <button class="button button-icon icon ion-ios7-search-strong" ng-click="setActiveSlide(4)"></button>
+</ion-nav-buttons>
+
+<ion-content id="main-content" direction="y" scroll="false" >
+
+<div class="tabs-striped sub_header" id="header-tabs">
+    <div class="tabs"  style="top: 0; position: relative;">
+        <div class="tab-item {{(active_index==0)?'active':''}}"  ng-click="setActiveSlide(0)">
+            <i class="icon ion-person-add"></i>
+            {{languages.list_friend}}
+        </div>
+        <div class="tab-item {{(active_index==1)?'active':''}}" ng-click="setActiveSlide(1)">
+            <i class="icon ion-chatboxes"></i>
+            <!-- ion-chatbubbles -->
+            {{languages.message}}s
+        </div>
+        <div class="tab-item {{(active_index==2)?'active':''}}"  ng-click="setActiveSlide(2)">
+            <i class="icon ion-ios7-people"></i>
+            {{languages.list_friend}}
+        </div>
+        <div class="tab-item {{(active_index==3)?'active':''}}"  ng-click="setActiveSlide(3)">
+            <!-- <i class="icon ion-ios7-close-outline"></i> -->
+            <i class="icon ion-navicon"></i>
+            {{languages.blocked}}
+        </div>
+    </div>
+</div>
+
+<ion-slide-box show-pager="false" on-slide-changed="slideChanged($index)" delegate-handle="mainSlide" style="z-index:-1;">
+<ion-slide>
+<ion-scroll direction="y" locking="false" name="sub-content">
+    <div ng-include="template_url_request_make_friend"></div>
+</ion-scroll>
+</ion-slide>
+<ion-slide>
+<ion-scroll direction="y" locking="false" name="sub-content">
+    <div ng-include="template_url_list_chat"></div>
+</ion-scroll>
+</ion-slide>
+<ion-slide>
+<ion-scroll direction="y" locking="false" name="sub-content">
+    <div ng-include="template_url_list_friends"></div>
+</ion-scroll>
+</ion-slide>
+<ion-slide>
+<ion-scroll direction="y" locking="false" name="sub-content">
+    <div ng-include="template_url_list_friends_blocked"></div>
+</ion-scroll>
+</ion-slide>
+<ion-slide>
+<ion-scroll direction="y" locking="false" name="sub-content">
+    <div class="has-footer" ng-include="template_url_search"></div>
+</ion-scroll>
+</ion-slide>
+</ion-slide-box>
+</ion-content>
+</ion-view>

@@ -4,7 +4,6 @@ var obj_interface = {
     //ok
     analyze_data: function(data) {
         this.is_redesign = true;
-        obj_loading.show();
         for (var i = 0; i < data.length; i++) {
             if (data[i]['name'] != 'time_lottery') {
                 this.data[data[i]['name']] = data[i]['value'];
@@ -50,6 +49,7 @@ var obj_interface = {
         $('#user_left h2[name=fullname]').text(data.full_name);
         $('#user_left p[name=balance]').text(numeral(data.balance).format('0,0') + " " + window.languages[window.current_language].web_currency + "s");
     },
+    
     next_time_draw: function() {
     	obj = this.data;
         var html = "";

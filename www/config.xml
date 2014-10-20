@@ -2,12 +2,12 @@
     <widget xmlns = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         xmlns:cdv = "http://cordova.apache.org/ns/1.0"
-        id          = "com.abcv.kootoro.lottery_demo"
-        version     = "2.0.175"
+        id          = "com.abcv.kootoro.dev"
+        version     = "3.0.14"
         versionCode = "10" >
 
         
-        <name>Kootoro Lottery 2</name>
+        <name>Kootoro DEV</name>
 
         <description>ABCV product</description>
 
@@ -51,6 +51,7 @@
         <gap:plugin name="com.ionic.keyboard" version="1.0.3" />
         <!--<gap:plugin name="com.plugin.datepicker" version="0.3.2" />-->
         <gap:plugin name="com.millerjames01.sqlite-plugin" version="1.0.1" />
+        <gap:plugin name="nl.x-services.plugins.toast" version="2.0" />
         
     
         <!-- icons -->

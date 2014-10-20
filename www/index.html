@@ -75,11 +75,17 @@
         var stask_back_page = [];
     </script>
     <ion-nav-view></ion-nav-view>
+    
+    <div id="notice_chat" class="notice_chat" style="display:none;" onClick="obj_chat.notice_popup_click()">
+        <img name="avatar" src="" class="avatar">
+        <span name="count_chat" class="badge badge-assertive"></span>
+    </div>
 
     <!-- Class -->
     <script type="text/javascript" charset="utf-8" src="js/app_home_page.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/class/app.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/class/avatar.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/class/chat.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/class/countries.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/class/socket.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/class/states.js"></script>

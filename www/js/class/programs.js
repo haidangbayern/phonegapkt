@@ -6,7 +6,7 @@ var programs = {
         this.data = [];
         var unit = "";
         for (var i = 0; i < data.length; i++) {
-            if (data[i].fee == 0) {
+            if (data[i].fee == 0 || window.is_use_payment) {
                 if (unit == "" || unit != data[i].unit) {
                     unit = data[i].unit;
                     data[i].type = "first";

@@ -2,9 +2,15 @@
 
   <ion-pane ion-side-menu-content>
     <ion-nav-bar class="">
+    
       <ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i> {{back}}</ion-nav-back-button>
     </ion-nav-bar>
-    <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
+
+   
+
+    <ion-nav-view name="menuContent" animation="slide-left-right">
+ 
+    </ion-nav-view>
   </ion-pane>
 
   <ion-side-menu side="left" class="ko-side-menu-left"  style="background-color: #363738 !important;">
@@ -27,19 +33,24 @@
             </button>
           </p>
         </ion-item>
-        <!--<ion-item nav-clear menu-close href="#/app/home">
-          Home
-        </ion-item>-->
+        <ion-item nav-clear  class="item-avatar" menu-close href="#/app/games">
+          <img src="images/ic_playing_games.png">
+          {{languages.games}}
+        </ion-item>
         <ion-item nav-clear  class="item-avatar" menu-close href="#/app/lottery">
           <img src="images/lottery.png">
           {{languages.lottery}}
         </ion-item>
 
-        <ion-item nav-clear  class="item-avatar" menu-close href="#/app/trade_in">
-          <img src="images/balance.png">
-          {{languages.trade_in_menu}}
+        <ion-item nav-clear  class="item-avatar" menu-close href="#/app/buy">
+          <img src="images/ic_trading.png">
+          {{languages.toro_exchange}}
         </ion-item>
          
+        <ion-item nav-clear  class="item-avatar" menu-close href="#/app/friend">
+          <img src="images/friend.png">
+          {{languages.friend}}
+        </ion-item>
         <ion-item nav-clear menu-close ng-click="openHelp()">
             <!-- <i class="icon ion-ios7-help-empty"></i> -->
             {{languages.help}}

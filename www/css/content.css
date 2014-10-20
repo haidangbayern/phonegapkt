@@ -2,6 +2,10 @@ ion-content div.scroll {
   color: black;
   z-index: 2;
 }
+ion-nav-view {
+    background-color: #FFF;
+}
+
 
 /***************************** Lottery **********************************/
 
@@ -326,7 +330,7 @@ box-shadow:         7px 7px 5px 0px rgba(50, 50, 50, 0.75);*/
 #lottery_tickets {
 	width: 100%;
 	position: relative;
-    padding-bottom: 100px;
+    /*padding-bottom: 100px;*/
 }
 .btn-quick-pick {
     -moz-box-shadow:inset 0px 1px 0px 0px #54a3f7;

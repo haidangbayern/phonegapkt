@@ -12,7 +12,8 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
         }
         if (window.StatusBar) {
             // org.apache.cordova.statusbar required
-            StatusBar.styleDefault();
+            //StatusBar.styleDefault();
+            StatusBar.hide();
         }
     });
     $ionicPlatform.registerBackButtonAction(function() {
@@ -36,8 +37,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
         url: "/register",
         templateUrl: "templates/sign-up.html",
         controller: 'signUpCtrl'
-    })
-    .state('forgot_password', {
+    }).state('forgot_password', {
         url: "/forgot_password",
         templateUrl: "templates/forgot-password.html",
         controller: 'forgotPasswordCtrl'
@@ -99,7 +99,96 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 controller: 'profileMoneyToroHistoryCtrl'
             }
         }
+    }).state('app.friend_setting', {
+        url: "/friend_setting",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/profile/friend_setting.html",
+                controller: 'profileFriendSettingCtrl'
+            }
+        }
     })
+    //*************** for Friend ******************************
+    .state('app.games', {
+        url: "/games",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/games.html",
+                controller: 'gamesCtrl'
+            }
+        }
+    })
+    .state('app.list_games', {
+        url: "/games/list_games/:categoryId",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/games/list_games.html",
+                controller: 'listGamesCtrl'
+            }
+        }
+    })
+    // .state('app.game_detail', {
+    //     url: "/games/detail/:gameId",
+    //     views: {
+    //         'menuContent': {
+    //             templateUrl: "templates/games/detail.html",
+    //             controller: 'detailGameCtrl'
+    //         }
+    //     }
+    // })
+    .state('app.play_game', {
+        url: "/games/play/:gameId",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/games/play.html",
+                controller: 'playGameCtrl'
+            }
+        }
+    })
+    //*************** for Friend ******************************
+    .state('app.friend', {
+        url: "/friend",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/friend.html",
+                controller: 'friendCtrl'
+            }
+        }
+    })
+
+    // .state('app.friend_message', {
+    //     url: "/friend_message",
+    //     views: {
+    //         'menuContent': {
+    //             templateUrl: "templates/friend/message.html",
+    //             controller: 'friendMessageCtrl'
+    //         }
+    //     }
+    // }).state('app.friend_chat', {
+    //     url: "/friend_message/:friendId",
+    //     views: {
+    //         'menuContent': {
+    //             templateUrl: "templates/friend/chat.html",
+    //             controller: 'friendChatCtrl'
+    //         }
+    //     }
+    // }).state('app.friend_list', {
+    //     url: "/friend_message",
+    //     views: {
+    //         'menuContent': {
+    //             templateUrl: "templates/friend/list.html",
+    //             controller: 'friendListCtrl'
+    //         }
+    //     }
+    // }).state('app.friend_blocked', {
+    //     url: "/friend_message",
+    //     views: {
+    //         'menuContent': {
+    //             templateUrl: "templates/friend/block.html",
+    //             controller: 'friendBlockCtrl'
+    //         }
+    //     }
+    // })
     //*************** for buy toro ******************************
     .state('app.buy', {
         url: "/buy",
@@ -109,8 +198,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 controller: 'buyCtrl'
             }
         }
-    })
-    .state('app.buy_more_toros', {
+    }).state('app.buy_more_toros', {
         url: "/buy_more_toros",
         views: {
             'menuContent': {
@@ -118,9 +206,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 controller: 'buyMoreTorosCtrl'
             }
         }
-    })
-    
-    .state('app.trade_in', {
+    }).state('app.trade_in', {
         url: "/trade_in",
         views: {
             'menuContent': {

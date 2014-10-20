@@ -1,0 +1,19 @@
+<div class="list" id="ele_list_make_friends">
+    <div ng-repeat="f in list_request" class="ele item item-avatar item-icon-right" ng-if="!(f.message.type=='friend_request' && f.message.user_id == f.player_id)">
+        <img data-ng-src="{{f.user.image}}">
+        <h2>{{f.user.nickname}}</h2>
+        <p>
+            <button class="button button-small button-positive button-extend-left-right" ng-click="accept_make_friend({{f.message.id}})">
+            <i class="ion ion-checkmark"></i>
+            {{languages.accept}}
+            </button>
+        </p>
+        <button class="button button-more" ng-click="openPopoverProfile($event,f.user.id)">
+            <i class="ion ion-android-more"></i>
+        </button>
+    </div>
+    
+    <div class="item notice" ng-if="list_request.length ==0">
+        {{languages.no_request}}
+    </div>
+</div>

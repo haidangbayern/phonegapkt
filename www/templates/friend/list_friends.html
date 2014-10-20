@@ -1,0 +1,14 @@
+<div class="grid_friends">
+    <div ng-repeat="f in list_friends" class="ele item item-avatar item-icon-right" ng-click="openModalProfileUser(f.user.id)">
+        <img data-ng-src="{{f.user.image}}">
+        <div class="name">{{f.user.nickname}}</div>
+    </div>
+    <div class="item notice" ng-if="list_friends.length == 0 ">
+        {{languages.let_start_making_friends}}
+    </div>
+    <div class="clear"></div>
+</div>
+
+<style type="text/css">
+    
+</style>

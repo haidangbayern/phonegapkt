@@ -1,0 +1,208 @@
+<div class="modal">
+    <ion-header-bar>
+    <h1 class="title">{{current_friend.personal.nickname}}</h1>
+    <div class="buttons">
+        <button class="button button-clear" ng-click="closeModalProfileUser()">{{close}}</button>
+    </div>
+    </ion-header-bar>
+    <ion-content scroll="false">
+    <div class="modalProfile">
+        <img name="avatar" data-ng-src="{{current_friend.personal.image}}">
+        <div name="quick_button">
+            <p name="nick_name">
+              {{current_friend.personal.nickname}}
+            </p>
+            <button name="button" class="button button-small button-clear"  ng-if="current_friend.is_your_friend && current_friend.is_user_block_friend && current_friend.personal.id != user.id">
+              ( {{languages.block}} )
+            </button>
+            <!-- <button name="button" class="button button-small button-clear"  ng-if="current_friend.is_your_friend && !current_friend.is_user_block_friend && current_friend.personal.id != user.id">
+              ( {{languages.friend}} )
+            </button> -->
+
+            <!-- Block-->
+            <button name="button" class="button button-small button-clear" ng-if="current_friend.is_your_friend && !current_friend.is_user_block_friend  && current_friend.personal.id != user.id" ng-click="block_my_friend(current_friend.personal.id)">
+              <i class="icon ion-close-circled"></i>
+              {{languages.block}}
+            </button>
+
+            <div style="display:none">
+            <!-- UnBlock-->
+            <button name="button" class="button button-small button-clear"  ng-if="current_friend.is_your_friend && current_friend.is_user_block_friend && current_friend.personal.id != user.id">
+              <i class="icon ion-unlocked"></i> 
+              {{languages.unblock}}
+            </button>
+            <!-- UnFriend-->
+            <button name="button" class="button button-small button-clear"  ng-if="current_friend.is_your_friend && current_friend.personal.id != user.id">
+              <i class="icon ion-trash-a"></i>
+              {{languages.unfriend}}
+            </button>
+            
+            <!-- Request Make Friend-->
+            <button name="button" class="button button-small button-clear" ng-if="!current_friend.is_your_friend && current_friend.personal.is_block_request_friend == 0  && current_friend.personal.id != user.id">
+              <i class="icon ion-person-add"></i>
+              {{languages.add_friend}}
+            </button>
+            </div>
+        </div>
+    </div>
+    <div class="tabs-striped sub_header">
+        <div class="tabs"  style="top: 0; position: relative;">
+            <div class="tab-item {{(profileUser.modalProfileActiveIndex==0)?'active':''}}"  ng-click="profileUser.modalProfileSetActive(0)">
+                <i class="icon ion-person"></i>
+            </div>
+            <div class="tab-item {{(profileUser.modalProfileActiveIndex==1)?'active':''}}" ng-click="profileUser.modalProfileSetActive(1)">
+                <i class="icon ion-star"></i>
+            </div>
+            <div class="tab-item {{(profileUser.modalProfileActiveIndex==2)?'active':''}}"  ng-click="profileUser.modalProfileSetActive(2)">
+                <i class="icon ion-game-controller-b"></i>
+            </div>
+            <div class="tab-item {{(profileUser.modalProfileActiveIndex==3)?'active':''}}"  ng-click="profileUser.modalProfileSetActive(3)">
+                <i class="icon ion-ios7-people"></i>
+                {{languages.blocked}}
+            </div>
+        </div>
+    </div>
+    <ion-slide-box class="modalProfileSlideBox" scroll="false" show-pager="false" style="z-index:-1;" delegate-handle="modalProfile" on-slide-changed="profileUser.modalProfileSlideChanged($index)">
+    <ion-slide>
+    <ion-scroll direction="y" locking="false" name="sub-content">
+      <div class="list" name="personal">
+          <div class="item">
+            <h2>{{languages.member_since}}:</h2>
+            <p>{{current_friend.personal.created_at}}</p>
+          </div>
+          <div class="item">
+            <h2>{{languages.full_name}}:</h2>
+            <p>{{current_friend.personal.first_name}} {{current_friend.personal.last_name}}</p>
+          </div>
+          <div class="item">
+            <h2>{{languages.last_login}}:</h2>
+            <p>{{current_friend.personal.last_login}}</p>
+          </div>
+          <div class="item">
+            <h2>{{languages.birthday}}:</h2>
+            <p>{{current_friend.personal.birthday}}</p>
+          </div>
+          <div class="item">
+            <h2>{{languages.wedding_day}}:</h2>
+            <p>{{current_friend.personal.weddingday}}</p>
+          </div>
+      </div>
+    </ion-scroll>
+    </ion-slide>
+    <ion-slide>
+    <ion-scroll direction="y" locking="false" name="sub-content">
+    <div class="list" name="games">
+        <a class="item item-avatar" ng-repeat="g in current_friend.games_favorited" href="#/app/games/detail/{{g.id}}">
+            <img data-ng-src="{{g.image}}">
+             <h2>{{g.name}}</h2>
+             <p ng-bind-html="g.description"></p>
+        </a>
+    </div>
+    </ion-scroll>
+    </ion-slide>
+    <ion-slide>
+    <ion-scroll direction="y" locking="false" name="sub-content">
+    <div class="list" name="games">
+        <a class="item item-avatar" ng-repeat="g in current_friend.games_played" href="#/app/games/detail/{{g.id}}">
+            <img data-ng-src="{{g.image}}">
+             <h2>{{g.name}}</h2>
+             <p ng-bind-html="g.description"></p>
+        </a>
+    </div>
+    </ion-scroll>
+    </ion-slide>
+    <ion-slide>
+    <ion-scroll direction="y" locking="false" name="sub-content">
+    <div class="list"  name="friends">
+        <div class="item item-avatar" ng-repeat="f in current_friend.friends" ng-click="openModalProfileUserAgain(f.user.id)">
+            <img data-ng-src="{{f.user.image}}">
+             <h2>{{f.user.nickname}}</h2>
+             <p>{{languages.member_since}}: {{f.user.created_at}}</p>
+        </div>
+    </div>
+    </ion-scroll>
+    </ion-slide>
+    </ion-slide-box>
+    <style type="text/css">
+    .modalProfile {
+        position: relative;
+        text-align: center;
+        height: 150px;
+    }
+    .modalProfile > img[name=avatar] {
+        height: 150px;
+        width: 150px;
+        text-align: center;
+    }
+    .modalProfile > div[name=quick_button] {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #5A5A5A;
+        text-align: left;
+        opacity: 0.7;
+            -moz-box-shadow:    inset 0 0 10px #000000;
+        -webkit-box-shadow: inset 0 0 10px #000000;
+                box-shadow:         inset 0 0 10px #000000;
+    }
+    .modalProfile > div[name=quick_button] > p[name=nick_name]
+    {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: white;
+        font-weight: bold;
+        line-height: 30px;
+        margin: 0 0 0 5px;
+        font-size: 14px;
+        max-width: 150px;
+        float: left;
+    }
+    .modalProfile > div[name=quick_button] > button[name=button]
+    {
+        float: right;
+    }
+    .modalProfileSlideBox .slider-slide
+    {
+        height: 300px;
+    }
+    .modalProfileSlideBox div[name=personal]
+    {
+        
+    }
+    .modalProfileSlideBox div[name=personal] div.item
+    {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .modalProfileSlideBox div[name=games],
+    .modalProfileSlideBox div[name=friends]
+    {
+        /*padding: 7px 0;*/
+    }
+    .modalProfileSlideBox div[name=games] div.item,
+    .modalProfileSlideBox div[name=friends] div.item,
+    .modalProfileSlideBox div[name=personal] div.item
+    {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    /*.modalProfileSlideBox div[name=games] div,
+    .modalProfileSlideBox div[name=friends] div
+    {
+        float: left;
+        width: 50px;
+        height: 50px;
+        padding: 5px;
+        
+    }
+    .modalProfileSlideBox div[name=games] div img,
+    .modalProfileSlideBox div[name=friends] div img
+    {
+        width: 100%;
+        height: 100%;
+    }*/
+    </style>
+    </ion-content>
+</div>

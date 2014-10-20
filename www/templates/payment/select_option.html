@@ -11,7 +11,7 @@
             ng-change="payment.select_account()"
             ng-options="'xxxx-xxxx-xxxx-' + r.detail.cc_last4digits for r in payment.resources.payment track by r.payment_account_id"
         >
-            <option value=""> --- {{languages.new_payment_account}} --- </option>
+            <option value="">{{languages.new_payment_account}}</option>
         </select>
         </span>
     </label>

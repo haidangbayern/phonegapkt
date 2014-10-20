@@ -11,6 +11,9 @@ width: 300px;
 ion-nav-view > ion-view {
     background-color: white !important;
 }
+.clear {
+    clear: both;
+}
 .text-center {
     text-align: center;
     vertical-align: middle;
@@ -45,6 +48,18 @@ ion-nav-view > ion-view {
     -ms-flex-align: center;
     align-items: center;
 }
+.ic-online {
+    background-image: url('../images/online.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 16px;
+}
+.ic-offline {
+    background-image: url('../images/offline.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    width: 16px;
+}
 .item-input-inset-error {
     padding: 0 10px;
     color: red;
@@ -75,14 +90,17 @@ ion-nav-view > ion-view {
     border-top-left-radius: 5px !important;
     border-top-right-radius: 5px !important;
 }
-.personal > .item:last-child {
+.personal > .item: last-child {
     border-bottom-left-radius: 5px !important;
     border-bottom-right-radius: 5px !important;
 }
 .personal .item-note {
     white-space: normal !important;
 }
-
+.button-extend-left-right {
+    padding-left: 10px;
+    padding-right: 10px;
+}
 .button-more {
     display: inline !important;
     width: 5px !important;
@@ -94,7 +112,7 @@ ion-nav-view > ion-view {
     right: 0;
     top: 0;
 }
-.button-more > i.ion{
+.button-more > i.ion {
     width: 5px !important;
     top: 5px;
     position: absolute;
@@ -107,19 +125,14 @@ ion-nav-view > ion-view {
 .no-padding {
     padding: 0;
 }
-
-.phone {
-
-}
-.phone div.col-25,
-.phone div.col-33 {
+.phone {} .phone div.col-25, .phone div.col-33 {
     padding-right: 5px;
     float: left;
 }
 .item-select-inset:after {
     margin-top: -10px !important;
 }
-.item-select-inset select{
+.item-select-inset select {
     background: none repeat scroll 0 0 #eee;
     border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -127,5 +140,220 @@ ion-nav-view > ion-view {
     padding-top: 0;
     padding-bottom: 0;
     height: 30px;
-    width:100%; max-width:100%;direction:ltr;
+    width: 100%;
+    max-width: 100%;
+    direction: ltr;
+}
+/**----------------------- TRADE NOW ---------------------------**/
+
+.list_trade_now {} .list_trade_now .item-body .item {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+.list_trade_now .item-body .item .badge {
+    right: 8px;
+}
+/**----------------------- CHAT ---------------------------**/
+
+.messages > div: last-child {
+    padding-bottom: 10px;
+}
+.message {
+    font-size: 12px !important;
+}
+.unread {
+    font-weight: bold;
+}
+.icon_avatar {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    float: left;
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+}
+div.user_chat {
+    padding: 5px 10px;
+    text-align: right;
+}
+div.user_chat span {
+    padding: 5px 10px;
+    background-color: #017CFF;
+    color: #FFF;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -webkit-border-top-left-radius: 25px;
+    -webkit-border-bottom-left-radius: 25px;
+    -moz-border-radius: 10px;
+    -moz-border-radius-topleft: 25px;
+    -moz-border-radius-bottomleft: 25px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+div.friend_chat {
+    padding: 5px 10px;
+    text-align: left;
+}
+div.friend_chat span {
+    padding: 5px 10px;
+    background-color: #F3F3F3;
+    -webkit-border-radius: 10px;
+    -webkit-border-top-right-radius: 25px;
+    -webkit-border-bottom-right-radius: 25px;
+    -moz-border-radius: 10px;
+    -moz-border-radius-topright: 25px;
+    -moz-border-radius-bottomright: 25px;
+    border-radius: 10px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    margin-left: 5px;
+}
+#chat_full .notice {
+    font-size: 12px;
+    text-align: center;
+}
+div.notice_chat {
+    background-color: #fff;
+    height: 60px;
+    padding: 5px;
+    position: absolute;
+    right: 10px;
+    text-align: center;
+    top: 54px;
+    vertical-align: middle;
+    width: 60px;
+    z-index: 999;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+    box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.75);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+div.notice_chat img.avatar {
+    width: 50px;
+    height: 50px;
+    display: inline;
+}
+div.notice_chat span {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-size: 12px;
+    color: #6C6C6C;
+}
+/**************************** Grid Friends *********************/
+
+.grid_friends > .notice {
+    font-size: 12px;
+    text-align: center;
+}
+.grid_friends > .ele {
+    width: 100px;
+    height: 100px;
+    float: left;
+    position: relative;
+    border: 1px solid #C5C5C5;
+    margin: 2px;
+    padding-left: 0;
+}
+.grid_friends > .ele > img {
+    left: 0;
+    max-height: 100%;
+    max-width: 100%;
+    top: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    width: 100px;
+    height: 100px;
+}
+.grid_friends > .ele > .name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    white-space: nowrap;
+    width: 100%;
+    background-color: #5A5A5A;
+    -moz-box-shadow:    inset 0 0 10px #000000;
+    -webkit-box-shadow: inset 0 0 10px #000000;
+    box-shadow:         inset 0 0 10px #000000;
+    color: #FFF;
+    opacity: 0.8;
+}
+/*********************** Friend Blocked **********************/
+
+#ele_list_blocked > .ele {
+    padding-top: 10px;
+    padding-bottom: 0;
+}
+#ele_list_blocked > .ele > h2 {
+    color: #676767;
+    font-size: 13px;
+    font-weight: bold;
+}
+#ele_list_blocked > .ele > img {
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    left: 8px;
+    top: 8px;
+    max-width: 55px;
+    max-height: 55px;
+}
+#ele_list_blocked .notice {
+    font-size: 12px;
+    text-align: center;
+}
+/*********************** Making Friends **********************/
+
+#ele_list_make_friends > .ele {
+    padding-top: 10px;
+    padding-bottom: 0;
+}
+#ele_list_make_friends > .ele > h2 {
+    color: #676767;
+    font-size: 13px;
+    font-weight: bold;
+}
+#ele_list_make_friends > .ele > img {
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    left: 8px;
+    top: 8px;
+    max-width: 55px;
+    max-height: 55px;
+}
+#ele_list_make_friends .notice {
+    font-size: 12px;
+    text-align: center;
+}
+/*********************** Search friend **********************/
+
+#ele_search_friend > .ele {
+    padding-top: 10px;
+    padding-bottom: 0;
+}
+#ele_search_friend > .ele > h2 {
+    color: #676767;
+    font-size: 13px;
+    font-weight: bold;
+}
+#ele_search_friend > .ele > img {
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    left: 8px;
+    top: 8px;
+    max-width: 55px;
+    max-height: 55px;
+}
+#ele_search_friend .notice {
+    font-size: 12px;
+    text-align: center;
 }
