@@ -24,6 +24,7 @@ angular.module('starter.controllers', []).run(function() {
     $scope.trade_in_menu = window.languages[window.current_language].trade_in_menu;
     $scope.month = window.languages[window.current_language].month;
     $scope.languages = window.languages[window.current_language];
+    $scope.lottery_code = window.lottery_code;
     $scope.user = user;
 
     
@@ -329,7 +330,7 @@ angular.module('starter.controllers', []).run(function() {
         }
         else
         {
-            $scope.showAlert($scope.languages.warning, "Toast didn't exsits");
+            $scope.showAlert($scope.languages.warning, message);
         }
     }
     
@@ -560,6 +561,179 @@ angular.module('starter.controllers', []).run(function() {
             }
         });
     }
+})
+/**** Product ********/
+.controller('productCtrl', function($scope, $timeout) {
+    obj_loading.show();
+    $.ajax({
+        url: window.server_url + '/product/application_get_product_categories?v=' + window.version,
+        type: "POST",
+        dataType: 'json',
+        crossDomain: true,
+        success: function(data) {
+            product_categories.setData(data);
+            $scope.product_categories = product_categories;
+            $timeout(function() {
+                obj_loading.hide();
+            }, 1000);
+        }
+    });
+}).controller('productCategoryCtrl', function($scope, $stateParams, $ionicSlideBoxDelegate, $timeout) {
+    // console.log('$stateParams', $stateParams);
+    $scope.languages = window.languages[window.current_language];
+    $scope.page = 1;
+    $scope.products = {};
+    $scope.products.total = 0;
+    $scope.products.product = new Array();
+    $scope.productCategoryId = $stateParams.productCategoryId;
+    $scope.loadMoreProduct = function() {
+        if ($scope.page != 0) {
+            obj_loading.show();
+            var data = {};
+            data.uuid = device.uuid,
+            data.user_id = user.id;
+            data.category_id = $scope.productCategoryId;
+            data.page = $scope.page;
+            $.ajax({
+                url: window.server_url + '/product/application_get_products_by_category?v=' + window.version,
+                type: "POST",
+                dataType: 'json',
+                data: data,
+                crossDomain: true,
+                success: function(data) {
+                    console.log('dataaaa', data);
+                    console.log('data.pPaging.page', data.pPaging.page);
+                    console.log('data.pPaging.end', data.pPaging.end);
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
+                    for (var xxx in data.products) {
+                        $scope.products.product.push(data.products[xxx]);
+                    }
+                    $scope.products.total = data.pPaging.total;
+                    console.log($scope.products);
+                    if (data.pPaging.page == data.pPaging.end) {
+                        $scope.page = 0;
+                        $('ion-infinite-scroll').remove();
+                    } else {
+                        $scope.page = Number(data.pPaging.page) + 1;
+                    }
+                    $timeout(function() {
+                        obj_loading.hide();
+                    }, 200);
+                }
+            });
+        } else {
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+        }
+    }
+}).controller('productDetailCtrl', function($scope, $stateParams, $ionicSlideBoxDelegate, $timeout) {
+    console.log($stateParams);
+    // $scope.product = products.getProductById($stateParams.productId);
+    $scope.languages = window.languages[window.current_language];
+    $scope.productId = $stateParams.productId;
+
+
+
+    var data = {};
+    data.uuid = device.uuid,
+    data.user_id = user.id;
+    data.product_id = $scope.productId;
+    obj_loading.show();
+    $.ajax({
+        url: window.server_url + '/product/application_get_product?v=' + window.version,
+        type: "POST",
+        data: data,
+        dataType: 'json',
+        crossDomain: true,
+        success: function(data) {
+            console.log('detailll ', data);
+            product_detail.setData(data);
+            $scope.product = data;
+            $scope.product.product_thumbnail = data.images[0].image_path;
+            $timeout(function() {
+                obj_loading.hide();
+            }, 1000);
+
+
+
+             $scope.is_tradeout_points_miles = function() {
+        
+                if ($scope.product.itemdetail.product_type == 'tradeout_points/miles'){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+
+             $ionicSlideBoxDelegate.update();
+        }
+    });
+    $scope.click_by_thumbnail = false;
+    $scope.click_gallery_thumbnail = function(param){
+ 
+
+         $('.gallery-big').slickGoTo(param);       
+         $scope.click_by_thumbnail = true;
+    }
+
+           
+     $timeout(function() {
+
+        $('.gallery-big').slick({
+
+            onAfterChange : function(slickSlider){
+              
+              
+
+                if ($scope.click_by_thumbnail){
+
+                    $scope.click_by_thumbnail = false;
+                }else{
+
+                    var slick_active = $('.gallery-thumbnail .slick-slide.slick-active');
+
+                    var slick_go_to = true;
+
+                    $('.gallery-thumbnail .slick-slide.slick-active').each(function(){
+
+                         if (slickSlider.currentSlide == $(this).attr('index') ){
+
+                            slick_go_to = false;
+                         }
+                     
+                    });
+
+                   
+                    if (slick_go_to){
+
+                        $('.gallery-thumbnail').slickGoTo(slickSlider.currentSlide);
+                    }
+                }
+            }
+
+        }); 
+
+        $('.gallery-thumbnail').slick({
+      
+              infinite: true,
+              slidesToShow: 4,
+              slidesToScroll: 2,
+              dots: true
+               
+        });
+     
+    }, 500);
+
+   
+})
+/*-------------check out----------------*/
+.controller('checkoutCtrl', function($scope, $timeout, $ionicSlideBoxDelegate) {
+    $scope.next_step_cc = function() {
+        obj_keyboard.waitForClose();
+        $ionicSlideBoxDelegate.next();
+    }
+	$scope.payment = obj_payment;
+    $scope.payment.__construct();
+    $scope.shipping_template_url = "templates/payment/ship_info.html";
 })
 /** =================== Home Page ======================= **/
 .controller('homeCtrl', function($scope) {
@@ -2017,6 +2191,142 @@ angular.module('starter.controllers', []).run(function() {
     }, 100);
     
     window.$timeout = $timeout;
+})
+.controller('detailGameCtrl', function($scope, $stateParams, $timeout, $sce, $ionicModal, $ionicScrollDelegate) {
+    
+    $scope.gameId = $stateParams.gameId;
+    $scope.__init_games = function(gameId)
+    {
+        $.ajax({
+            url: window.server_url + '/game/mobile_app_lottery/application_get_game_detail?v=' + window.version,
+            data: {
+                'user_id' : user.id, 
+                'game_id' : gameId,
+            },
+            type: "POST",
+            dataType: 'json',
+            crossDomain: true,
+            success: function(data) {
+                console.log(data);
+                $scope.game = data;
+                $scope.game.params.value = $sce.trustAsResourceUrl($scope.game.params.value);
+                 $timeout(function(){
+                    $("input[name='average_rating']").rating('refresh', 
+                        {disabled: true, showClear: false, showCaption: true}
+                    );
+                },500);
+                $timeout(function() {
+                    
+                }, 200);
+            }
+        });
+    }
+
+    // ************* Modal Chat
+    $scope.modal_game = {
+        modal : null,
+        title : null,
+        content: null,
+    };
+    $ionicModal.fromTemplateUrl('templates/games/modal_game.html', {
+        scope: $scope
+    }).then(function(modal) {
+        $scope.modal_game.modal = modal;
+    });
+    $scope.closeModalGame = function() {
+        $scope.modal_game.modal.hide();
+    };
+    $scope.openModalGame = function(title, content) {
+        $scope.modal_game.title = title;
+        if (!content)
+            content = $scope.languages.we_will_update_soon;
+        $scope.modal_game.content = content;
+        $ionicScrollDelegate.scrollTop();
+        $scope.modal_game.modal.show();
+    };    
+    // ************* Modal Chat
+    $scope.modal_comments = {
+        modal : null,
+        data: null,
+    };
+    $ionicModal.fromTemplateUrl('templates/games/modal_comments.html', {
+        scope: $scope
+    }).then(function(modal) {
+        $scope.modal_comments.modal = modal;
+    });
+    $scope.closeModalComments = function() {
+        $scope.modal_comments.modal.hide();
+    };
+    $scope.openModalComments = function(game_id) {
+        obj_loading.show();
+        $.ajax({
+            url: window.server_url + '/game/mobile_app_lottery/application_get_game_comments?v=' + window.version,
+            data: {
+                'user_id' : user.id, 
+                'game_id' : game_id,
+                'page' : '1',
+            },
+            type: "POST",
+            dataType: 'json',
+            crossDomain: true,
+            success: function(data) {
+                obj_loading.hide();
+                $scope.modal_comments.data = data;
+                $ionicScrollDelegate.scrollTop();
+                $scope.modal_comments.modal.show();
+                $timeout(function() {
+                    
+                }, 200);
+            }
+        });
+        
+    };    
+
+    // ************* favorite
+    $scope.remove_favorited = function(game_id)
+    {
+        $scope.game.favorite.is_favorited = false;
+        window.showToast('Un favorite!');
+        $.ajax({
+            url: window.server_url + '/game/mobile_app_lottery/application_remove_favorited?v=' + window.version,
+            data: {
+                'user_id' : user.id, 
+                'game_id' : game_id,
+            },
+            type: "POST",
+            dataType: 'json',
+            crossDomain: true,
+            success: function(data) {
+                $timeout(function() {
+                    
+                }, 200);
+            }
+        });
+    }
+    $scope.add_favorited = function(game_id)
+    {
+        $scope.game.favorite.is_favorited = true;
+        window.showToast('Favorited!');
+        $.ajax({
+            url: window.server_url + '/game/mobile_app_lottery/application_add_favorited?v=' + window.version,
+            data: {
+                'user_id' : user.id, 
+                'game_id' : game_id,
+            },
+            type: "POST",
+            dataType: 'json',
+            crossDomain: true,
+            success: function(data) {
+                $timeout(function() {
+                    
+                }, 200);
+            }
+        });
+    }
+    $scope.__init_games($scope.gameId);
+
+   
+       
 })
 .controller('listGamesCtrl', function($scope, $timeout,$stateParams,$ionicScrollDelegate) {
     $scope.categoryId = $stateParams.categoryId;

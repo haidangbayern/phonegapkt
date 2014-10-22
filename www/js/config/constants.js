@@ -10,7 +10,7 @@ window.server_url = "http://" + window.server_ip + ":80";
 window.is_device = window.cordova;
 /** ================ Application Information ================== **/
 window.version = 2;
-window.version_application = "3.0.14";	//It will be updated by config.xml
+window.version_application = "2.0.175";	//It will be updated by config.xml
 /** ================ Database ================== **/
 window.database = {
     name: '_abcv_kootoro_app',
@@ -28,9 +28,9 @@ if (typeof device == "undefined") {
     device = {
         model: "laptop",
         cordova: "3.5.0",
-        uuid: "192.168.3.17",
+        uuid: "192.168.3.43",
         version: "window8",
-        name: "ABCV-VN-14",
+        name: "ABCV-VN-23",
         platform: "Android",
     };
 }

@@ -1,0 +1,21 @@
+<div class="modal modal_game_comments">
+    <ion-header-bar>
+    <h1 class="title">{{game.detail.name}}</h1>
+    <div class="buttons">
+        <button class="button button-clear" ng-click="closeModalComments()">{{close}}</button>
+    </div>
+    </ion-header-bar>
+    <ion-content padding="true" direction="y">
+    
+    <ul class="list">
+        <li class="item item-avatar" ng-repeat="c in modal_comments.data.comments">
+			<img data-ng-src="{{c.user_data.image}}">
+			<p ng-bind-html="c.message | smileys" style="white-space:normal;"></p>
+			<span class="item-note">
+			    {{languages.by}} {{c.user_data.nickname}}, {{c.created_at}}
+			</span>
+        </li>
+    </ul>
+
+    </ion-content>
+</div>

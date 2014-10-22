@@ -1,0 +1,116 @@
+<ion-view title="{{product.title}}" >
+<ion-content class="has-header" direction="y">
+<!-- <ion-slide-box show-pager="false">
+<ion-slide> -->
+<div class="box">
+    <div class="list">
+    
+            <input type="hidden" name="product_id" value="{{product.id}}">
+
+            <div class="item">
+           
+
+                <h2 style="text-align:center">{{product.itemdetail.title}}</h2>
+
+                 <div class="gallery-big" style="width:275px;margin-top:10px;margin-bottom:0">
+          
+                    <div ng-repeat="image in product.images">
+                      <img  src="{{image.image_path}}" style="width:275px;height:150px" />
+                    
+                    </div>
+                </div>
+               
+                 
+
+
+                 <div class="gallery-thumbnail" style="width:275px;margin-top:10px;margin-bottom:10px">
+          
+                    <div ng-repeat="image in product.images" ng-click="click_gallery_thumbnail({{image.ordering}})">
+                      <img  src="{{image.image_path}}" style="width:60px; height:60px" alt="{{image.image_name}}" />
+                    
+                    </div>
+                </div>
+                <p style="margin-top:10px">{{product.itemdetail.quote}}</p>
+                <h2 style="display:inline; color:red">{{product.itemdetail.point | number}}</h2>
+                <span style="color:red">{{languages.web_currency_plural}}</span>
+
+                <button style="display:block" class="button button-small button-assertive">{{languages.exchange}}</button>
+                <p ng-if="is_tradeout_points_miles()">{{languages.product_points_miles}}</p>
+                <p>{{languages.product_limited}}</p>
+
+          
+           
+
+            </div>
+       
+
+            
+
+              <div class="item item-divider card">
+               
+                <h2>{{languages.in_a_nutshell}}</h2>
+               
+              </div>
+              <div class="item item-divider card">
+               
+                <h2>{{languages.term_condition}}</h2>
+               
+              </div>
+               <div class="item item-divider card">
+               
+                <h2>Description</h2>
+               
+              </div>
+               <div class="item item-divider card">
+               
+                <h2>Ask a question</h2>
+               
+              </div>
+
+    </div>
+</div>
+<!-- </ion-slide>
+
+
+
+
+</ion-slide-box> -->
+<style type="text/css">
+.item-avatar p {
+	white-space: normal;
+}
+.item-select select {
+	direction: ltr;
+}
+.item.card{
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.item.card img{
+    top: 5px;
+}
+
+.item.card h2{
+    position: absolute;
+    left: 60px;
+}
+
+h2{
+    font-weight: bold;
+}
+
+.gallery-big button.slick-prev{
+  left: 10px;
+}
+.gallery-big button.slick-next{
+  right: 10px;
+}
+ul.slick-dots{
+  top: 60px;
+}
+</style>
+
+</ion-content>
+</ion-view>

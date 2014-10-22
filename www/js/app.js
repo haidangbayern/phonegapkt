@@ -12,8 +12,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
         }
         if (window.StatusBar) {
             // org.apache.cordova.statusbar required
-            //StatusBar.styleDefault();
-            StatusBar.hide();
+            StatusBar.styleDefault();
         }
     });
     $ionicPlatform.registerBackButtonAction(function() {
@@ -127,15 +126,15 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
             }
         }
     })
-    // .state('app.game_detail', {
-    //     url: "/games/detail/:gameId",
-    //     views: {
-    //         'menuContent': {
-    //             templateUrl: "templates/games/detail.html",
-    //             controller: 'detailGameCtrl'
-    //         }
-    //     }
-    // })
+    .state('app.game_detail', {
+        url: "/games/detail/:gameId",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/games/detail.html",
+                controller: 'detailGameCtrl'
+            }
+        }
+    })
     .state('app.play_game', {
         url: "/games/play/:gameId",
         views: {
@@ -223,6 +222,42 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
             }
         }
     })
+    .state('app.product', {
+        url: "/product",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/product/product_categories.html",
+                controller: 'productCtrl'
+            }
+        }
+    })  
+	.state('app.checkout', {
+        url: "/checkout",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/checkout/checkout_withoption.html",
+                controller: 'checkoutCtrl'
+            }
+        }
+    })  
+    .state('app.product_category', {
+        url: "/product_category/:productCategoryId",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/product/products_list.html",
+                controller: 'productCategoryCtrl'
+            }
+        }
+    })
+    .state('app.product_detail', {
+        url: "/product/:productId",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/product/product_detail.html",
+                controller: 'productDetailCtrl'
+            }
+        }
+    })
     //*************** for lottery *******************************
     .state('app.lottery', {
         url: "/lottery",
@@ -287,4 +322,12 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
     };
     //<div ng-repeat="n in [10] | makeRange">Do something 0..9: {{n}}</div>
     //<div ng-repeat="n in [20, 29] | makeRange">Do something 20..29: {{n}}</div>
+}).filter('smileys', function(){
+    return function(input)
+    {
+        console.log(obj_smileys);
+        console.log(input);
+
+        return obj_smileys.convert_character_to_smileys(input);
+    };
 });

@@ -1,0 +1,11 @@
+<div class="modal">
+  <ion-header-bar>
+    <h1 class="title">{{modal_game.title}}</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeModalGame()">{{close}}</button>
+    </div>
+  </ion-header-bar>
+  <ion-content class="padding10" padding="true" direction="y">
+      <div ng-bind-html="modal_game.content"></div>
+  </ion-content>
+</div>

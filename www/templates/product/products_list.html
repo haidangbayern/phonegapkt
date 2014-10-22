@@ -1,0 +1,28 @@
+<ion-view title="Products List">
+
+  <ion-content class="has-header">
+    <ion-list>
+    <div ng-repeat="item in products.product" class="">
+        <a class="item item-thumbnail-left" href="#/app/product/{{item.id}}">
+
+            <img src="{{item.image_path}}" alt="{{item.title}}" />
+            <h2>{{item.title}}</h2> 
+            <p>{{item.point}} {{languages.web_currency_plural}}</p>
+        </a>
+    
+    
+    </div>
+    </ion-list>
+
+    <style type="text/css">
+     /* .item-avatar p {
+        white-space: normal;
+      }*/
+    </style>
+    <ion-infinite-scroll
+    icon=""
+    distance="5%"
+    on-infinite="loadMoreProduct()">
+    </ion-infinite-scroll>
+  </ion-content>
+</ion-view>

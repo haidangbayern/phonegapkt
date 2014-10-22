@@ -1,0 +1,138 @@
+<ion-view title="{{game.detail.name}}">
+<!-- ************* CONTENT *************** -->
+<ion-content class="has-header has-footer">
+
+	<div id="game">
+		<!-- image -->
+		<div class="card">
+			<div class="item item-picture">
+				<img data-ng-src="{{game.detail.image}}">
+			</div>
+		</div>
+		<!-- title -->
+		<div class="card">
+			<div class="item  item-button-right">
+			    <h2 class="name">{{game.detail.name}}</h2>
+			    <button class="button button-small  button-clear" ng-if="game.favorite.is_favorited" ng-click="remove_favorited(game.detail.id)">
+			      	<img src="images/ic_favorite.png" width="25px" height="25px">
+			    </button>
+			    
+			    <button class="button button-small button-clear" ng-if="!game.favorite.is_favorited" ng-click="add_favorited(game.detail.id)">
+			    	<img src="images/ic_unfavorite.png" width="25px" height="25px">
+			    </button>
+
+			    <p class="detail">
+			    	<b class="info">{{languages.brand}}</b> : {{game.detail.game_brand_param}}<br/>
+			    	<b class="info">{{languages.minimum_deposit}}</b> : <span class="deposit">{{game.detail.min_deposit | number}} {{languages.web_currency_plural}}</span><br/>
+			    	<b class="info">{{languages.active_date}}</b> : {{game.detail.created_at}}
+			    </p>
+			</div>
+		</div>
+
+		<div class="card">
+			<div class="item item-icon-right" ng-click="openModalComments(game.detail.id)">
+				<h2 class="info">{{languages.average_rating}}</h2>
+			    <p>
+			    	<input title="abc" name="average_rating" type="number" class="rating" value="{{game.rating.all.average_rating.percentage}}" min="0" max="100" step="1" data-stars="5" style="display: none;" data-size="fs20" data-show-clear="false">
+				</p>
+				<i class="icon ion-ios7-arrow-forward"></i>
+			</div>
+		</div>
+
+		<div class="card">
+			<a class="item item-icon-right" href="#/app/games/list_games/{{game.category.id}}">
+				<h2>{{languages.category}} <span class="category">{{game.category.name}}</span></h2>
+				<i class="icon ion-ios7-arrow-forward"></i>
+			</a>
+		</div>
+
+		
+		<div class="card">
+			<div class="item item-icon-right" ng-click="openModalGame(languages.description, game.detail.description)">
+				<h2>{{languages.description}}</h2>
+				<i class="icon ion-ios7-arrow-forward"></i>
+			</div>
+		</div>
+
+
+		<div class="card">
+			<div class="item item-icon-right" ng-click="openModalGame(languages.how_to_play, game.detail.how_to_play)">
+				<h2>{{languages.how_to_play}}</h2>
+				<i class="icon ion-ios7-arrow-forward"></i>
+			</div>
+		</div>
+
+
+		<div class="card">
+			<div class="item item-icon-right" ng-click="openModalComments(game.detail.id)">
+				<h2>{{languages.comment}}s <span class="comment_count">({{game.comments.count}})</span></h2>
+				<i class="icon ion-ios7-arrow-forward"></i>
+			</div>
+		</div>
+	</div>
+
+	<style type="text/css">
+		#game .card {
+			margin: 5px;
+			box-shadow: none;
+		}
+		#game .item-picture {
+			text-align: center;
+		}
+		/*#game .item-picture img {
+			width: 200px;
+			height: 200px;
+		}*/
+		#game .name {
+			border-bottom: 1.5px  solid #d14014;
+			font-weight: bolder;
+			font-size: 16px !important;
+			text-transform: uppercase;
+		}
+		#game .deposit {
+			color:  #E05A07;
+			font-weight: bold;
+		}
+		#game .info {
+			color: #6D6D6D;
+		}
+		#game .category {
+			color: #033FB5;
+			font-weight: bold;
+		}
+		#game .comment_count {
+			font-size: 12px;
+			color: #033FB5;
+			font-weight: normal;
+		}
+		#game .item {
+			padding-top: 5px;
+			padding-bottom: 5px;
+		}
+		#game .item h2 {
+			padding: 0;
+			font-size: 14px;
+			font-weight: bold;
+			color: #363636;
+		}
+		#game .ion-ios7-arrow-forward {
+			color: #d14014;
+			font-size: 14px;
+			width: 10px;
+		}
+
+	</style>
+
+  
+</ion-content>
+  <ion-footer-bar class="bar-stable" scroll="false">
+  <a class="button button-small button-positive button-extend-left-right  pull-right" ng-if="game.detail.code != lottery_code" href="#/app/games/play/{{game.detail.id}}">
+		{{languages.play_now}}
+		<i class="ion ion-play"></i>
+	</a>
+	<a class="button button-small button-positive button-extend-left-right  pull-right" ng-if="game.detail.code == lottery_code" href="#/app/lottery">
+		{{languages.play_now}}
+		<i class="ion ion-play"></i>
+	</a>
+  </ion-footer-bar>  
+</ion-view>
