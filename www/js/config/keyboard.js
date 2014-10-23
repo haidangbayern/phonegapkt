@@ -5,9 +5,20 @@ var obj_keyboard = {
     keyboardShowHandler: function(e) {
         if (e.keyboardHeight > 0) obj_keyboard.is_show = true;
         else obj_keyboard.is_show = false;
+        // if ($('ion-nav-view > ion-content').length > 0)
+        //     $('ion-nav-view > ion-content').height($(window).height()-e.keyboardHeight);
+        // else
+        //     $('ion-nav-view > ion-content').height($(window).height());   
+        
+        // if ($('ion-nav-view > ion-side-menus').length > 0)
+        //     $('ion-nav-view > ion-side-menus').height($(window).height()-e.keyboardHeight);
+        // else
+        //     $('ion-nav-view > ion-side-menus').height($(window).height());   
     },
     keyboardHideHandler: function(e) {
         obj_keyboard.is_show = false;
+        // $('ion-nav-view > ion-content').height($(window).height());   
+        // $('ion-nav-view > ion-side-menus').height($(window).height());   
     },
     waitForClose: function() {
 

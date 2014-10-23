@@ -30,10 +30,10 @@
 		</div>
 
 		<div class="card">
-			<div class="item item-icon-right" ng-click="openModalComments(game.detail.id)">
+			<div class="item item-icon-right" ng-click="openModalRating(game.detail.id)">
 				<h2 class="info">{{languages.average_rating}}</h2>
 			    <p>
-			    	<input title="abc" name="average_rating" type="number" class="rating" value="{{game.rating.all.average_rating.percentage}}" min="0" max="100" step="1" data-stars="5" style="display: none;" data-size="fs20" data-show-clear="false">
+			    	<input title="abc" name="average_rating" type="number" class="rating"  ng-model="game.rating.all.average_rating.percentage" min="0" max="100" step="1" data-stars="5" style="display: none;" data-size="fs20" data-show-clear="false">
 				</p>
 				<i class="icon ion-ios7-arrow-forward"></i>
 			</div>

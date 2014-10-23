@@ -5,17 +5,53 @@
         <button class="button button-clear" ng-click="closeModalComments()">{{close}}</button>
     </div>
     </ion-header-bar>
-    <ion-content padding="true" direction="y">
-    
-    <ul class="list">
-        <li class="item item-avatar" ng-repeat="c in modal_comments.data.comments">
-			<img data-ng-src="{{c.user_data.image}}">
-			<p ng-bind-html="c.message | smileys" style="white-space:normal;"></p>
-			<span class="item-note">
-			    {{languages.by}} {{c.user_data.nickname}}, {{c.created_at}}
-			</span>
-        </li>
-    </ul>
+    <ion-content id="modal_comments" direction="y" locking="true" class="has_header has_footer">
+        <!-- title -->
+        <div id="game" class="card" style="margin: 10px 10px;">
+            <div class="item item-avatar">
+                <img data-ng-src="{{game.detail.image}}">
+                <h2 class="name">{{game.detail.name}}</h2>
+                <p class="detail">
+                    <b class="info">{{languages.brand}}</b> : {{game.detail.game_brand_param}}<br/>
+                    <b class="info">{{languages.minimum_deposit}}</b> : <span class="deposit">{{game.detail.min_deposit | number}} {{languages.web_currency_plural}}</span><br/>
+                    <b class="info">{{languages.active_date}}</b> : {{game.detail.created_at}}
+                </p>
+            </div>
+            <div class="item">
+                <h2>{{languages.comment}}s <span class="comment_count">({{modal_comments.data.pPaging.total}})</span></h2>
+            </div>
+        </div>
 
+        <ion-scroll direction="y" name="sub-content" delegate-handle="comment_scroll">
+            <ul class="list">
+                <li class="item item-avatar" ng-repeat="c in modal_comments.data.comments">
+        			<img data-ng-src="{{c.user_data.image}}">
+        			<p ng-bind-html="c.message | smileys" style="white-space:normal;"></p>
+        			<span class="item-note">
+        			    {{languages.by}} {{c.user_data.nickname}}, {{c.created_at}}
+        			</span>
+                </li>
+            </ul>
+            <ion-infinite-scroll
+                ng-show= "modal_comments.page != -1"
+                ng-if = "modal_comments.page != -1"
+                icon=""
+                on-infinite="getCommentOfGame(game.detail.id)"
+                distance="30%">
+            </ion-infinite-scroll>
+        </ion-scroll>
     </ion-content>
+
+
+
+    <ion-footer-bar class="bar-stable" >
+    <div class="item-input-inset" style="width:100%;">
+        <label class="item-input-wrapper">
+            <input type="text" placeholder="{{languages.write_message}}" ng-model="modal_comments.data.write_comment">
+        </label>
+        <button class="button button-clear" ng-disabled="!modal_comments.data.write_comment" ng-click="send_comment(game.detail.id,modal_comments.data.write_comment)">
+        <i class="icon ion-ios7-paperplane"></i>
+        </button>
+    </div>
+    </ion-footer-bar>
 </div>

@@ -1,0 +1,37 @@
+<div class="modal modal_game_comments">
+    <ion-header-bar>
+    <h1 class="title">{{game.detail.name}}</h1>
+    <div class="buttons">
+        <button class="button button-clear" ng-click="closeModalRating()">{{close}}</button>
+    </div>
+    </ion-header-bar>
+    <ion-content id="modal_rating" direction="y" class="has_header">
+        <!-- title -->
+        <div id="game" class="card" style="margin: 10px 10px;">
+            <div class="item item-avatar">
+                <img data-ng-src="{{game.detail.image}}">
+                <h2 class="name">{{game.detail.name}}</h2>
+                <p class="detail">
+                    <b class="info">{{languages.brand}}</b> : {{game.detail.game_brand_param}}<br/>
+                    <b class="info">{{languages.minimum_deposit}}</b> : <span class="deposit">{{game.detail.min_deposit | number}} {{languages.web_currency_plural}}</span><br/>
+                    <b class="info">{{languages.active_date}}</b> : {{game.detail.created_at}}
+                </p>
+            </div>
+            <div class="item">
+                <h2 class="info">{{languages.average_rating}}</h2>
+                <p>
+                    <input name="average_rating" type="number" class="rating" ng-model="game.rating.all.average_rating.percentage" min="0" max="100" step="1" data-stars="5" style="display: none;" data-size="fs20" data-show-clear="false">
+                </p>
+            </div>
+            <div class="item">
+                <h2 class="info">{{languages.choose_rate}}</h2>
+                <p style="height:34px; line-height:32px;">
+                    <input name="game_rating" type="number" class="rating" min="0" max="5" step="1" data-stars="5"  style="display: none;" data-size="xs" data-show-clear="false" value="{{game.rating.user}}">
+                </p>
+            </div>
+            
+        </div>
+
+        
+    </ion-content>
+</div>

@@ -43,6 +43,7 @@ window.languages = {
         "choose_card_type" : "Choose Card Type",
         "choose_lottery_date": "Choose Lottery Date",
         "choose_time_expiration": "Choose Time Expiration",
+        "choose_rate" : "Choose Rate For This Game",
          "cancel" : "Cancel",
         "change_password": "Change Password",
         "current_password": "Current Password",

@@ -9,7 +9,7 @@
             <div class="item-input-wrapper">
                 <input type="email" ng-model="user_data.email" id="email" name="email"  placeholder="{{languages.email}} * ">
                 <button class="button button-clear button-small"
-                ng-show="user_data.email != ''"
+                ng-show="user_data.email != '' && user_data.email != null"
                 ng-click="user_data.email = ''">
                 <i class="icon ion-close-circled"></i>
                 </button>

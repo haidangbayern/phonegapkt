@@ -46,6 +46,7 @@ var app = {
         document.addEventListener("deviceready", app.onDeviceReady, false);
         window.addEventListener('native.keyboardshow', obj_keyboard.keyboardShowHandler); 
         window.addEventListener('native.keyboardhide', obj_keyboard.keyboardHideHandler); 
+        document.addEventListener('focusout', function(e) {window.scrollTo(0, 0)});
         
     },
     // deviceready Event Handler

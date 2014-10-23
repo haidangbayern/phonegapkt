@@ -52,23 +52,16 @@ var obj_smileys = {
     },
     convert_character_to_smileys : function(str)
     {
-        console.log(str);
         for(smiley in this.data)
         {
             var index = str.indexOf(smiley);
             while(index != -1)
             {
                 var html_smiley = "<img src='"+this.path + this.data[smiley][0]+"' />";
-                console.log(str.replace(smiley, html_smiley));
                 var str = str.replace(smiley, html_smiley);
                 index = str.indexOf(smiley);
             }
         }
-        
         return str;
-        
-        
     }
-
-    
 };

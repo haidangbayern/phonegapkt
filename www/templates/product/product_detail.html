@@ -12,7 +12,7 @@
 
                 <h2 style="text-align:center">{{product.itemdetail.title}}</h2>
 
-                 <div class="gallery-big" style="width:275px;margin-top:10px;margin-bottom:0">
+                 <div id="gallery-big" style="width:275px;margin-top:10px;margin-bottom:0">
           
                     <div ng-repeat="image in product.images">
                       <img  src="{{image.image_path}}" style="width:275px;height:150px" />
@@ -23,28 +23,32 @@
                  
 
 
-                 <div class="gallery-thumbnail" style="width:275px;margin-top:10px;margin-bottom:10px">
+                 <div id="gallery-thumbnail" style="width:275px;margin-top:10px;margin-bottom:10px">
           
-                    <div ng-repeat="image in product.images" ng-click="click_gallery_thumbnail({{image.ordering}})">
-                      <img  src="{{image.image_path}}" style="width:60px; height:60px" alt="{{image.image_name}}" />
+                    <div ng-repeat="i in [product.images.length] | makeRange" 
+                      class="{{(i==0)? 'selected':''}}" 
+                      ng-click="click_gallery_thumbnail(product.images[i].ordering)" 
+                      >
+                      <img id="img_{{product.images[i].id}}"  src="{{product.images[i].image_path}}" style="" />
+                   
                     
                     </div>
                 </div>
-                <p style="margin-top:10px">{{product.itemdetail.quote}}</p>
+                <p style="margin-top:15px">{{product.itemdetail.quote}}</p>
                 <h2 style="display:inline; color:red">{{product.itemdetail.point | number}}</h2>
                 <span style="color:red">{{languages.web_currency_plural}}</span>
-
-                <button style="display:block" class="button button-small button-assertive">{{languages.exchange}}</button>
                 <p ng-if="is_tradeout_points_miles()">{{languages.product_points_miles}}</p>
-                <p>{{languages.product_limited}}</p>
 
-          
-           
+                <!-- start option -->
+                <div ng-repeat="product_option in product.itemdetail.options" ng-include="'templates/product/option_view_'+product_option.type+'.html'"></div>
+                <!-- end option -->
+
+                <!-- start exchange -->
+                <button style="display:block" class="button button-small button-assertive">{{languages.exchange}}</button>
+                <p>{{languages.product_limited}}</p>
+                <!-- end exchange -->
 
             </div>
-       
-
-            
 
               <div class="item item-divider card">
                
@@ -101,14 +105,31 @@ h2{
     font-weight: bold;
 }
 
-.gallery-big button.slick-prev{
+#gallery-big button.slick-prev{
   left: 10px;
 }
-.gallery-big button.slick-next{
+#gallery-big button.slick-next{
   right: 10px;
 }
 ul.slick-dots{
   top: 60px;
+}
+
+div.slick-slide{
+  border: 1px solid white;
+}
+#gallery-thumbnail div.slick-slide.selected{
+   border-color: #E48201;
+}
+div.slick-slide img{
+  width:60px; 
+  height:60px;
+  display: block;
+  margin: auto;
+}
+
+#gallery-big .slick-prev{
+  display: none;
 }
 </style>
 

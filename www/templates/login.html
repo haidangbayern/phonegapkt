@@ -9,14 +9,19 @@
         
         <div class="item-input-inset">
             <div class="item-input-wrapper">
-                <input type="text" ng-model="user_data.email" id="email" name="email" value="" placeholder="{{languages.email}} * ">
+                <input type="text" ng-model="user_data.email" id="email" name="email" value="" placeholder="{{languages.email}} * "
+                  on-focus='inputUp()'
+                  on-blur='inputDown()'
+                >
                 <button class="button button-clear button-small"
                       ng-show="user_data.email" 
-                      ng-click="user_data.email = ''">
+                      ng-click="user_data.email = ''"
+                  >
                 <i class="icon ion-close-circled"></i>
               </button>
             </div>
         </div>
+        
         <div class="item-input-inset">
             <div class="item-input-wrapper">
                 <input type="password" maxlength="12" ng-model="user_data.password" name="password" value="" placeholder="{{languages.password}} * ">

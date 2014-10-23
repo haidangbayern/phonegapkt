@@ -5,8 +5,18 @@
     </div>
     <div class="popup-body" style="padding:0;">
         <h1 class="text-center" id='animated_loading' >
-        <span> Connect To Server ... </span>
+            <span> Connect To Server ... </span>
         </h1>
+        <div class="list" ng-show="is_dev">
+          <label class="item item-input item-select" style="padding:0; margin:0px;">
+            <div class="input-label">
+              &nbsp; 
+            </div>
+            <select ng-change="connectServer(current_server)" ng-model="current_server" ng-options="server.name for server in server_ip_list track by server.ip" style="padding-bottom:10px; padding-top:10px;"></select>
+
+          </label>
+        </div>
+
     </div>
     <div class="text-center"> version {{version_application}}</div>
 </div>

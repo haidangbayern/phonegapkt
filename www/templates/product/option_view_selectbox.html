@@ -1,0 +1,6 @@
+<select style="font-size:12px;margin-top:5px" ng-model="product_option_model[product_option.id]" ng-change="changeOption(product.itemdetail.id, 'detailoption_{{product_option.id}}');" id="detailoption_{{product_option.id}}" class="detailoption" data-required="{{product_option.required}}" data-option-id="{{product_option.id}}">
+
+	<option value="-1" selected="selected">Select {{product_option.name}}</option>
+	
+	<option ng-repeat="product_option_value in product_option.items" value="{{product_option_value.id}}">{{product_option_value.name}}</option>
+</select>

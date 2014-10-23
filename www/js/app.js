@@ -9,14 +9,17 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
         // for form inputs)
         if (window.cordova && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true); //hide done button
+            cordova.plugins.Keyboard.disableScroll(false);
         }
         if (window.StatusBar) {
             // org.apache.cordova.statusbar required
-            StatusBar.styleDefault();
+            //StatusBar.styleDefault();
+            StatusBar.hide();
         }
     });
     $ionicPlatform.registerBackButtonAction(function() {
-        app.onBackKeyDown();
+        console.log("Button back keydown")
+        //app.onBackKeyDown();
     }, 100);
 }).config(function($stateProvider, $urlRouterProvider, $httpProvider) {
     $stateProvider.state('app', {
@@ -325,9 +328,42 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
 }).filter('smileys', function(){
     return function(input)
     {
-        console.log(obj_smileys);
-        console.log(input);
-
         return obj_smileys.convert_character_to_smileys(input);
     };
+}).directive('input', function($timeout){
+    return {
+        restrict: 'E',
+        scope: {
+            'returnClose': '=',
+            'onReturn': '&',
+            'onFocus': '&',
+            'onBlur': '&'
+        },
+        link: function(scope, element, attr){
+            element.bind('focus', function(e){
+                if(scope.onFocus){
+                    $timeout(function(){
+                        scope.onFocus();
+                    });
+                }        
+            });
+            element.bind('blur', function(e){
+                if(scope.onBlur){
+                    $timeout(function(){
+                        scope.onBlur();
+                    });
+                }
+            });
+            element.bind('keydown', function(e){
+                if(e.which == 13){
+                    if(scope.returnClose) element[0].blur();
+                    if(scope.onReturn){
+                        $timeout(function(){
+                            scope.onReturn();
+                        });                        
+                    }
+                } 
+            });   
+        }
+    }
 });
