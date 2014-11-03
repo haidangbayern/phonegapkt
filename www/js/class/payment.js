@@ -59,15 +59,15 @@ var obj_payment = {
             if (window.is_dev)
             {
                 this.data_required.card_holder_name = "DEV " + user.full_name + " " + (new Date()).getTime();
-                this.data_required.card_number='4111111111111111';
-                this.data_required.cvv = '111';
-                this.data_required.exp_date='2015-11';
-                this.data_required.address_1='1400 N. W. 65th Place Fort Lauderdale, FL 33309';
-                this.data_required.zip_code='33309';
-                this.data_required.city='Fort Lauderdale';
-                this.data_required.phone_1='954';
-                this.data_required.phone_2= '9177592';
-                this.data_required.phone_3= '3009';
+                this.data_required.card_number=window.dev_data[window.server_ip].new_cc.card_number;
+                this.data_required.cvv = window.dev_data[window.server_ip].new_cc.cvv;
+                this.data_required.exp_date= window.dev_data[window.server_ip].new_cc.exp_date;
+                this.data_required.address_1= window.dev_data[window.server_ip].new_cc.address_1;
+                this.data_required.zip_code= window.dev_data[window.server_ip].new_cc.zip_code;
+                this.data_required.city= window.dev_data[window.server_ip].new_cc.city;
+                this.data_required.phone_1= window.dev_data[window.server_ip].new_cc.phone_1;
+                this.data_required.phone_2=  window.dev_data[window.server_ip].new_cc.phone_2;
+                this.data_required.phone_3=  window.dev_data[window.server_ip].new_cc.phone_3;
             }
         }
     	else
@@ -140,5 +140,107 @@ var obj_payment = {
     },
     afterPayCheckoutSucc: function() {
         this.removeDataRequired();
+    },
+
+    shipping : {
+        template_file : "templates/payment/ship_info.html",
+        data : {
+            'first_name' : null,
+            'last_name' : null,
+            'address_1' : null,
+            'address_2' : null,
+            'country' : null,
+            'zip_code' : null,
+            'city' : null,
+            'state' : null,
+            'phone_1' : null,
+            'phone_2' : null,
+            'phone_3' : null,
+        },
+        resources : {
+            countries : obj_countries,
+            states : null,
+        },
+        __construct : function()
+        {
+            if (this.data.first_name == null)
+            {
+                this.resources.states = obj_states.getStatesByCountryId(obj_countries.getCountry(window.US).id);    
+                this.data.country = obj_countries.getCountry(window.US);
+                this.data.state =  this.resources.states?this.resources.states[0]:null;
+            }
+            if (window.is_dev)
+            {
+                this.data.first_name = window.dev_data[window.server_ip].shipping_info.first_name;
+                this.data.last_name=window.dev_data[window.server_ip].shipping_info.last_name;
+                this.data.address_1 = window.dev_data[window.server_ip].shipping_info.address_1;
+                this.data.address_2= window.dev_data[window.server_ip].shipping_info.address_2;
+                this.data.zip_code= window.dev_data[window.server_ip].shipping_info.zip_code;
+                this.data.city= window.dev_data[window.server_ip].shipping_info.city;
+                this.data.phone_1= window.dev_data[window.server_ip].shipping_info.phone_1;
+                this.data.phone_2=  window.dev_data[window.server_ip].shipping_info.phone_2;
+                this.data.phone_3=  window.dev_data[window.server_ip].shipping_info.phone_3;
+            }
+        },
+        changeCountry : function(){
+            if (Number(this.data.country.id) == window.US || Number(this.data.country.id) == window.CA)
+            {
+                this.resources.states = obj_states.getStatesByCountryId(this.data.country.id);
+                this.data.state =  this.resources.states?this.resources.states[0]:null;
+            }
+            else
+            {
+                this.resources.states = null;
+                this.data.state =null;
+            }
+        },
+        validateShippingData : function()
+        {
+            if (this.data.first_name && 
+                this.data.last_name && 
+                this.data.address_1 &&
+                this.data.country &&
+                this.data.zip_code &&
+                this.data.city &&
+                this.data.state &&
+                this.data.phone_1 &&
+                this.data.phone_2 )
+                return false;
+            return true;
+        },
+        getPercentTaxByState: function()
+        {
+            if (typeof this.data.state == "object" && this.data.state)
+                return Number(this.data.state.tax);
+            return 0;
+        },
+        beforePayCheckut: function() {
+            this.data.user_id = user.id;
+           
+            if (typeof this.data.state == "object")
+                this.data.state = this.data.state.id;
+            if (typeof this.data.country == "object")
+                this.data.country = this.data.country.id;
+            
+        },
+        afterPayCheckoutFail: function() {
+            this.data.country =  obj_countries.getCountry(this.data.country);
+            if (Number(this.data.country.id) == window.US || 
+                Number(this.data.country.id) == window.CA)
+            {
+                this.data.state =  obj_states.getStateById(this.data.state);
+            }
+            delete this.data.user_id;
+        },
+        afterPayCheckoutSucc: function() {
+            //this.__construct();
+            this.data.country =  obj_countries.getCountry(this.data.country);
+            if (Number(this.data.country.id) == window.US || 
+                Number(this.data.country.id) == window.CA)
+            {
+                this.data.state =  obj_states.getStateById(this.data.state);
+            }
+        },
+
     },
 };

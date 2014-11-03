@@ -1,0 +1,14 @@
+<div class="modal modal_description">
+    <ion-header-bar>
+    <h1 class="title">{{languages.description}}</h1>
+    <div class="buttons">
+        <button class="button button-clear" ng-click="closeModalDescription()">{{close}}</button>
+    </div>
+    </ion-header-bar>
+    <ion-content id="modal_description" direction="y" locking="true" class="has_header has_footer">
+      
+        <div style="padding:5px" ng-bind-html="modal_description.data.description">
+           
+        </div>        
+    </ion-content>
+</div>

@@ -118,7 +118,6 @@ var obj_interface = {
         console.log("Interface: initialize_interface");
         obj_interface.is_redesign = false;
         setTimeout(function() {
-            app.bindDeviceInformation();
             lottery_draw_tickets.initialize();
             //then load html
             $('#div_choose_number').html("");

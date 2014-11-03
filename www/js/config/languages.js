@@ -16,6 +16,8 @@ window.languages = {
         "ask_question" : "Ask a question",
         "active_date" : "Active date",
         "average_rating" : "Average Rating",
+        "answer" : "Answer",
+        "answered" : "Answered",
 //------------------------ B ------------------------
         "by" : "By",
         "brand" : "Brand",
@@ -31,6 +33,7 @@ window.languages = {
         "back": "Back",
         "birthday": "Birthday",
         "balance_after_ordered": "Balance After Ordered",
+        "billing_address":"Billing Address",
 //------------------------ C ------------------------
         "comment" : "Comment",
         "confirm" : "Confirm",
@@ -44,7 +47,7 @@ window.languages = {
         "choose_lottery_date": "Choose Lottery Date",
         "choose_time_expiration": "Choose Time Expiration",
         "choose_rate" : "Choose Rate For This Game",
-         "cancel" : "Cancel",
+        "cancel" : "Cancel",
         "change_password": "Change Password",
         "current_password": "Current Password",
         "continue" : "Continue",
@@ -56,6 +59,8 @@ window.languages = {
         "clear" : "Clear",
         "country" : "Country",
         "checkout" : "Checkout",
+        "continue_shopping" : "Shopping",
+        "cart_empty": "Your cart is empty",
 //------------------------ D ------------------------
         "day": "Day",
         "detail" : "Detail",
@@ -63,6 +68,7 @@ window.languages = {
         "description" : "Description",
         "delete" : "Delete",
         "draw_date" : "Draw date",
+        "date_time" : "Date/time",
 //------------------------ E ------------------------
         "exchange": "Exchange", 
         "email": "Email",
@@ -76,8 +82,11 @@ window.languages = {
         "ext" : "Ext",
         "enter_ship" : "Enter Shipping Information",
         "enter_payment" : "Enter Payment Information",
+        "exchange_item_added_to_cart" : "Exchange item added to cart",
+        "exchange_items_history" : "Exchange Items History",
 //------------------------ F ------------------------
         "favorite_games" : "Favorite Games",
+        "favorited" : "Favorited",
         "free": "Free",
         "friend" : "Friend",
         "friend_setting" : "Friend Setting",
@@ -88,6 +97,7 @@ window.languages = {
 //------------------------ G ------------------------
         "games" : "Games",
         "general": "General",
+        "giftcode" : "GiftCode",
 
 //------------------------ H ------------------------
         "help": "Help",
@@ -98,9 +108,12 @@ window.languages = {
 //------------------------ I ------------------------
         "invalid_data": "Invalid data",
         "in_a_nutshell" : "In a Nutshell",
+        "item" : "Item",
 //------------------------ J ------------------------
          "just_sign_up": "Just Sign Up",
 //------------------------ K ------------------------
+        "kootoro_response" : "Response",
+        "kootoro" : "KooToRo",
 //------------------------ L ------------------------
         "last_drawing": "Last Drawing",
         "list_friend" : "List Friends",
@@ -126,6 +139,7 @@ window.languages = {
         "member_id": "Member ID",
         "my_cart": "My Cart",
         "minimum_deposit" : "Minimum Deposit",
+        "my_items" : "My Items",
 //------------------------ N ------------------------
         "no_friend" : "No Friend",
         "no_request" : "No request",
@@ -137,9 +151,17 @@ window.languages = {
         "nickname": "Nickname",
         "new_password": "New Password",
         "new_tickets" : "New Tickets",
+        "no_games" : "No Games",
+        "no_question" : "No question",
 //------------------------ O ------------------------
         "overtime": "Expired",
+        "order" : "Order",
+        "order_number" : "Order Number",
+        "order_date" : "Order Date",
 //------------------------ P ------------------------
+        'pay_for' : 'for',
+        'program_name' : 'Program Name', 
+        'product_sold' : 'Sold out',
         "play" : "Play",
         "play_now" : "Play Now",
         "password": "Password",
@@ -157,6 +179,7 @@ window.languages = {
         "product_limited" : "Limited Time Only!",
         "product_points_miles": "Points/Miles",
         "processing_fee": "Processing Fee",
+        "please_select_your_options" : "Please select your options",
 //------------------------ Q ------------------------
         "quick_pick": "Quick Pick",
         "quick_pick_all": "Quick Pick All",
@@ -167,6 +190,7 @@ window.languages = {
 
 
 //------------------------ S ------------------------
+
         "start_conversations_with" : "Start conversations with ",
         "save_this_payment_account" : "Save this payment account",
         "setting": "Setting",
@@ -177,8 +201,10 @@ window.languages = {
         "state_province" : "State/Province",
         "submit_order" : "Submit Order",
         "shipping_handling_fees" : "Shipping & Handling Fees",
+        "shipping_address" : "Shipping Address",
 //------------------------ T ------------------------
         "trade_toros" : "Trade Toros",
+        "trade_now" : "Trade Now",
         "toro_games" : "Toro Games",
         "toro_rewards" : "Toro Rewards",
         "today": "Today",
@@ -192,6 +218,7 @@ window.languages = {
         "total" : "Total",
         "total_fee" : "Total Fee",
         "tax" : "Tax",
+        "toast" : "Toast",
 //------------------------ U ------------------------
         "username": "Username",
         "update_soon": "We will soon update",
@@ -199,6 +226,7 @@ window.languages = {
         "update_password": "Update Password",
         "unblock" : "Unblock",
         "unfriend" : "Unfriend",
+        "unfavorite": "Unfavorite",
 
 //------------------------ V ------------------------
 //------------------------ W ------------------------
@@ -214,6 +242,8 @@ window.languages = {
         "your_kootoro_account": "Your KooToro Account",
         "your_personal_detail": "Your Personal Detail",
         "your_current_toro": "Your current Toro balance",
+        "your_question" : "Your Question",
+
 //------------------------ Z ------------------------
         "zip_code": "Zip Code",
     }

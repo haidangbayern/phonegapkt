@@ -26,8 +26,9 @@ angular.module('starter.controllers', []).run(function() {
     $scope.languages = window.languages[window.current_language];
     $scope.lottery_code = window.lottery_code;
     $scope.user = user;
-
-    
+    $scope.my_cart = my_cart;
+    $scope.obj_states = obj_states;
+    $scope.obj_countries = obj_countries;
 
     // ************* Modal Chat
     $scope.chatData = {};
@@ -242,6 +243,98 @@ angular.module('starter.controllers', []).run(function() {
             }
         });
     }
+    $scope.unfriend_my_friend_by_id = function(friend_id, friend_name, user_id)
+    {
+        //********************** A confirm dialog
+        window.confirmPopup = $ionicPopup.confirm({
+            title: $scope.languages.confirm,
+            template: $scope.languages.do_you_want_to_unfriend + "\""+ friend_name+"\"",
+        });
+
+        confirmPopup.then(function(res) {
+            if(res) {
+                $scope.temp_value = friend_id;
+                $.ajax({
+                    url: window.server_url + '/friend/application_unfriend_my_friend_by_id?v=' + window.version,
+                    data: {
+                        'user_id' : user.id, 
+                        'friend_id' : friend_id,
+                    },
+                    type: "POST",
+                    dataType: 'json',
+                    crossDomain: true,
+                    success: function(data) {
+                        if (data.result)
+                        {
+                            if (data.message)
+                                $scope.showToast(data.message);
+                            $scope.current_friend.is_your_friend = false;
+                            $timeout(function(){
+                                if (window.list_request != undefined)
+                                {
+                                    console.log("list_request");
+                                    for (var i = 0; i < window.list_request.length; i++) {
+                                        if (window.list_request[i].message.id == $scope.temp_value)
+                                        {
+                                            window.list_request.splice(i,1);
+                                            break;
+                                        }
+                                    };    
+                                }
+                                if (window.list_blocked != undefined)
+                                {
+                                    console.log("list_blocked");
+                                    for (var i = 0; i < window.list_blocked.length; i++) {
+                                        if (window.list_blocked[i].id == $scope.temp_value)
+                                        {
+                                            window.list_blocked.splice(i,1);
+                                            break;
+                                        }
+                                    };   
+                                }
+                                if (window.list_search != undefined)
+                                { 
+                                    console.log("list_search");
+                                    for (var i = 0; i < window.list_search.length; i++) {
+                                        if (window.list_search[i].id == $scope.temp_value)
+                                        {
+                                            window.list_search.splice(i,1);
+                                            break;
+                                        }
+                                    }; 
+                                }
+                                if (window.list_friends != undefined)
+                                {
+                                    console.log("list_friends");
+                                    for (var i = 0; i < window.list_friends.length; i++) {
+                                        if (window.list_friends[i].user.id == $scope.temp_value)
+                                        {
+                                            window.list_friends.splice(i,1);
+                                            break;
+                                        }
+                                    }; 
+                                }
+                            }, 2000);
+                            
+                        }
+                        else
+                        {
+                            if (data.message)
+                            {
+                                $scope.showAlert($scope.languages.warning, data.message);
+                            }
+                        }
+                        $timeout(function() {
+                            
+                        }, 200);
+                    }
+                });
+            } else {
+               console.log('You are not sure');
+            }
+        });
+        
+    }
     //*************** End Mprofile of user
 
     $scope.refesh_balance = function() {
@@ -330,7 +423,7 @@ angular.module('starter.controllers', []).run(function() {
         }
         else
         {
-            $scope.showAlert($scope.languages.warning, message);
+            $scope.showAlert($scope.languages.toast, message);
         }
     }
     
@@ -354,6 +447,13 @@ angular.module('starter.controllers', []).run(function() {
         }
     }
     $scope.manual_buy = function(toros) {
+        // if (isNaN(Number(toros)))
+        // {
+        //     $scope.data_required.toros = Number(0);
+        //     $scope.data_required.money = 0;
+        //     $scope.showToast("Please enter number");
+        //     return;            
+        // }
         var point = toros != '' ? parseFloat(toros) : 0;
         var idx = 0;
         var point_level = 0;
@@ -376,7 +476,15 @@ angular.module('starter.controllers', []).run(function() {
         $scope.data_required.money = coint.toFixed(2);
     }
     $scope.isDisableStep1 = function() {
-        if (Number($scope.data_required.toros) <= 0 || Number($scope.data_required.money) <= 0) return true;
+        if (Number($scope.data_required.toros) <= 0 
+            ||
+            isNaN(Number($scope.data_required.toros))
+            || 
+            Number($scope.data_required.money) <= 0
+            ||
+            isNaN(Number($scope.data_required.money))
+            ) 
+            return true;
         return false;
     }
     $scope.next_step_cc = function() {
@@ -398,11 +506,12 @@ angular.module('starter.controllers', []).run(function() {
         $scope.payment.beforePayCheckut();
         obj_loading.show();
         var data_post = {
-            "device": JSON.stringify(device),
             "payment": $scope.payment.data_required,
             "user_id": user.id,
             "required": $scope.data_required,
         }
+        if (window.is_use_uuid)
+            data_post.device = JSON.stringify(device);
         $.ajax({
             url: window.server_url + '/pay/application_pay_buy_toros?v=' + window.version,
             data: data_post,
@@ -532,7 +641,8 @@ angular.module('starter.controllers', []).run(function() {
         $scope.payment.beforePayCheckut();
         //programs.beforeTradeInCheckut();
         var data = $scope.data_required;
-        data.device = JSON.stringify(device);
+        if (window.is_use_uuid)
+            data.device = JSON.stringify(device);
         if ($scope.data_required.fee != 0) data.payment = $scope.payment.data_required;
         console.log(data);
         $.ajax({
@@ -548,6 +658,9 @@ angular.module('starter.controllers', []).run(function() {
                     if (data.commonResponse.errorDescription) {
                         window.showAlert(window.languages[window.current_language].warning, data.commonResponse.errorDescription);
                     }
+
+                    if (data.message)
+                        window.showAlert(window.languages[window.current_language].warning, data.message);   
                 } else {
                     $scope.payment.afterPayCheckoutSucc();
                     if (data.content) {
@@ -590,7 +703,8 @@ angular.module('starter.controllers', []).run(function() {
         if ($scope.page != 0) {
             obj_loading.show();
             var data = {};
-            data.uuid = device.uuid,
+            if (window.is_use_uuid)
+                data.uuid = device.uuid;
             data.user_id = user.id;
             data.category_id = $scope.productCategoryId;
             data.page = $scope.page;
@@ -625,16 +739,17 @@ angular.module('starter.controllers', []).run(function() {
             $scope.$broadcast('scroll.infiniteScrollComplete');
         }
     }
-}).controller('productDetailCtrl', function($scope, $stateParams, $ionicSlideBoxDelegate, $timeout) {
+}).controller('productDetailCtrl', function($scope, $stateParams, $ionicModal, $ionicSlideBoxDelegate, $ionicPopup, $timeout) {
     console.log($stateParams);
     // $scope.product = products.getProductById($stateParams.productId);
     $scope.languages = window.languages[window.current_language];
     $scope.productId = $stateParams.productId;
 
-
+    //$scope.my_cart = window.my_cart.content;
 
     var data = {};
-    data.uuid = device.uuid,
+    if (window.is_use_uuid)
+        data.uuid = device.uuid;
     data.user_id = user.id;
     data.product_id = $scope.productId;
     obj_loading.show();
@@ -645,14 +760,27 @@ angular.module('starter.controllers', []).run(function() {
         dataType: 'json',
         crossDomain: true,
         success: function(data) {
+
+            if (window.my_cart.content.length == 0){
+
+                $scope.my_cart_items_text = '';
+                $scope.my_cart_items = 0;
+            }else{
+
+                $scope.my_cart_items_text = window.my_cart.content.length== 1? window.my_cart.content.length + ' item' : window.my_cart.content.length + ' items';
+                $scope.my_cart_items = window.my_cart.content.length;
+            }
             console.log('detailll ', data);
             product_detail.setData(data);
             $scope.product = data;
-            $scope.product.product_thumbnail = data.images[0].image_path;
+
+
             $scope.product_option_model = {};
             for (var idx in $scope.product.itemdetail.options){
 
                 var option = $scope.product.itemdetail.options[idx];
+
+                
 
                 if (option.type == 'checkbox'){
 
@@ -668,37 +796,326 @@ angular.module('starter.controllers', []).run(function() {
                 obj_loading.hide();
             }, 1000);
 
-             $scope.is_tradeout_points_miles = function() {
-        
-                if ($scope.product.itemdetail.product_type == 'tradeout_points/miles'){
-                    return true;
-                }else{
-                    return false;
+         
+            $scope.is_tradeout_points_miles = $scope.product.itemdetail.product_type == 'tradeout_points/miles';
+
+
+            $scope.available_product = $scope.product.itemdetail.qty_avail > 0 && ($scope.product.itemdetail.expire_date != '' || $scope.product.itemdetail.time_to_expire > 0);
+
+            $('#countdown_timer_div').show();
+            $('#countdown_timer_id').countdown({ 
+                until: $scope.product.itemdetail.time_to_expire, layout: '{dnn} {dl} {hnn}:{mnn}:{snn}',
+                onExpiry: function(){
+                    $('#sold_out_btn').show();
+                    $('#exchange_btn').hide();
                 }
-            }
+            });
             
 
 
              $ionicSlideBoxDelegate.update();
-            // $(document).ready(function(){
-
-            //     console.log('ready', $('#gallery-big .slick-prev'));
-            //      $('#gallery-big .slick-prev').hide();
-            // });
+           
         }
     });
+   
+    $scope.checkRequiredOption = function(){
+
+        var result = true;  
+       
+
+        $('.detailoption[data-option-required=1]').each(function(){
+            
+            if (($(this).is('select') && $(this).val() == '-1') ||
+                ($(this).attr('type') == 'checkbox' && !$(this).is(':checked') )
+                ){
+                $(this).focus();
+                result = false;
+                return false;
+            }
+        });
+      
+        //$('.error_message').remove();
+
+        if (!result){
+            //show message
+            if($('#product_option_div').prev().attr('id') != 'error_message'){
+
+                // $('#product_option_div').before('<p id="error_message" class="error_message" style="color: red">Please select your options</p>');
+                $scope.showAlert($scope.languages.warning, $scope.languages.please_select_your_options )
+            }
+           
+        }
+
+        return result;
+
+    }
+
+    $scope.addtolist = function(product_id){
+    
+       
+        if (!$scope.checkRequiredOption()){
+            return false;
+        }
+        
+        
+      
+        var select_options = {};
+        for(var i = 0; i < $scope.product.itemdetail.options.length; i++){
+            var option = $scope.product.itemdetail.options[i];
+            var item_option_value = "";
+            for(var j = 0; j < option.items.length; j++){
+                // Nguyen start
+                var ele     = $('#detailoption_'+ option.id);
+                var item_id = ele.val();
+                if(option.items[j].id == item_id){
+
+                    if ( ele.attr('type')=='checkbox' && !ele.is(':checked') ){
+                        //if checkbox and not checked
+                        continue;
+                    }
+                    // Nguyen end
+                    select_options[$scope.product.itemdetail.options[i].id] = {'id' : item_id, 'name' : option.name, 'value' : option.items[j].name};
+                    break;
+                }
+            }
+            
+        }
+
+        
+
+        $scope.product_id = product_id;
+        $scope.select_options = select_options;
+
+        $.ajax({
+            url: window.server_url + '/itemexchange/application_add/?v=' + window.version,
+            type: "POST",
+            dataType: 'json',
+            data: {
+                'product_id': product_id,
+                'select_options' : select_options
+            },
+            crossDomain: true,
+            success: function(data){
+
+                if (window.my_cart.content == null){
+                    window.my_cart.content = [];
+                }
+
+                for (var idx in data){
+                    data[idx].qty = Number(data[idx].qty);
+                }
+
+                // var insert_cart = true;
+
+                // for (var idx in window.my_cart.content){
+
+                //     var item = window.my_cart.content[idx];
+
+                //     if (item.rowid != '' && item.id == $scope.product_id){
+
+                //         var update_cart_item  = true;
+                //         // check product option
+                //         // make sure same option value collection
+                //         if (item.options != null){
+
+                //             for( var option_id in item.options){
+
+                                
+                //                 if (!$scope.select_options.hasOwnProperty(option_id) 
+                //                     || ($scope.select_options.hasOwnProperty(option_id) && $scope.select_options[option_id].id != item.options[option_id].id) 
+                //                     ){
+                //                     // not same
+                                   
+                //                     update_cart_item = false;
+                //                     break;
+                //                 }
+                              
+                //             }
+                //             if (Object.keys($scope.select_options).length != Object.keys(item.options).length){
+                //                 update_cart_item = false;
+                //             }
+
+                //         }else{
+                           
+                          
+                //             if (Object.keys($scope.select_options).length != 0){
+                //                 update_cart_item = false;
+                            
+                //             }
+                //         }
+                //         // end check product option
+                   
+
+                //         if (update_cart_item){
+
+                //             window.my_cart.content[idx].qty = parseInt(item.qty) + 1;
+                //             insert_cart = false;
+
+                //         }
+                //     }           
+                // }  
+
+                // if (insert_cart){
+                //     window.my_cart.content.push(data[0]);
+                // } 
+             
+                window.my_cart.content = data;
+                $scope.my_cart_items = window.my_cart.content.length;
+                $scope.my_cart_items_text = window.my_cart.content.length== 1? window.my_cart.content.length + ' item' : window.my_cart.content.length + ' items';
+
+               
+                $timeout(function() {
+                  $scope.showPopup();
+                }, 200);
+              
+            }
+        });
+
+    }
+
+
+
+
+    // Triggered on a button click, or some other target
+    $scope.showPopup = function() {
+      $scope.data = {}
+
+      // An elaborate, custom popup
+      var shopping_checkout_popup = $ionicPopup.show({
+        template: '',
+        title: $scope.languages.exchange_item_added_to_cart,
+        scope: $scope,
+        buttons: [
+          { text: $scope.languages.continue_shopping,
+            type: 'custom_btn',
+            onTap: function(e){
+                shopping_checkout_popup.close();
+
+                window.location.href = '#/app/product';
+                //history.back();
+            }
+
+           },
+          {
+            text: '<b>Checkout</b>',
+            type: 'button-positive custom_btn',
+            onTap: function(e) {
+               window.location.href = '#/app/checkout';
+            }
+          },
+        ]
+      });
+    
+   
+     };
+    
+
     $scope.click_by_thumbnail = false;
-
-
-    $scope.click_gallery_thumbnail = function(index){
-        console.log('click_gallery_thumbnail');
+    $scope.click_gallery_thumbnail = function(index, img_id){
+      
 
         $('#gallery-big').slickGoTo(index);      
 
-        $('#gallery-thumbnail .slick-slide.slick-active.selected').removeClass('selected');
-        $('#gallery-thumbnail .slick-slide.slick-active[index='+index+']').addClass('selected'); 
+        $('#gallery-thumbnail .slick-slide.selected').removeClass('selected');
+        $('#gallery-thumbnail .slick-slide[index='+index+']').addClass('selected'); 
 
          $scope.click_by_thumbnail = true;
+
+       
+
+         $scope.setOptionsByImage(img_id);
+
+
+    }
+    $scope.setOptionsByImage = function(img_id){
+
+        if (typeof window.OptionByImage == 'undefined'){
+
+            window.OptionByImage = {};  
+        }
+      
+      
+        if (img_id != 'na' && img_id != ''){
+
+            if ( typeof window.OptionByImage[img_id] != 'undefined' ){
+
+                 $scope.setOptions(window.OptionByImage[img_id], img_id);
+                
+            }
+            else{
+              
+                // if not available, send AJAX request
+               
+                $.ajax({
+                    url: window.server_url + '/product/application_get_option_by_image?v=' + window.version,
+                    type:'post',
+                    dataType:'json',
+                    async: false,
+                    data: {
+                        'image_id': img_id
+                    },
+                   
+                    success:function(options){
+                     
+                       
+                       
+                        if (typeof window.OptionByImage[img_id] == 'undefined'){
+
+                            window.OptionByImage[img_id] = options;  
+                        }
+
+                       
+                        $scope.setOptions(options, img_id);
+                    }
+                });
+            }
+        }
+        else{
+          
+            $scope.setOptions('', 'na');
+        }
+    }
+    $scope.setOptions = function(options, image_id){
+
+
+        if ((options != '' && options.length != 0) && (image_id != 'na' && image_id != '')){
+
+            $('.detailoption').each(function(){
+
+                var option_id = parseInt($(this).attr('data-option-id'));
+            
+                if (typeof options[option_id] != 'undefined'){  
+
+                    var option_value_id = options[option_id];
+                
+                    if ($(this).attr('type') == 'checkbox'){
+
+                        $(this).attr('checked', true);
+                    }
+                    else{
+                        $(this).val(option_value_id);
+                    }
+                }
+                else{
+                   
+                    $(this).attr('checked', false);
+                }
+            });
+        }
+        else{
+            //reset all options with default image
+
+            $('.detailoption').each(function(){
+                if ($(this).attr('type') == 'checkbox'){
+                    $(this).attr('checked', false);
+                }
+                else{
+                    $(this).val('-1');
+                }
+            }); 
+
+        }
+        
     }
    
 
@@ -752,13 +1169,11 @@ angular.module('starter.controllers', []).run(function() {
 
                     $scope.thumbnail_set_selected(slide_index);
                     $scope.thumbnail_slickgoto(slide_index);
-                    // $('#gallery-thumbnail .slick-slide.slick-active[index='+slide_index+']').click();
+                   
                     $('#gallery-big').slickGoTo(slide_index);
-                //     productOptionObj.setThumbnail(img_id);
+              
                 }
-                else{   
-                //     productOptionObj.setDefault();
-                }
+                
             }
         });
         
@@ -775,29 +1190,11 @@ angular.module('starter.controllers', []).run(function() {
         }
     }
 
-   
-
-    // //if selected options not match any images then show default image
-    // $scope.setDefault= function(){
-
-    //     var default_li = $('.gallery-thumbs li.default');
-    //     //if default image is no image available
-    //     //then do nothing
-    //     if (typeof default_li !='undefined' && default_li.find('img').attr('id') != 'img_na'){
-
-    //         $('.gallery-thumbs li').removeClass('selected');
-
-    //          default_li.addClass('selected');
-
-    //          src = default_li.find('img').attr('src');
-    //         $('#img_big').attr('src',src);
-    //     }
-    // }
     $scope.thumbnail_slickgoto = function(slide_index){
         // slick gallery thumbnail
         var slick_go_to = true;
 
-        $('#gallery-thumbnail .slick-slide').each(function(){
+        $('#gallery-thumbnail .slick-slide.slick-active').each(function(){
 
              if (slide_index  == $(this).attr('index') ){
 
@@ -806,7 +1203,14 @@ angular.module('starter.controllers', []).run(function() {
          
         });
 
+        console.log('slick_go_to', slick_go_to);
+
         if (slick_go_to){
+
+            if (slide_index > 4){
+                slide_index = slide_index - 3;
+            }
+              console.log('slick_go_to slide_index', slide_index);
 
             $('#gallery-thumbnail').slickGoTo(slide_index);
 
@@ -840,6 +1244,7 @@ angular.module('starter.controllers', []).run(function() {
                 if ($scope.click_by_thumbnail){
 
                     $scope.click_by_thumbnail = false;
+                    // $('#gallery-thumbnail').slickGoTo(slickSlider.currentSlide);
                 }else{
                    
                     $scope.thumbnail_slickgoto(slickSlider.currentSlide);
@@ -875,20 +1280,421 @@ angular.module('starter.controllers', []).run(function() {
               dots: true
              
         });
-     
-    }, 500);
+      
 
-   
+     
+    }, 1000);
+
+    $timeout(function() {
+        if ($scope.product.images.length  > 1)
+        {
+            $('#thumbnail-wrapper').css('opacity','1');
+        }
+        else
+        {
+            $('#thumbnail-wrapper').hide();
+        }
+    }, 1400);
+
+    /*---------nutshell--------------*/
+    $scope.modal_nutshell = {
+        modal : null,
+        data: null
+    };
+    $ionicModal.fromTemplateUrl('templates/product/modal_nutshell.html', {
+        scope: $scope
+    }).then(function(modal) {
+        $scope.modal_nutshell.modal = modal;
+    });
+    $scope.closeModalNutshell = function() {
+        $scope.modal_nutshell.modal.hide();
+    };
+    $scope.openModalNutshell = function(obj) {
+
+        $scope.modal_nutshell.data = obj;
+        $scope.modal_nutshell.modal.show();
+        
+        $timeout(function() {
+          
+        }, 200);
+    }; 
+    /*---------end nutshell--------------*/ 
+
+    /*---------term condition--------------*/
+    $scope.modal_term_condition = {
+        modal : null,
+        data: null
+    };
+    $ionicModal.fromTemplateUrl('templates/product/modal_term_condition.html', {
+        scope: $scope
+    }).then(function(modal) {
+        $scope.modal_term_condition.modal = modal;
+    });
+    $scope.closeModalTermCondition = function() {
+
+        $scope.modal_term_condition.modal.hide();
+    };
+    $scope.openModalTermCondition = function(obj) {
+
+        $scope.modal_term_condition.data = obj;
+        $scope.modal_term_condition.modal.show();
+        
+        $timeout(function() {
+          
+        }, 200);
+    }; 
+    /*---------end term condition--------------*/
+
+    /*---------description--------------*/
+    $scope.modal_description = {
+        modal : null,
+        data: null
+    };
+    $ionicModal.fromTemplateUrl('templates/product/modal_description.html', {
+        scope: $scope
+    }).then(function(modal) {
+        $scope.modal_description.modal = modal;
+    });
+    $scope.closeModalDescription = function() {
+
+        $scope.modal_description.modal.hide();
+    };
+    $scope.openModalDescription = function(obj) {
+
+        $scope.modal_description.data = obj;
+        $scope.modal_description.modal.show();
+        
+        $timeout(function() {
+          
+        }, 200);
+    }; 
+    /*---------end description--------------*/
+
+    /*---------question--------------*/
+    $scope.modal_questions = {
+        modal : null,
+        data: null,
+        question: null,
+
+    };
+    $ionicModal.fromTemplateUrl('templates/product/modal_questions.html', {
+        scope: $scope
+    }).then(function(modal) {
+        $scope.modal_questions.modal = modal;
+    });
+    $scope.closeModalQuestions = function() {
+
+        $scope.modal_questions.modal.hide();
+    };
+    $scope.openModalQuestions = function(product_id) {
+
+        $scope.modal_questions.data = null;
+        $scope.modal_questions.question = null;
+        obj_loading.show();
+        $.ajax({
+            url: window.server_url + '/product/application_get_questions?v=' + window.version,
+            data: {
+                'user_id' : user.id, 
+                'product_id' : product_id,
+                'page' : '1',
+            },
+            type: "POST",
+            dataType: 'json',
+            crossDomain: true,
+            success: function(data) {
+                console.log(data);
+                obj_loading.hide();
+                $scope.modal_questions.data = data;
+                $scope.modal_questions.modal.show();
+            }
+        });
+        
+        $timeout(function() {
+          
+        }, 200);
+    }; 
+
+    $scope.send_question = function(product_id, question)
+    {
+        console.log(question);
+        console.log(product_id);
+        
+        obj_loading.show();
+        $.ajax({
+            url: window.server_url + '/product/application_save_a_question?v=' + window.version,
+            data: {
+                'user_id' : user.id, 
+                'product_id' : product_id,
+                'question' : question,
+            },
+            type: "POST",
+            dataType: 'json',
+            crossDomain: true,
+            success: function(data) {
+                $scope.modal_questions.question = "";
+                $scope.showToast(data.message,'long','center');
+                $timeout(function() {
+                    obj_loading.hide();
+                }, 200);
+            }
+        });
+
+    }
+    /*---------end description--------------*/
+
+
+	$scope.$on('$destroy', function() {
+        $scope.modal_term_condition.modal.remove();
+        $scope.modal_description.modal.remove();
+        $scope.modal_nutshell.modal.remove();
+        $scope.modal_questions.modal.remove();
+    });
+    $scope.$on('modal.hidden', function() {
+    });
+    $scope.$on('modal.removed', function() {
+    });
+	
 })
 /*-------------check out----------------*/
-.controller('checkoutCtrl', function($scope, $timeout, $ionicSlideBoxDelegate) {
-    $scope.next_step_cc = function() {
+.controller('checkoutCtrl', function($scope, $timeout, $ionicPopup, $ionicSlideBoxDelegate, $ionicScrollDelegate) {
+ 
+   //$scope.my_cart = window.my_cart.content; 
+
+   for(var idx in window.my_cart.content){
+        // var cart = window.my_cart.content[idx];
+        if (typeof $scope.member_id == 'undefined'){
+            $scope.member_id = {};
+        }
+        $scope.member_id[idx] = window.my_cart.content[idx].member_id; 
+        window.my_cart.content[idx].index = idx;
+    }
+
+  
+
+    $scope.next_step = function() {
         obj_keyboard.waitForClose();
         $ionicSlideBoxDelegate.next();
     }
-	$scope.payment = obj_payment;
+
+    $scope.slideHasChanged = function(index)
+    {
+        if (index == 1)
+        {
+            if (!$scope.checkValidateCart())
+            {
+                $timeout(function(){
+                    $ionicSlideBoxDelegate.previous();
+                    $ionicScrollDelegate.scrollTop();
+                }, 200);
+            }
+        }
+        else if (index == 2)
+        {
+            if ($scope.payment.shipping.validateShippingData())
+            {
+                $timeout(function(){
+                    $ionicSlideBoxDelegate.previous();
+                    $ionicScrollDelegate.scrollTop();
+                }, 200);
+            }
+        }
+        else if (index == 3) 
+        {
+            if ($scope.payment.isDisablePay())
+            {
+                $timeout(function(){
+                    $ionicSlideBoxDelegate.previous();
+                    $ionicScrollDelegate.scrollTop();
+                }, 200);
+            }
+        }
+        $ionicScrollDelegate.scrollTop();
+    }
+    $scope.checkValidateCart = function()
+    {
+        for(key in window.my_cart.content)
+        {
+            if ( window.my_cart.content[key].qty <= 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    $scope.payment = obj_payment;
     $scope.payment.__construct();
-    $scope.shipping_template_url = "templates/payment/ship_info.html";
+    $scope.payment.shipping.__construct();
+  
+     $scope.showConfirm = function(id, rowid) {
+       var confirmPopup = $ionicPopup.confirm({
+         title: 'Delete cart item',
+         template: 'Do you want to delete this item?'
+       });
+       
+       confirmPopup.then(function(res) {
+         if(res) {
+          
+
+           $('#product_option_'+id).remove();
+
+           for(var idx in window.my_cart.content){
+                var cart = window.my_cart.content[idx];
+                if (cart.rowid == rowid ){
+                    $.ajax({
+                        url: window.server_url + '/itemexchange/application_deleteCartItem?v=' + window.version,
+                        data: { "rowid" : rowid, },
+                        type: "POST",
+                        dataType: 'json',
+                        crossDomain: true,
+                        success: function(data) {
+                        }
+                    });
+                    console.log('deleteeeee', window.my_cart.content);
+
+                    window.my_cart.content.splice(idx, 1);
+                }
+           }
+
+         } else {
+           console.log('You are not sure');
+         }
+       });
+     };
+     $scope.changeCartMemberId = function(index, rowid){
+
+        var member_id = $('#member_id_'+index).val();
+
+       
+
+        for(var idx in window.my_cart.content){
+
+            var cart = window.my_cart.content[idx];
+            if (cart.rowid == rowid ){
+
+                window.my_cart.content[idx].member_id = member_id;
+            }
+        }
+     }
+
+
+    $scope.deleteCartItem = function(id, rowid){
+      
+       $scope.showConfirm(id,rowid);
+
+    }
+
+    $scope.submit_order = function()
+    {
+        //my_cart
+        //shipping
+        //payment
+        $scope.payment.beforePayCheckut();
+        $scope.payment.shipping.beforePayCheckut();
+        obj_loading.show();
+
+        for (var idx in  window.my_cart.content){
+            delete  window.my_cart.content[idx].$$hashKey;
+        }
+
+
+        var data_post = {
+            "payment": $scope.payment.data_required,
+            "user_id": user.id,
+            "user_email": user.email,
+            "cart":  window.my_cart.content,
+            "shipping" : $scope.payment.shipping.data,
+            "tax" : $scope.tax(),
+        }
+        if (window.is_use_uuid)
+            data_post.device = JSON.stringify(device);
+
+        // console.log(data_post);
+
+        $.ajax({
+            url: window.server_url + '/itemexchange/application_checkout?v=' + window.version,
+            data: data_post,
+            type: "POST",
+            dataType: 'json',
+            crossDomain: true,
+            success: function(data) {
+                console.log('data submit order', data);
+
+
+                obj_keyboard.waitForClose();
+                obj_loading.hide();
+                var r = data;
+                if (r.success != undefined && r.success == false) {
+                    $scope.payment.afterPayCheckoutFail();
+                    $scope.payment.shipping.afterPayCheckoutFail();
+
+                  
+                    if (r.message) window.showAlert($scope.languages.warning, r.message);
+                    if (r.commonResponse && r.commonResponse.displayMessages)
+                    {
+                         window.showAlert($scope.languages.warning, r.commonResponse.displayMessages);
+                    }
+
+                } else {
+                    $scope.payment.afterPayCheckoutSucc();
+                    $scope.payment.shipping.afterPayCheckoutSucc();
+                    if (r.balance) user.balance = r.balance;
+                    if (r.payment) user.payment.setData(r.payment);
+
+                    // if (typeof data.product_gift_codes != 'undefined'){
+                        
+                    //     $scope.product_gift_codes = window.product_gift_codes = data.product_gift_codes;
+                    // }
+                    // empty cart
+                    window.my_cart.content = [];
+                    if (r.message)
+                        window.showAlert($scope.languages.success, r.message, "window.location.href='#/app/product';");
+                }
+            }
+        });
+    }
+
+    $scope.total = function() {
+        var total = 0;
+        angular.forEach( window.my_cart.content, function(item) {
+            total += item.qty * item.point;
+        })
+        return total;
+    }
+
+    $scope.processing_fee = function()
+    {
+        var fee = 0;
+        angular.forEach( window.my_cart.content, function(item) {
+            fee += item.processing_fee* item.qty;
+        })
+        return fee;
+    }
+
+    $scope.shipping_fee = function()
+    {
+        var fee = 0;
+        angular.forEach( window.my_cart.content, function(item) {
+            fee += item.shipping_fee * item.qty;
+        })
+        return fee;
+    }
+
+    $scope.tax = function()
+    {
+        var percent_tax = obj_payment.shipping.getPercentTaxByState();
+        var tax = ($scope.processing_fee()*percent_tax)/100;
+        var r = {
+            'percent_tax' : percent_tax,
+            'tax' : tax,
+        };
+        return r;
+        
+    }
+
+    $timeout(function() {
+          
+    }, 500);
+
 })
 /** =================== Home Page ======================= **/
 .controller('homeCtrl', function($scope) {
@@ -986,8 +1792,8 @@ angular.module('starter.controllers', []).run(function() {
     }
     if (window.is_dev) {
         $scope.user_data = {
-            email: 'tranhanhuy@gmail.com',
-            password: 'p@ssw0rd',
+            email: window.dev_data[window.server_ip].user.email,
+            password:  window.dev_data[window.server_ip].user.password,
         };
     }
     $scope.data_test =  "";
@@ -996,17 +1802,12 @@ angular.module('starter.controllers', []).run(function() {
         $scope.data_test = "inputUp";
         //$('ion-nav-view > ion-content').height(200);
         $timeout(function(){
-            $ionicScrollDelegate.scrollBottom(true);
-            $ionicScrollDelegate.resize();
             $scope.data_test = "resize";
         }, 300);
     }
     $scope.inputDown = function(){
         $scope.data_test = "inputDown";
-        $ionicScrollDelegate.resize();
     }
-
-
 }).controller('signUpCtrl', function($scope, $timeout, $ionicPopup, $ionicSlideBoxDelegate, $ionicScrollDelegate) {
     obj_loading.show();
     $timeout(function() {
@@ -1163,6 +1964,15 @@ angular.module('starter.controllers', []).run(function() {
         });
     }
 })
+.controller('home2Ctrl', function($scope,$timeout) {
+    $scope.languages = window.languages[window.current_language];
+    // $timeout(function(){
+    //     var padding = ($(window).width()-10)%220/2;
+    //     $('.screen').css('padding-left', padding + 'px');
+    //     $('.screen').css('padding-right', padding + 'px');
+    // },200);
+    
+})
 /** =================== Lottery ======================= **/
 .controller('mainLotteryCtrl', function($scope, $http, $log) {
     $scope.add_ticket = window.languages[window.current_language].add_ticket;
@@ -1240,18 +2050,26 @@ angular.module('starter.controllers', []).run(function() {
                 error: "",
                 drawing_time: $scope.drawing_time.value,
             };
+            // // creating normal ball
+            // var normal_ball = new Array();
+            // for (var i_normal = 0; i_normal < $scope.data.count_normal_number; i_normal++) {
+            //     normal_ball.push("");
+            // }
+            // ticket.normal_ball = normal_ball;
+            // //creating power ball
+            // var power_ball = new Array();
+            // for (var i_power = 0; i_power < $scope.data.count_power_number; i_power++) {
+            //     power_ball.push("");
+            // }
+            // ticket.power_ball = power_ball;
+
             //creating normal ball
-            var normal_ball = new Array();
-            for (var i_normal = 0; i_normal < $scope.data.count_normal_number; i_normal++) {
-                normal_ball.push("");
-            }
-            ticket.normal_ball = normal_ball;
+            var random_normal = core.random_many_number($scope.data.normal_number_min, $scope.data.normal_number_max, $scope.data.count_normal_number, true, true);
+            for (var i_normal = 0; i_normal < $scope.data.count_normal_number; i_normal++) ticket.normal_ball.push(Number(random_normal[i_normal]));
             //creating power ball
-            var power_ball = new Array();
-            for (var i_power = 0; i_power < $scope.data.count_power_number; i_power++) {
-                power_ball.push("");
-            }
-            ticket.power_ball = power_ball;
+            var random_power = core.random_many_number($scope.data.power_number_min, $scope.data.power_number_max, $scope.data.count_power_number, true, true);
+            for (var i_power = 0; i_power < $scope.data.count_power_number; i_power++) ticket.power_ball.push(Number(random_power[i_power]));
+
             $scope.tickets.ticket.push(ticket);
         };
     }
@@ -1279,6 +2097,25 @@ angular.module('starter.controllers', []).run(function() {
                 }
             }
         }
+         //checking power balls
+        if (error == "")
+        {
+            for (var i_power = 0; i_power < $scope.data.count_power_number - 1 && error == ""; i_power++) {
+            var new_ball = $scope.tickets.ticket[ticket_row].power_ball[i_power];
+            if (!new_ball) continue;
+            else {
+                if (!($scope.data.power_number_min <= new_ball && new_ball <= $scope.data.power_number_max)) //validate 2
+                    error = "Enter power number from " + $scope.data.power_number_min + " to " + $scope.data.power_number_max + ".";
+            }
+            for (var j_power = i_power + 1; j_power < $scope.data.count_power_number && error == ""; j_power++) {
+                var old_ball = $scope.tickets.ticket[ticket_row].power_ball[j_power];
+                if (old_ball) {
+                    if (new_ball == old_ball) //validate 1
+                        error = "Power Number " + new_ball + " was chosen.";
+                }
+            }
+        }
+        }
         $scope.tickets.ticket[ticket_row].error = error;
     }
     $scope.validate_power_ball = function(ticket_row, i_power_number) {
@@ -1289,18 +2126,40 @@ angular.module('starter.controllers', []).run(function() {
             if (!($scope.data.power_number_min <= new_ball && new_ball <= $scope.data.power_number_max)) //validate 2
                 error = "Enter power number from " + $scope.data.power_number_min + " to " + $scope.data.power_number_max + ".";
         }
-        for (var i_normal = 0; i_normal < $scope.data.count_power_number - 1 && error == ""; i_normal++) {
-            var new_ball = $scope.tickets.ticket[ticket_row].power_ball[i_normal];
+        
+        for (var i_power = 0; i_power < $scope.data.count_power_number - 1 && error == ""; i_power++) {
+            var new_ball = $scope.tickets.ticket[ticket_row].power_ball[i_power];
             if (!new_ball) continue;
             else {
                 if (!($scope.data.power_number_min <= new_ball && new_ball <= $scope.data.power_number_max)) //validate 2
                     error = "Enter power number from " + $scope.data.power_number_min + " to " + $scope.data.power_number_max + ".";
             }
-            for (var j_normal = i_normal + 1; j_normal < $scope.data.count_power_number && error == ""; j_normal++) {
-                var old_ball = $scope.tickets.ticket[ticket_row].power_ball[j_normal];
+            for (var j_power = i_power + 1; j_power < $scope.data.count_power_number && error == ""; j_power++) {
+                var old_ball = $scope.tickets.ticket[ticket_row].power_ball[j_power];
                 if (old_ball) {
                     if (new_ball == old_ball) //validate 1
-                        error = "Number " + new_ball + " was chosen.";
+                        error = "Power Number " + new_ball + " was chosen.";
+                }
+            }
+        }
+
+
+        //checking normal balls
+        if (error == "")
+        {
+            for (var i_normal = 0; i_normal < $scope.data.count_normal_number - 1 && error == ""; i_normal++) {
+                var new_ball = $scope.tickets.ticket[ticket_row].normal_ball[i_normal];
+                if (!new_ball) continue;
+                else {
+                    if (!($scope.data.normal_number_min <= new_ball && new_ball <= $scope.data.normal_number_max)) //validate 2
+                        error = "Enter normal number from " + $scope.data.normal_number_min + " to " + $scope.data.normal_number_max + ".";
+                }
+                for (var j_normal = i_normal + 1; j_normal < $scope.data.count_normal_number && error == ""; j_normal++) {
+                    var old_ball = $scope.tickets.ticket[ticket_row].normal_ball[j_normal];
+                    if (old_ball) {
+                        if (new_ball == old_ball) //validate 1
+                            error = "Number " + new_ball + " was chosen.";
+                    }
                 }
             }
         }
@@ -1409,10 +2268,11 @@ angular.module('starter.controllers', []).run(function() {
     $scope.buy = function() {
         obj_loading.show();
         var data_post = {
-            "device": JSON.stringify(device),
             "tickets": $scope.tickets.ticket,
             "user_id": user.id,
         }
+        if (window.is_use_uuid)
+            data_post.device = JSON.stringify(device);
         $.ajax({
             url: window.server_url + '/game/mobile_app_lottery/application_buy_ticket?v=' + window.version,
             data: data_post,
@@ -1465,7 +2325,8 @@ angular.module('starter.controllers', []).run(function() {
         if ($scope.page != 0) {
             obj_loading.show();
             var data = {};
-            data.uuid = device.uuid,
+            if (window.is_use_uuid)
+                data.uuid = device.uuid;
             data.user_id = user.id;
             data.page = $scope.page;
             $.ajax({
@@ -1640,6 +2501,124 @@ angular.module('starter.controllers', []).run(function() {
         });
     }
     $scope.fn_paging(1);
+}).controller('profileExchangeItemsHistoryCtrl', function($scope, $timeout, $ionicPopup, $ionicModal) {
+    $scope.languages = window.languages[window.current_language];
+
+    $scope.page = 1;
+   
+
+    $scope.history = function() {
+        if ($scope.page == 0)
+        {
+            $('ion-infinite-scroll').remove();
+            return;
+        }
+        var data_post = {
+            page: $scope.page,
+            user_id: user.id,
+        };
+        obj_loading.show();
+        $.ajax({
+            url: window.server_url + '/account/application_exchange_item_history?v=' + window.version,
+            type: "POST",
+            data: data_post,
+            dataType: 'json',
+            crossDomain: true,
+            success: function(data) {
+                for (var i = 0; i < data.record.length; i++) {
+                    data.record[i].fees = Number(data.record[i].fees);
+                    data.record[i].tax = Number(data.record[i].tax);
+                    data.record[i].shipping = Number(data.record[i].shipping);
+                };
+                if (!$scope.records)
+                    $scope.records = data.record;
+                else
+                    $scope.records = $scope.records.concat(data.record);
+
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+                if (data.pPaging.page == data.pPaging.end) {
+                    $scope.page = 0;                            
+                } else {
+                    $scope.page = Number(data.pPaging.page) + 1;
+                }
+                
+                $timeout(function() {
+                    obj_loading.hide();
+                }, 200);
+            }
+        });
+    }
+
+    // ************* Modal Order Detail
+    $scope.modal_order_detail = {
+        modal : null,
+        data: null,
+    };
+    $ionicModal.fromTemplateUrl('templates/profile/modal_order_detail.html', {
+        scope: $scope
+    }).then(function(modal) {
+        $scope.modal_order_detail.modal = modal;
+    });
+
+    $scope.closeModalOrderDetail = function() {
+        $scope.modal_order_detail.modal.hide();
+    };
+    $scope.openModalOrderDetail = function(order_id) {
+        obj_loading.show();
+        $scope.modal_order_detail.data = null;
+        $.ajax({
+            url: window.server_url + '/account/application_exchange_item_history_detail?v=' + window.version,
+            data: {
+                'user_id' : user.id, 
+                'order_id' : order_id,
+            },
+            type: "POST",
+            dataType: 'json',
+            crossDomain: true,
+            success: function(data) {
+                data.order.subtotal = Number(data.order.subtotal);
+                data.order.shipping = Number(data.order.shipping);
+                data.order.tax = Number(data.order.tax);
+                data.order.fees = Number(data.order.fees);
+
+
+                for (var i = 0; i < data.orderdetail.length; i++) {
+                    if (data.product_gift_codes){
+                        var giftcode = '';
+                        for(key in data.product_gift_codes)
+                        {
+                            if (data.product_gift_codes[key].orderdetail_id == data.orderdetail[i].id_orderdetail ){
+                                giftcode += data.product_gift_codes[key].code+', ';
+                            }
+                        }
+                        if (giftcode)
+                        {
+                            giftcode = giftcode.substr(0, giftcode.length - 2);
+                            data.orderdetail[i].giftcode = giftcode;                            
+                        }   
+                    }
+                };
+                
+
+                $scope.modal_order_detail.data =  data;
+                $scope.modal_order_detail.modal.show();
+                $timeout(function() {
+                    obj_loading.hide();
+                }, 200);
+            }
+        });
+    };   
+
+   
+   
+    $scope.$on('$destroy', function() {
+        $scope.modal_order_detail.modal.remove();
+    });
+    $scope.$on('modal.hidden', function() {
+    });
+    $scope.$on('modal.removed', function() {
+    });
+    
 }).controller('profileAvatarCtrl', function($scope, $timeout, $ionicPopup) {
     $scope.languages = window.languages[window.current_language];
     $scope.user = user;
@@ -1890,11 +2869,11 @@ angular.module('starter.controllers', []).run(function() {
                 $scope.__init_list_friends();
                 break;
             }
-            case 3:
-            {
-                $scope.__init_list_friends_blocked();
-                break;
-            }
+            // case 3:
+            // {
+            //     $scope.__init_list_friends_blocked();
+            //     break;
+            // }
         }
     }
 
@@ -1910,6 +2889,9 @@ angular.module('starter.controllers', []).run(function() {
                     data.friends[i].user.image = window.server_url + data.friends[i].user.image;
                 };
                 window.list_request = $scope.list_request = data.friends;
+                $timeout(function() {
+                    $ionicScrollDelegate.scrollTop();
+                }, 200);
             }
         });
     }
@@ -2315,7 +3297,7 @@ angular.module('starter.controllers', []).run(function() {
     $scope.slideChanged(0);
     $scope.__init_list_chat();
     $scope.__init_list_friends();
-    $scope.__init_list_friends_blocked();
+    //$scope.__init_list_friends_blocked();
     $timeout(function() {
         $('ion-scroll[name=sub-content]').css('height',$('#main-content').height()-$('#header-tabs').height());
     }, 100);
@@ -2342,12 +3324,12 @@ angular.module('starter.controllers', []).run(function() {
             }
             case 1:
             {
-                $scope.__init_categories();
+                $scope.__playing_games();
                 break;
             }
             case 2:
             {
-                $scope.__init_categories();
+                $scope.__favorite_games();
                 break;
             }
         }
@@ -2355,6 +3337,8 @@ angular.module('starter.controllers', []).run(function() {
 
     $scope.__init_categories = function()
     {
+        if ($scope.list_categories != undefined && $scope.list_categories)
+            return;
         $.ajax({
             url: window.server_url + '/game/mobile_app_lottery/application_get_game_categories?v=' + window.version,
             data: {'user_id' : user.id, },
@@ -2370,6 +3354,42 @@ angular.module('starter.controllers', []).run(function() {
         });
     }
 
+    $scope.__playing_games = function()
+    {
+        if ($scope.list_playing_games != undefined && $scope.list_playing_games)
+            return;
+        $.ajax({
+            url: window.server_url + '/game/mobile_app_lottery/application_get_list_playing_games?v=' + window.version,
+            data: {'user_id' : user.id, },
+            type: "POST",
+            dataType: 'json',
+            crossDomain: true,
+            success: function(data) {
+                $scope.list_playing_games = data.games;
+                $timeout(function() {
+                    
+                }, 200);
+            }
+        });
+    }
+    $scope.__favorite_games = function()
+    {
+        if ($scope.list_games_favorited != undefined && $scope.list_games_favorited)
+            return;
+        $.ajax({
+            url: window.server_url + '/game/mobile_app_lottery/application_get_list_games_favorite?v=' + window.version,
+            data: {'user_id' : user.id, },
+            type: "POST",
+            dataType: 'json',
+            crossDomain: true,
+            success: function(data) {
+                $scope.list_games_favorited = data.games;
+                $timeout(function() {
+                    
+                }, 200);
+            }
+        });
+    }
     $scope.template_url_categories = "templates/games/categories.html";
     $scope.template_url_playing_games = "templates/games/playing_games.html";
     $scope.template_url_favorite_games = "templates/games/favorite_games.html";
@@ -2387,6 +3407,7 @@ angular.module('starter.controllers', []).run(function() {
     $scope.gameId = $stateParams.gameId;
     $scope.__init_games = function(gameId)
     {
+        obj_loading.show();
         $.ajax({
             url: window.server_url + '/game/mobile_app_lottery/application_get_game_detail?v=' + window.version,
             data: {
@@ -2399,10 +3420,13 @@ angular.module('starter.controllers', []).run(function() {
             success: function(data) {
                 $scope.game = data;
                 $scope.game.params.value = $sce.trustAsResourceUrl($scope.game.params.value);
+                $scope.game.detail.play_url = $sce.trustAsResourceUrl($scope.game.detail.play_url + user.sercet);
                  $timeout(function(){
                     $("input[name='average_rating']").rating('refresh', 
                         {disabled: true, showClear: false, showCaption: true}
                     );
+                    $('#button_play_now').attr('href',"javascript:window.open('"+$scope.game.detail.play_url+"', '_system', 'location=no')");
+                    obj_loading.hide();
                 },500);
                 $timeout(function() {
                     
@@ -2546,6 +3570,7 @@ angular.module('starter.controllers', []).run(function() {
     $scope.$on('$destroy', function() {
         $scope.modal_comments.modal.remove();
         $scope.modal_game.modal.remove();
+        $scope.modal_rating.remove();
     });
     $scope.$on('modal.hidden', function() {
     });
@@ -2621,7 +3646,7 @@ angular.module('starter.controllers', []).run(function() {
     $scope.remove_favorited = function(game_id)
     {
         $scope.game.favorite.is_favorited = false;
-        window.showToast('Un favorite!');
+        window.showToast($scope.languages.unfavorite);
         $.ajax({
             url: window.server_url + '/game/mobile_app_lottery/application_remove_favorited?v=' + window.version,
             data: {
@@ -2641,7 +3666,7 @@ angular.module('starter.controllers', []).run(function() {
     $scope.add_favorited = function(game_id)
     {
         $scope.game.favorite.is_favorited = true;
-        window.showToast('Favorited!');
+        window.showToast($scope.languages.favorited + '!');
         $.ajax({
             url: window.server_url + '/game/mobile_app_lottery/application_add_favorited?v=' + window.version,
             data: {
@@ -2677,9 +3702,9 @@ angular.module('starter.controllers', []).run(function() {
             dataType: 'json',
             crossDomain: true,
             success: function(data) {
-                for (var i = 0; i < data.games.length; i++) {
-                    data.games[i].image = window.server_url + data.games[i].image;
-                };
+                // for (var i = 0; i < data.games.length; i++) {
+                //     data.games[i].image = window.server_url + data.games[i].image;
+                // };
                 $scope.category = data.category;
                 $scope.list_games = data.games;
                 $timeout(function() {

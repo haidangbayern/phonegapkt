@@ -1,11 +1,17 @@
 <ion-view title="Products List">
 
+<ion-nav-buttons side="right">    
+  <a  class="quick_shopping_cart"  href="#/app/checkout" style="color:white;">
+    <i class="icon ion-bag"></i>  
+    <span  ng-if="my_cart.content.length >= 1" style="margin-top:5px; margin-left:5px">{{(my_cart.content.length==1)? my_cart.content.length + ' item' : my_cart.content.length + ' items'}}</span>
+  </a>
+</ion-nav-buttons>
+
   <ion-content class="has-header">
     <ion-list>
     <div ng-repeat="item in products.product" class="">
         <a class="item item-thumbnail-left" href="#/app/product/{{item.id}}">
-
-            <img src="{{item.image_path}}" alt="{{item.title}}" />
+            <img src="{{item.image_path}}"/>
             <h2>{{item.title}}</h2> 
             <p>{{item.point | number}} {{languages.web_currency_plural}}</p>
         </a>
@@ -15,9 +21,12 @@
     </ion-list>
 
     <style type="text/css">
-     /* .item-avatar p {
+      .item h2 {
         white-space: normal;
-      }*/
+      }
+      i.ion-bag{
+      font-size: 30px;
+    }
     </style>
     <ion-infinite-scroll
     icon=""

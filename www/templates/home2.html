@@ -1,0 +1,60 @@
+<ion-view title="{{languages.kootoro}}"  hide-back-button="true">
+<ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+
+<ion-content class="screen" padding="true" direction="y">
+<div>
+<a sf="feauters" href="#/app/buy">
+    <img alt="" src="images/ic_trading.png">
+    <h4>{{languages.toro_exchange}}</h4>
+</a>
+<a sf="feauters" href="#/app/games">
+    <img alt="" src="images/ic_playing_games.png">
+    <h4>{{languages.toro_games}}</h4>
+</a>
+<a sf="feauters" href="#/app/product">
+    <img alt="" src="images/balance.png">
+    <h4>{{languages.toro_rewards}}</h4>
+</a>
+<a sf="feauters"  href="#/app/lottery">
+    <img alt="" src="images/lottery.png">
+    <h4>{{languages.lottery}}</h4>
+</a>
+<div class="clear"></div>
+</div>
+</ion-content>
+</ion-view>
+<style type="text/css">
+ion-content.screen {
+    background: url('images/red_bg.png');
+    text-align: center;
+}
+a[sf="feauters"] {
+    background-color: #eb4418;
+    border-color: #dc4701;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    color: white;
+    margin: 10px;
+    min-height: 200px;
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    vertical-align: middle;
+    display: inline-block;
+    line-height: 115px;
+    text-decoration: none;
+
+}
+
+a[sf="feauters"] img {
+    height: 80px;
+    vertical-align: bottom;
+}
+a[sf="feauters"] h4 {
+    font-size: 25px;
+    color: white;
+}
+</style>

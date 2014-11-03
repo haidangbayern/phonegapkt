@@ -1,69 +1,101 @@
 <ion-view title="Check Out">
 <ion-content class=" has-header" padding="true" direction="y">
 
-    <ion-slide-box show-pager="false" on-slide-changed="slideHasChanged($index)">
+	<div ng-if="my_cart.content.length == 0">
+		<div class="notice">
+		{{languages.cart_empty}}
+			
+		</div>
+		<div class="text-center">
+			<a href="#/app/product" class="button button-small button-positive" >
+                {{languages.continue_shopping}}
+            </a>
+        </div>
+
+	</Div>
+    <ion-slide-box show-pager="false" ng-if="my_cart.content.length > 0" on-slide-changed="slideHasChanged($index)">
 
     <!-- cart -->
     <ion-slide>
     <div >		
-		<ion-list>
-		<h3>{{languages.my_cart}}</h3>
-		<div>		  
-			<a class="item item-avatar" href="#/app/trade_in/{{item.id}}">
-			  <img src="http://demo.games4fun.abcv.com/images/products/24_1.jpg">
-			  <h2>H2Oasis Indoor Waterpark - Huffman / O' Malley</h2>
-			</a>
-			<table border="0" style="width:100%">
-				<tr>
-				  <td>100 <i style="color:red;">{{languages.web_currency_plural}}</i></td>
-				  <td>X</td>
-				  <td>
-					<input style="width:50px;margin:5px 0px -10px 5px;padding-left: 5px;border-radius: 4px;background-color: #eee;" class="ng-dirty ng-invalid ng-invalid-number" type="number" value="2" >
-				  </td> 
-				  <td>=</td>
-				  <td>200 <i style="color:red;">{{languages.web_currency_plural}}</i></td>
-				  <td>
-					<button style="margin-bottom:5px;" class="button button-small button-assertive button-extend-left-right">
-					<i class="ion ion-trash-a"></i>
-					{{languages.delete}}
+		<ion-list class="my_cart">
+			<h3>{{languages.my_cart}}</h3>
+			<div ng-repeat="item in my_cart.content" id="product_option_{{item.id}}">	
+
+				<div class="item item-avatar item-button-right" style="min-height: 50px;">
+
+				  	<img src="{{item.image_path}}" ng-click="redirect_url('#/app/product/{{item.id}}')">
+				  	<h2 ng-click="redirect_url('#/app/product/{{item.id}}')">{{item.name}}</h2>
+					<p ng-repeat="option in item.options">
+						<strong >{{option.name}}: </strong>{{option.value}}		
+					</p>
+					<button type="button" class="button button-small button-assertive button-extend-left-right" ng-click="deleteCartItem(item.id, item.rowid)">
+							<i class="ion ion-trash-a"></i>
 					</button>
-				  </td>
-				</tr>
-			</table>
-		</div>
+				</div>
+
+				<div ng-if="item.traveltype == 'tradeout_points/miles'" style="padding-left:15px">
+					<p style="margin-bottom:0px">
+					   	<strong>{{languages.member_id}}:</strong>
+
+					    <input type="text" style="display:inline-block;width:70%;position:relative;top:-3px;background-color: #eee;"  name="member_ids[{{item.id}}]" id="member_id_{{item.index}}" value="{{item.member_id}}" ng-model="member_id[item.index]" ng-change="changeCartMemberId({{item.index}}, '{{item.rowid}}')"/>
+
+				     	<input type="hidden"  name="program_ids[{{item.id}}]" value="{{item.program_id}}" />
+
+			          	<input type="hidden"  name="miles[{{item.id}}]" value="{{item.mile}}" />
+		          	</p>
+			
+
+			       	<p>   
+			          <strong>{{languages.program_name}}</strong>: {{item.program_name}}
+			       	</p>
+			       	<p>
+			          <strong>{{languages.product_points_miles}}</strong>: {{item.point | number}} {{ languages.web_currency_plural}} {{languages.pay_for}} {{item.mile}} {{item.program_name}}  {{item.program_unit}}
+			        </p>
+	        	</div>
+
+				<div class="product_point">
+					{{item.point | number }}&nbsp;X
+					<input style="display:inline; width: 50px; padding-left: 5px;border-radius: 4px;background-color: #eee; text-align: center;" class="ng-dirty ng-invalid ng-invalid-number" type="number" ng-model="item.qty" >
+					&nbsp;=&nbsp;
+					{{ (item.point * item.qty) | number }} <i style="color:red;">{{languages.web_currency_plural}}</i>
+				</div>
+			</div>
+
+			<div>
+			</div>
+
+			<div class="item item-divider text-right item-total item-user-balance">
+			    {{languages.your_current_toro}} : {{user.balance | number}} {{languages.web_currency_plural}}
+			</div>
+			<div class="item item-divider text-right item-total">
+			    {{languages.total}} : {{total() | number}} {{languages.web_currency_plural}}
+			</div>
+			<div class="item item-divider text-right item-total item-user-balance">
+			    {{languages.balance_after_ordered}} : {{user.balance - total() | number}} {{languages.web_currency_plural}}
+			</div>
+			<div class="item item-divider text-right item-total">
+			    {{languages.shipping_handling_fees}} : {{languages.usd_icon}}{{shipping_fee() | number:2}} 
+			</div>
+			<div class="item item-divider text-right item-total">
+			    {{languages.processing_fee}} : {{languages.usd_icon}}{{processing_fee() | number:2}}
+			</div>
+			<div class="item item-divider text-right item-total">
+			    {{languages.tax}} : {{languages.usd_icon}}{{tax().tax | number:2}}
+			</div>
+			<div class="item item-divider text-right item-total">
+			    {{languages.total_fee}}s : {{languages.usd_icon}}{{(shipping_fee()+processing_fee()+tax().tax) | number:2}} 
+			</div>
 		
-		<div>		  
-			<a class="item item-avatar" href="#/app/trade_in/{{item.id}}">
-			  <img src="http://demo.games4fun.abcv.com/images/products/24_1.jpg">
-			  <h2>H2Oasis Indoor Waterpark - Huffman / O' Malley</h2>
-			</a>
-			<table border="0" style="width:100%">
-				<tr>
-				  <td>100 <i style="color:red;">{{languages.web_currency_plural}}</i></td>
-				  <td>X</td>
-				  <td>
-					<input style="width:50px;margin:5px 0px -10px 5px;padding-left: 5px;border-radius: 4px;background-color: #eee;" class="ng-dirty ng-invalid ng-invalid-number" type="number" value="2" >
-				  </td> 
-				  <td>=</td>
-				  <td>200 <i style="color:red;">{{languages.web_currency_plural}}</i></td>
-				  <td>
-					<button style="margin-bottom:5px;" class="button button-small button-assertive button-extend-left-right">
-					<i class="ion ion-trash-a"></i>
-					{{languages.delete}}
-					</button>
-				  </td>
-				</tr>
-			</table>
-		</div>
 		</ion-list>
 		
 
         <div class="item-input-inset">
             <div class="button-bar">
-                <button class="button button-small" ng-click="redirect_url('#/app/buy')">
-                {{languages.cancel}}
+                <button class="button button-small" ng-click="redirect_url('#/app/product')">
+                {{languages.continue_shopping}}
                 </button>
-                <button class="button button-small button-positive" ng-click="next_step_cc()" >
+                <button class="button button-small button-positive"  ng-disabled="!checkValidateCart()" ng-click="next_step()" >
                 {{languages.continue}}
                 </button>
             </div>
@@ -75,14 +107,14 @@
     <!-- ship info -->
     <ion-slide>
 		<h3>{{languages.enter_ship}}</h3>
-		<div ng-include="shipping_template_url"></div>
+		<div ng-include="payment.shipping.template_file"></div>
 
         <div class="item-input-inset">
             <div class="button-bar">
-                <button class="button button-small" ng-click="redirect_url('#/app/buy')">
-                {{languages.cancel}}
+                <button class="button button-small" ng-click="redirect_url('#/app/product')">
+                {{languages.continue_shopping}}
                 </button>
-                <button class="button button-small button-positive" ng-click="next_step_cc()">
+                <button class="button button-small button-positive" ng-disabled="payment.shipping.validateShippingData()" ng-click="next_step()">
                 {{languages.continue}}
                 </button>
             </div>
@@ -100,73 +132,10 @@
 		</div>
         <div class="item-input-inset">
             <div class="button-bar">
-                <button class="button button-small" ng-click="redirect_url('#/app/buy')">
-                {{languages.cancel}}
+                <button class="button button-small" ng-click="redirect_url('#/app/product')">
+                {{languages.continue_shopping}}
                 </button>
-                <button class="button button-small button-positive" ng-click="next_step_cc()">
-                {{languages.continue}}
-                </button>
-            </div>
-        </div>
-    </div>
-    </ion-slide>
-	
-	<!-- payment info -->
-    <ion-slide>
-    <div >
-		<h3>{{languages.total}}</h3>
-		
-		<div class="list personal">
-			<div class="item">
-				{{languages.your_current_toro}}
-				<span class="item-note">
-				22,724,235 {{languages.web_currency_plural}}
-				</span>
-			</div>
-			<div class="item">
-				{{languages.total}} {{languages.web_currency_plural}}
-				<span class="item-note">
-				22 {{languages.web_currency_plural}}
-				</span>
-			</div>
-			<div class="item">
-				{{languages.balance_after_ordered}}
-				<span class="item-note">
-				22,723,950 {{languages.web_currency_plural}}
-				</span>
-			</div>
-			<div class="item">
-				{{languages.shipping_handling_fees}}
-				<span class="item-note">
-				$37.00
-				</span>
-			</div>
-			<div class="item">
-				{{languages.processing_fee}}
-				<span class="item-note">
-				$0.29
-				</span>
-			</div>
-			<div class="item">
-				{{languages.tax}}
-				<span class="item-note">
-				$0.29
-				</span>
-			</div>
-			<div class="item">
-				{{languages.total_fee}}
-				<span class="item-note">
-				$0.29
-				</span>
-			</div>
-		</div>
-		
-        <div class="item-input-inset">
-            <div class="button-bar">
-                <button class="button button-small" ng-click="redirect_url('#/app/buy')">
-                {{languages.cancel}}
-                </button>
-                <button class="button button-small button-positive" ng-click="next_step_cc()">
+                <button class="button button-small button-positive" ng-click="submit_order()"  ng-disabled="payment.isDisablePay()">
                 {{languages.submit_order}}
                 </button>
             </div>
@@ -174,13 +143,48 @@
     </div>
     </ion-slide>
 	
-	
     </ion-slide-box>
 
 
 <style type="text/css">
     .personal  div.item {
         margin: -1px 0;
+    }
+    .item.item-avatar{
+    	border-bottom:0; 
+    }
+    .my_cart .item{
+    	border-left: none;
+    	border-right: none;
+    	margin: -1px 0;
+    }
+    .my_cart .item-avatar h2{
+    	color: #5e5e5e;
+	    font-size: 14px;
+	    font-weight: bold;
+	    white-space: normal;
+
+    }
+    div.list > div{
+    	border-bottom: 1px solid gray;
+    }
+    div.product_point{
+    	padding-left: 15px;
+    	padding-right: 5px;
+    	margin-bottom: 10px;
+    }
+    div.product_point > div{
+    	display: inline-block;
+    	text-align: center;
+    }
+    .item-total {
+    	font-size: 13px;
+    	padding-top: 5px;
+    	padding-bottom: 5px;
+    	color: #0d4a76;
+    }
+    .item-user-balance {
+		color: #b53000;
     }
 </style>
 </ion-content>

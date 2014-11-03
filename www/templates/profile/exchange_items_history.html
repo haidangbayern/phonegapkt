@@ -1,0 +1,59 @@
+<ion-view title="{{languages.exchange_items_history}}">
+<ion-content class="has_header" direction="y">
+<div>
+    <div class="history list">
+        <div class="item" ng-repeat="r in records" ng-click="openModalOrderDetail(r.id)">
+            <h2> {{r.order_id}} <span class="status">({{r.shipment_status}})</span></h2>
+            <span class="date_time">{{languages.date_time}}: {{r.created_at}}</span>
+            <p style="padding:0;margin:0;">{{r.count_item}} {{languages.item}}(s)</p>
+            <span class="badge badge-balanced">{{languages.total_fee}}: {{languages.usd_icon}}{{(r.shipping + r.tax + r.fees) | number}}</span>
+            <span class="badge badge-assertive">{{languages.total}}: {{r.subtotal | number}} {{languages.web_currency}}s</span>
+        </div>
+
+    </div>
+
+
+
+    <ion-infinite-scroll
+        ng-if="page!=0"
+        icon=""
+        on-infinite="history()"
+        distance="1%">
+    </ion-infinite-scroll>
+
+</div>
+<style type="text/css">
+.history .title {
+    overflow: inherit !important;
+}
+.history .status {
+    font-size: 13px;
+    color: blue;
+    font-weight:bold;
+}
+.history .date_time {
+    font-size: 12px;
+    font-weight: bold;
+    font-style: italic;
+}
+.history .item {
+    padding: 10px;
+}
+.history .item,.history  .item p {
+    text-overflow: inherit !important;
+    white-space: inherit !important;
+
+}
+.history .item .badge {
+    display: inline !important;
+    position: initial !important;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    line-height: 30px !important;
+    text-overflow: inherit !important;
+}
+
+
+</style>
+</ion-content>
+</ion-view>

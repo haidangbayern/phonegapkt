@@ -1,6 +1,19 @@
-<select style="font-size:12px;margin-top:5px" ng-model="product_option_model[product_option.id]" ng-change="changeOption(product.itemdetail.id, 'detailoption_{{product_option.id}}');" id="detailoption_{{product_option.id}}" class="detailoption" data-required="{{product_option.required}}" data-option-id="{{product_option.id}}">
+<div class="item item-input item-select">
+    <div class="input-label" style="text-transform:capitalize;">
+        {{product_option.name}}
+    </div>
+    <select
+        style="font-size:14px; height:100%; padding-bottom:9px; padding-top: 8px;"
+        ng-model="product_option_model[product_option.id]"
+        ng-change="changeOption(product.itemdetail.id, 'detailoption_{{product_option.id}}');"
+        id="detailoption_{{product_option.id}}"
+        class="detailoption"
 
-	<option value="-1" selected="selected">Select {{product_option.name}}</option>
-	
-	<option ng-repeat="product_option_value in product_option.items" value="{{product_option_value.id}}">{{product_option_value.name}}</option>
-</select>
+        data-option-required="{{product_option.required}}"
+        data-option-id="{{product_option.id}}"
+        >
+        <option value="-1" selected="selected">Select {{product_option.name}}</option>
+
+        <option ng-repeat="product_option_value in product_option.items" value="{{product_option_value.id}}">{{product_option_value.name}}</option>
+    </select>
+</div>

@@ -1,0 +1,14 @@
+<div class="modal modal_term_condition">
+    <ion-header-bar>
+    <h1 class="title">{{languages.term_condition}}</h1>
+    <div class="buttons">
+        <button class="button button-clear" ng-click="closeModalTermCondition()">{{close}}</button>
+    </div>
+    </ion-header-bar>
+    <ion-content id="modal_term_condition" direction="y" locking="true" class="has_header has_footer">
+      
+        <div style="padding:5px" ng-bind-html="modal_term_condition.data.term_n_condition">
+           
+        </div>        
+    </ion-content>
+</div>

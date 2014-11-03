@@ -6,7 +6,6 @@
   <!-- ************* CONTENT *************** -->
   <ion-content id="buy_ticket" class="has-header has-footer">
 
-   
       <div id="img_cached" style="display:none;">
         <img name="background" src="images/bg.png" alt="" />
         <img name="ticket" src="images/ticket.png" alt="" />
@@ -39,7 +38,6 @@
               <input type="number" 
                 ng-change="validate_normal_ball(i_ticket, i_normal_number)"
                 ng-click = "validate_normal_ball(i_ticket, i_normal_number)"
-                ng-maxlength="2" 
                 pattern="([0-9])" 
                 ng-model="tickets.ticket[i_ticket].normal_ball[i_normal_number]"
               >
@@ -49,7 +47,6 @@
               <input type="number" 
                 ng-change="validate_power_ball(i_ticket, i_power_number)"
                 ng-click = "validate_power_ball(i_ticket, i_power_number)"
-                ng-maxlength="2" 
                 pattern="([0-9])" 
                 ng-model="tickets.ticket[i_ticket].power_ball[i_power_number]"  
                 

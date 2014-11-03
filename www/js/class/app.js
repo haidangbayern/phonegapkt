@@ -23,19 +23,7 @@ var app = {
     initialize: function() {
         app.bindEvents();
     },
-    bindDeviceInformation : function()
-    {
-        
-        if (window.is_device){
-            console.log("App: bind information device");
-            $('#device_model').val(device.model);
-            $('#device_cordova').val(device.cordova);
-            $('#device_platform').val(device.platform);
-            $('#device_uuid').val(device.uuid);
-            $('#device_version').val(device.version);
-            $('#device_name').val(device.name);    
-        }
-    },
+
     // Bind Event Listeners
     //
     // Bind any events that are required on startup. Common events are:
@@ -56,7 +44,6 @@ var app = {
     onDeviceReady: function() {
         console.log("On deviceready");
         app.receivedEvent('deviceready_status');
-        app.bindDeviceInformation();
     },
     onBackKeyDown: function() {
         console.log("onBackKeyDown");

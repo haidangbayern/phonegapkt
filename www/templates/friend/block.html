@@ -3,10 +3,12 @@
         <img data-ng-src="{{f.user.image}}">
         <h2>{{f.user.nickname}}</h2>
         <p>
-        <button class="button button-small button-state button-extend-left-right" ng-click="unblock_my_friend(f.id)">
+        
+        <button class="button button-small button-state button-extend-left-right" ng-click="unblock_my_friend(f.id)" style="display:none;">
         <i class="ion ion-unlocked"></i>
         {{languages.unblock}}
         </button>
+
         <button class="button button-small button-assertive button-extend-left-right"  ng-click="unfriend_my_friend(f.id, f.user.nickname)">
         <i class="ion ion-trash-a"></i>
         {{languages.unfriend}}

@@ -2,6 +2,7 @@ var user = {
     "sid" : "",
     "id" : "",
     "email" : "",
+    "sercet" : "",
     "first_name" : "",
     "last_name" : "",
     "nickname" : "",
@@ -32,6 +33,7 @@ var user = {
         this.sid = (new Date()).getTime();
         this.id = (option.id != undefined)?option.id:"";
         this.email = (option.email != undefined)?option.email:"";
+        this.sercet = (option.sercet != undefined)?option.sercet:"";
         this.first_name = (option.first_name != undefined)?option.first_name:"";
         this.last_name = (option.last_name != undefined)?option.last_name:"";
         this.nickname = (option.nickname != undefined)?option.nickname:"";
@@ -99,7 +101,7 @@ var user = {
                     user.login(r.user);
                     user.payment.setData(r.payment);
                     obj_socket.chat_socket();
-                    window.location.href = "#/app/lottery";
+                    window.location.href = "#/app/home2";
                 }
             }
         });

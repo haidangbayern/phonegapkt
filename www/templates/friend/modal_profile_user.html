@@ -12,36 +12,42 @@
             <p name="nick_name">
               {{current_friend.personal.nickname}}
             </p>
-            <button name="button" class="button button-small button-clear"  ng-if="current_friend.is_your_friend && current_friend.is_user_block_friend && current_friend.personal.id != user.id">
+            <!-- <button name="button" class="button button-small button-clear"  ng-if="current_friend.is_your_friend && current_friend.is_user_block_friend && current_friend.personal.id != user.id">
               ( {{languages.block}} )
             </button>
-            <!-- <button name="button" class="button button-small button-clear"  ng-if="current_friend.is_your_friend && !current_friend.is_user_block_friend && current_friend.personal.id != user.id">
+            <button name="button" class="button button-small button-clear"  ng-if="current_friend.is_your_friend && !current_friend.is_user_block_friend && current_friend.personal.id != user.id">
               ( {{languages.friend}} )
             </button> -->
 
-            <!-- Block-->
+            <!-- Block
             <button name="button" class="button button-small button-clear" ng-if="current_friend.is_your_friend && !current_friend.is_user_block_friend  && current_friend.personal.id != user.id" ng-click="block_my_friend(current_friend.personal.id)">
               <i class="icon ion-close-circled"></i>
               {{languages.block}}
+            </button>-->
+
+            <!-- UnFriend-->
+            <button name="button" class="button button-small button-clear"  ng-if="current_friend.is_your_friend && current_friend.personal.id != user.id"  ng-click="unfriend_my_friend_by_id(current_friend.personal.id, current_friend.personal.nickname , user.id)">
+                <i class="icon ion-trash-a"></i>
+                {{languages.unfriend}}
             </button>
 
             <div style="display:none">
-            <!-- UnBlock-->
-            <button name="button" class="button button-small button-clear"  ng-if="current_friend.is_your_friend && current_friend.is_user_block_friend && current_friend.personal.id != user.id">
-              <i class="icon ion-unlocked"></i> 
-              {{languages.unblock}}
-            </button>
-            <!-- UnFriend-->
-            <button name="button" class="button button-small button-clear"  ng-if="current_friend.is_your_friend && current_friend.personal.id != user.id">
-              <i class="icon ion-trash-a"></i>
-              {{languages.unfriend}}
-            </button>
-            
-            <!-- Request Make Friend-->
-            <button name="button" class="button button-small button-clear" ng-if="!current_friend.is_your_friend && current_friend.personal.is_block_request_friend == 0  && current_friend.personal.id != user.id">
-              <i class="icon ion-person-add"></i>
-              {{languages.add_friend}}
-            </button>
+                <!-- UnBlock-->
+                <button name="button" class="button button-small button-clear"  ng-if="current_friend.is_your_friend && current_friend.is_user_block_friend && current_friend.personal.id != user.id">
+                  <i class="icon ion-unlocked"></i> 
+                  {{languages.unblock}}
+                </button>
+                <!-- UnFriend-->
+                <button name="button" class="button button-small button-clear"  ng-if="current_friend.is_your_friend && current_friend.personal.id != user.id">
+                  <i class="icon ion-trash-a"></i>
+                  {{languages.unfriend}}
+                </button>
+                
+                <!-- Request Make Friend-->
+                <button name="button" class="button button-small button-clear" ng-if="!current_friend.is_your_friend && current_friend.personal.is_block_request_friend == 0  && current_friend.personal.id != user.id">
+                  <i class="icon ion-person-add"></i>
+                  {{languages.add_friend}}
+                </button>
             </div>
         </div>
     </div>

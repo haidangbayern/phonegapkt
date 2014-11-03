@@ -10,7 +10,7 @@
         <div ng-repeat="m in user_chat.messages" class="{{(m.user_id == user.id)?'user_chat':'friend_chat'}}">
             <img class="icon_avatar" ng-show="m.avatar" data-ng-src="{{(m.avatar)?m.avatar:''}}">
             <div class="icon_avatar" ng-show="!m.avatar"></div>
-            <span>{{m.message}}</span>
+            <span  ng-bind-html="m.message | smileys" style="white-space:normal;"></span>
         </div>
         <div class="item notice" ng-if="user_chat.messages == 0 ">
           {{languages.start_conversations_with}} {{user_chat.friend.nickname}}

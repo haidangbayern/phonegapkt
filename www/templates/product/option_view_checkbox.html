@@ -1,7 +1,17 @@
-<span title="Select test" style="margin-top:5px">
-
-<input style="height:12px" type="checkbox" ng-model="product_option_model[product_option.id]" ng-change="changeOption(product.itemdetail.id, 'detailoption_{{product_option.id}}');" id="detailoption_{{product_option.id}}" value="{{product_option.items[0].id}}" class="detailoption" data-required="{{product_option.required}}" data-option-id="{{product_option.id}}">
-
-<label id="detailvalue_{{product_option.id}}" for="detailoption_{{product_option.id}}" style="font-weight:normal">test 1</label>
-
-</span>
+<div class="item item-checkbox" style="padding-top:10px; padding-bottom: 10px; padding-left: 15px;">
+    <label class="checkbox checkbox-input-hidden">
+        <input type="checkbox"
+        ng-model="product_option_model[product_option.id]"
+        ng-change="changeOption(product.itemdetail.id, 'detailoption_{{product_option.id}}', product_option.items[0].id);"
+        id="detailoption_{{product_option.id}}"
+        name="detailoption_{{product_option.id}}"
+        value="{{product_option.items[0].id}}"
+        class="detailoption"
+        data-required="{{product_option.required}}"
+        data-option-id="{{product_option.id}}" >
+        <i class="checkbox-icon" style="float:right;"></i>
+    </label>
+    <label class="item-content disable-pointer-events">
+        <span style="text-transform:capitalize; font-size:16px;">{{product_option.name}}</span>
+    </label>
+</div>

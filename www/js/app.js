@@ -9,7 +9,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
         // for form inputs)
         if (window.cordova && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true); //hide done button
-            cordova.plugins.Keyboard.disableScroll(false);
+            cordova.plugins.Keyboard.disableScroll(window.keyboard_disableScroll);
         }
         if (window.StatusBar) {
             // org.apache.cordova.statusbar required
@@ -43,6 +43,18 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
         url: "/forgot_password",
         templateUrl: "templates/forgot-password.html",
         controller: 'forgotPasswordCtrl'
+    })
+    //*************** for home page ******************************
+    .state('app.home2', {
+        url: "/home2",
+        // templateUrl: "templates/home2.html",
+        // controller: 'home2Ctrl'
+        views: {
+            'menuContent': {
+                templateUrl: "templates/home2.html",
+                controller: 'home2Ctrl'
+            }
+        }
     })
     //*************** for Profile ******************************
     .state('app.profile', {
@@ -101,6 +113,14 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 controller: 'profileMoneyToroHistoryCtrl'
             }
         }
+    }).state('app.exchange_items_history', {
+        url: "/exchange_items_history",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/profile/exchange_items_history.html",
+                controller: 'profileExchangeItemsHistoryCtrl'
+            }
+        }
     }).state('app.friend_setting', {
         url: "/friend_setting",
         views: {
@@ -157,40 +177,6 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
             }
         }
     })
-
-    // .state('app.friend_message', {
-    //     url: "/friend_message",
-    //     views: {
-    //         'menuContent': {
-    //             templateUrl: "templates/friend/message.html",
-    //             controller: 'friendMessageCtrl'
-    //         }
-    //     }
-    // }).state('app.friend_chat', {
-    //     url: "/friend_message/:friendId",
-    //     views: {
-    //         'menuContent': {
-    //             templateUrl: "templates/friend/chat.html",
-    //             controller: 'friendChatCtrl'
-    //         }
-    //     }
-    // }).state('app.friend_list', {
-    //     url: "/friend_message",
-    //     views: {
-    //         'menuContent': {
-    //             templateUrl: "templates/friend/list.html",
-    //             controller: 'friendListCtrl'
-    //         }
-    //     }
-    // }).state('app.friend_blocked', {
-    //     url: "/friend_message",
-    //     views: {
-    //         'menuContent': {
-    //             templateUrl: "templates/friend/block.html",
-    //             controller: 'friendBlockCtrl'
-    //         }
-    //     }
-    // })
     //*************** for buy toro ******************************
     .state('app.buy', {
         url: "/buy",
@@ -238,7 +224,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
         url: "/checkout",
         views: {
             'menuContent': {
-                templateUrl: "templates/checkout/checkout_withoption.html",
+                templateUrl: "templates/checkout/checkout.html",
                 controller: 'checkoutCtrl'
             }
         }
@@ -260,7 +246,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 controller: 'productDetailCtrl'
             }
         }
-    })
+    }) 
     //*************** for lottery *******************************
     .state('app.lottery', {
         url: "/lottery",
@@ -294,13 +280,6 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 controller: 'historyTicketCtrl'
             }
         }
-    }).state('app.setting', {
-        url: '/setting',
-        views: {
-            'menuContent': {
-                templateUrl: 'templates/lottery/tab-setting.html',
-            }
-        }
     });
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/home');
@@ -330,7 +309,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
     {
         return obj_smileys.convert_character_to_smileys(input);
     };
-}).directive('input', function($timeout){
+}).directive('input', function($timeout, $ionicScrollDelegate, $ionicPosition){
     return {
         restrict: 'E',
         scope: {
@@ -341,16 +320,27 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
         },
         link: function(scope, element, attr){
             element.bind('focus', function(e){
+                if (window.has_virtual_keyboard)
+                    obj_keyboard.keyboardShowHandler({'keyboardHeight':200});
+                obj_keyboard.open();
+                obj_keyboard.scroll_keyboard_up($ionicPosition.offset(element), $ionicPosition, element, $ionicScrollDelegate);
                 if(scope.onFocus){
                     $timeout(function(){
                         scope.onFocus();
                     });
+                    $timeout(function() {
+                    }, 200);
+
                 }        
             });
             element.bind('blur', function(e){
+                if (window.has_virtual_keyboard)
+                    obj_keyboard.keyboardHideHandler();
                 if(scope.onBlur){
                     $timeout(function(){
                         scope.onBlur();
+                        // obj_keyboard.close();
+                        obj_keyboard.scroll_keyboard_down($ionicPosition.offset(element), $ionicPosition, element, $ionicScrollDelegate);
                     });
                 }
             });

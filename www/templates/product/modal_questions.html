@@ -1,0 +1,56 @@
+<div class="modal modal_ask_a_question">
+    <ion-header-bar>
+    <h1 class="title">{{languages.ask_question}}</h1>
+    <div class="buttons">
+        <button class="button button-clear" ng-click="closeModalQuestions()">{{close}}</button>
+    </div>
+    </ion-header-bar>
+    <ion-content direction="y" class="has_header has_footer">
+        <ul class="list question"  ng-repeat="question in modal_questions.data.questions">
+            <li class="item item-avatar">
+        		<img data-ng-src="{{question.user.image}}">
+        		<div ng-bind-html="question.content | smileys" style="white-space:normal;"></div> 
+        		<span class="item-note">
+        			{{languages.by}} {{question.user.nickname}}, {{question.created_at}}
+        		</span>
+                <div class="clear"></div>
+                <ul class="list answers">
+                    <li class="item item-divider" ng-show="question.answer.length > 0">
+                        {{languages.kootoro_response}} : {{question.answer.length | number}} {{languages.answer}}(s)
+                    </li>
+                    <li class="item item-answer"  ng-repeat="answer in question.answer">
+                        <div ng-bind-html="answer.content | smileys" style="white-space:normal;"></div> 
+                        <span class="item-note">
+                            {{languages.answered}}, {{answer.created_at}}
+                        </span>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="list" ng-if="modal_questions.data.questions.length == 0">
+            <div class="item notice">
+                {{languages.no_question}}
+            </div>
+        </div>
+    </ion-content>
+
+
+
+    <ion-footer-bar class="bar-stable" >
+    <div class="item-input-inset" style="width:100%;">
+        <label class="item-input-wrapper">
+            <input type="text" placeholder="{{languages.your_question}}" ng-model="modal_questions.question">
+        </label>
+        <button class="button button-clear" ng-disabled="!modal_questions.question" ng-click="send_question(product.itemdetail.id,modal_questions.question)">
+        <i class="icon ion-ios7-paperplane"></i>
+        </button>
+    </div>
+    </ion-footer-bar>
+</div>
+
+<style type="text/css">
+    .item, .item h1, .item h2, .item h3, .item h4, .item h5, .item h6, .item p, .item-content, .item-content h1, .item-content h2, .item-content h3, .item-content h4, .item-content h5, .item-content h6, .item-content p
+    {
+        white-space: normal;
+    }
+</style>

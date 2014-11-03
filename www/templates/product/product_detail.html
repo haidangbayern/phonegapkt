@@ -1,108 +1,179 @@
+<style type="text/css">
+#thumbnail-wrapper{
+
+  opacity:0;
+}
+
+</style>
 <ion-view title="{{product.title}}" >
+
+<ion-nav-buttons side="right">    
+  <a  class="quick_shopping_cart"  href="#/app/checkout" style="color:white;">
+    <i class="icon ion-bag"></i>  
+    <span ng-if="my_cart_items >= 1" style="margin-top:5px; margin-left:5px">{{my_cart_items_text}}</span>
+  </a>
+</ion-nav-buttons>
+
 <ion-content class="has-header" direction="y">
 <!-- <ion-slide-box show-pager="false">
 <ion-slide> -->
-<div class="box">
-    <div class="list">
-    
-            <input type="hidden" name="product_id" value="{{product.id}}">
 
-            <div class="item">
-           
+<div id="product">
 
-                <h2 style="text-align:center">{{product.itemdetail.title}}</h2>
+  <input type="hidden" name="product_id" value="{{product.id}}">
 
-                 <div id="gallery-big" style="width:275px;margin-top:10px;margin-bottom:0">
-          
-                    <div ng-repeat="image in product.images">
-                      <img  src="{{image.image_path}}" style="width:275px;height:150px" />
-                    
-                    </div>
-                </div>
-               
+        <!-- IMAGES -->
+       <div class="card"> 
+          <div class="item">
+            <h2 style="text-align:center">{{product.itemdetail.title}}</h2>
+
+              <!-- big image -->
+               <div id="gallery-big" style="width:275px;margin-top:10px;margin-bottom:0">
+        
+                  <div ng-repeat="image in product.images">
+                    <img  src="{{image.image_path}}" style="width:275px;height:150px" />
+                  
+                  </div>
+              </div>
+
+              <!-- thumbnail -->
+              <div id="thumbnail-wrapper">
+                
+            
+              <div id="gallery-thumbnail" style="width:275px;margin-top:10px;margin-bottom:10px">
+        
+                  <div ng-repeat="i in [product.images.length] | makeRange" 
+                    class="{{(i==0)? 'selected':''}}" ng-if="product.itemdetail.has_image"
+                    ng-click="click_gallery_thumbnail(product.images[i].ordering, product.images[i].id)" 
+                    >
+                    <img id="img_{{product.images[i].id}}"  src="{{product.images[i].image_path}}"  style="width:70px;height:70px" />
                  
+                  
+                  </div>
+              </div>
+              </div>
+          </div>
+        </div>
 
+        <!-- QUOTES -->
+        <div class="card product_quotes"> 
+          <div class="item">
+              <div ng-bind-html="product.itemdetail.quotes" style="white-space:normal;"></div>
+              <p style="{{ is_tradeout_points_miles ? '' : 'display:none'}}">
+                <label style="text-transform:uppercase">{{languages.product_points_miles}}:</label> 
+                {{product.itemdetail.mile | number}}
+              </p>
+          </div>
+        </div>
 
-                 <div id="gallery-thumbnail" style="width:275px;margin-top:10px;margin-bottom:10px">
+        <!-- Count Down Timer -->
+        <div class="card">
+          <div class="item item-icon-right">
+            <h2>{{languages.product_limited}}</h2>
+            <span id="countdown_timer_id" class="countdown-timer"></span>
+          </div>
+        </div>
+
+        <!-- Product Options -->
+        <div class="card" ng-if="product.itemdetail.options.length != 0"> 
+          <div id="product_option_div" class="list">
+            <div ng-repeat="product_option in product.itemdetail.options" ng-include="'templates/product/option_view_'+product_option.type+'.html'"></div>
+          </div>
+        </div>
+        
+
+        <!-- nutshell -->
+        <div class="card">
+         
+          <div class="item item-icon-right" ng-click="openModalNutshell(product.itemdetail)">
+           
+            <h2>{{languages.in_a_nutshell}}</h2>
+
+            <i class="icon ion-ios7-arrow-forward"></i>
+           
+          </div>
+        </div>
+
+        <!-- term condition -->
+        <div class="card">
+       
+          <div class="item item-icon-right" ng-click="openModalTermCondition(product.itemdetail)">
+           
+            <h2>{{languages.term_condition}}</h2>
+            <i class="icon ion-ios7-arrow-forward"></i>
+          </div>
+        </div>
+
+        <!-- description -->
+        <div class="card">
           
-                    <div ng-repeat="i in [product.images.length] | makeRange" 
-                      class="{{(i==0)? 'selected':''}}" 
-                      ng-click="click_gallery_thumbnail(product.images[i].ordering)" 
-                      >
-                      <img id="img_{{product.images[i].id}}"  src="{{product.images[i].image_path}}" style="" />
-                   
-                    
-                    </div>
-                </div>
-                <p style="margin-top:15px">{{product.itemdetail.quote}}</p>
-                <h2 style="display:inline; color:red">{{product.itemdetail.point | number}}</h2>
-                <span style="color:red">{{languages.web_currency_plural}}</span>
-                <p ng-if="is_tradeout_points_miles()">{{languages.product_points_miles}}</p>
+            <div class="item item-icon-right" ng-click="openModalDescription(product.itemdetail)">
+            <h2>{{languages.description}}</h2>
+           
+             <i class="icon ion-ios7-arrow-forward"></i>
+          </div>
+        </div>
 
-                <!-- start option -->
-                <div ng-repeat="product_option in product.itemdetail.options" ng-include="'templates/product/option_view_'+product_option.type+'.html'"></div>
-                <!-- end option -->
+        <!-- ask a question  -->
+        <div class="card">
+       
+          <div class="item item-icon-right" ng-click="openModalQuestions(product.itemdetail.id)">
+         
+           
+            <h2>{{languages.ask_question}} <span class="count">({{product.question.length}})</span></h2>
+             <i class="icon ion-ios7-arrow-forward"></i>
+          </div>
+        </div>
 
-                <!-- start exchange -->
-                <button style="display:block" class="button button-small button-assertive">{{languages.exchange}}</button>
-                <p>{{languages.product_limited}}</p>
-                <!-- end exchange -->
-
-            </div>
-
-              <div class="item item-divider card">
-               
-                <h2>{{languages.in_a_nutshell}}</h2>
-               
-              </div>
-              <div class="item item-divider card">
-               
-                <h2>{{languages.term_condition}}</h2>
-               
-              </div>
-               <div class="item item-divider card">
-               
-                <h2>Description</h2>
-               
-              </div>
-               <div class="item item-divider card">
-               
-                <h2>Ask a question</h2>
-               
-              </div>
-
-    </div>
 </div>
 <!-- </ion-slide>
-
-
-
-
 </ion-slide-box> -->
 <style type="text/css">
-.item-avatar p {
-	white-space: normal;
+
+i.ion-bag{
+  font-size: 30px;
 }
-.item-select select {
-	direction: ltr;
-}
-.item.card{
-    padding-left: 5px;
-    padding-right: 5px;
-    margin-left: 5px;
-    margin-right: 5px;
-}
-.item.card img{
-    top: 5px;
+#product .card {
+  margin: 5px;
+  box-shadow: none;
 }
 
-.item.card h2{
-    position: absolute;
-    left: 60px;
-}
-
-h2{
+#product .item {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  #product .item h2 {
+    padding: 0;
+    font-size: 14px;
     font-weight: bold;
+    color: #363636;
+  }
+#product .product_quotes, #product .product_quotes h1, #product .product_quotes h2, #product .product_quotes h3, #product .product_quotes h4, #product .product_quotes h5, #product .product_quotes h6, #product .product_quotes p{
+  white-space: normal;
+}
+
+  #product .ion-ios7-arrow-forward {
+    color: #d14014;
+    font-size: 14px;
+    width: 10px;
+  }
+
+#product .checkbox input:before, 
+#product .checkbox .checkbox-icon:before {
+  border-color: gray !important;
+}
+
+#product .checkbox input:checked:before, 
+#product .checkbox input:checked + .checkbox-icon:before{
+  background: none repeat scroll 0 0 gray !important;
+}
+#exchange_btn{
+  display: block;
+  margin-top:10px;
+}
+#sold_out_btn{
+  text-transform:uppercase;
+  margin-top:10px;
 }
 
 #gallery-big button.slick-prev{
@@ -131,7 +202,44 @@ div.slick-slide img{
 #gallery-big .slick-prev{
   display: none;
 }
+#countdown_timer_id{
+  font-weight: bold;
+  color: #012BC0;
+}
+
+.popup-buttons .button{
+
+  flex: 1 1 auto;
+}
+.custom_btn{
+  font-size: 13px;
+}
+#thumbnail-wrapper{
+  opacity: 0;
+}
+
+#product .count {
+      font-size: 12px;
+      color: #033FB5;
+      font-weight: normal;
+    }
 </style>
 
 </ion-content>
+
+<ion-footer-bar class="bar-stable" scroll="false">
+  <div class="pull-left">
+    <h2 style="display:inline; color:red; font-size:35px">{{product.itemdetail.point | number}}</h2>
+    <span style="color:red;vertical-align:top;">{{languages.web_currency_plural}}</span>
+  </div>
+   <!-- sold out -->
+  <button class="button button-small button-dark pull-right" style="margin:0;{{ available_product ? 'display:none': ''}}" 
+  id="sold_out_btn">
+    {{languages.product_sold}}
+  </button>
+
+  <!-- exchange -->
+  <button style="margin:0;{{available_product ? '': 'display:none'}}" class="button button-small button-assertive  pull-right" id="exchange_btn" ng-click="addtolist(product.itemdetail.id)">{{languages.exchange}}</button>
+  </ion-footer-bar>
+
 </ion-view>

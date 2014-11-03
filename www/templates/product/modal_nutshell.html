@@ -1,0 +1,14 @@
+<div class="modal modal_nutshell">
+    <ion-header-bar>
+    <h1 class="title">{{languages.in_a_nutshell}}</h1>
+    <div class="buttons">
+        <button class="button button-clear" ng-click="closeModalNutshell()">{{close}}</button>
+    </div>
+    </ion-header-bar>
+    <ion-content id="modal_nutshell" direction="y" locking="true" class="has_header has_footer">
+      
+        <div style="padding:5px" ng-bind-html="modal_nutshell.data.highlight">
+           
+        </div>        
+    </ion-content>
+</div>

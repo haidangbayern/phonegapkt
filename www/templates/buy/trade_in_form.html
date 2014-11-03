@@ -33,7 +33,7 @@
                 </label>
             </div>
 
-            <div class="item item-input-inset row">
+            <div class="item item-input-inset">
                 <div class="col-50 input-label" style="display:inline;">{{languages.security_code}}</div>
                 <div class="col item-input-wrapper">
                     <input type="text" ng-model="data_required.security_code" >
@@ -47,17 +47,21 @@
                     <input type="number" ng-model="data_required.how_many">
                 </label>
             </div>
-            <div class="item" ng-if="program.fee != 0">
+            <div class="item item-input-inset" ng-if="program.fee != 0">
                 <div class="col-50 input-label" style="display:inline;">
                     Processing Fee:
                 </div>
-                <span class="badge badge-positive">{{languages.usd_icon}} {{program.fee}}</span>
+                <label class="col-50 ">
+                    <span class="badge badge-positive" style="position: static; display: table;">{{languages.usd_icon}} {{program.fee}}</span>
+                </label>
             </div>
-            <div class="item" ng-if="program.fee == 0">
+            <div class="item item-input-inset" ng-if="program.fee == 0">
                 <div class="col-50 input-label" style="display:inline;">
                     Processing Fee:
                 </div>
-                <span class="badge badge-positive">{{languages.free}}</span>
+                <label class="col-50 ">
+                    <span class="badge badge-positive"  style="position: static; display: table;">{{languages.free}}</span>
+                </label>
             </div>
              <div class="item-input-inset">
                 <div class="button-bar">
@@ -135,7 +139,7 @@
         <div class="item tabs tabs-secondary tabs-icon-left">
             <button class="button button-block button-positive" style="margin: 0;" ng-click="trade_in_check_out()">
             <i class="icon ion-ios7-paperplane"></i>
-            Trade Now
+            {{languages.trade_now}}
             </button>
         </div>
     </div>
@@ -143,6 +147,13 @@
 </ion-slide>
 </ion-slide-box>
 <style type="text/css">
+#trade_in_form .item .input-label{
+    font-size: 14px !important;
+}
+#trade_in_form .item-select {
+    padding-left: 10px;
+}
+#trade_in_form 
 .item-avatar p {
 	white-space: normal;
 }

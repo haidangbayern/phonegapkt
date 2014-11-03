@@ -126,7 +126,9 @@
   
 </ion-content>
   <ion-footer-bar class="bar-stable" scroll="false">
-  <a class="button button-small button-positive button-extend-left-right  pull-right" ng-if="game.detail.code != lottery_code" href="#/app/games/play/{{game.detail.id}}">
+  <a id="button_play_now" target="_blank"  class="button button-small button-positive button-extend-left-right pull-right" ng-if="game.detail.code != lottery_code" 
+  href="javascript:window.open('{{game.detail.play_url}}', '_system', 'location=no')"
+  >
 		{{languages.play_now}}
 		<i class="ion ion-play"></i>
 	</a>

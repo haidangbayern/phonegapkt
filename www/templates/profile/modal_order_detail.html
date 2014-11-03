@@ -1,0 +1,144 @@
+<div class="modal">
+    <ion-header-bar>
+    <h1 class="title">{{modal_order_detail.data.order_id}}</h1>
+    <div class="buttons">
+        <button class="button button-clear" ng-click="closeModalOrderDetail()">{{close}}</button>
+    </div>
+    </ion-header-bar>
+    <ion-content class="modal_order_detail" direction="y">
+	<div class="item item-divider item-info">
+        {{languages.order}}
+    </div>
+	<div class="item item-info">
+    	<span class="address"><strong>{{languages.order_number}}:</strong> {{modal_order_detail.data.order_id}}</span>
+	    <span class="address"><strong>{{languages.order_date}}:</strong> {{modal_order_detail.data.order.created_at}}</span>
+    </div>
+
+    <div class="item item-divider item-info">
+        {{languages.shipping_address}}
+    </div>
+    <div class="item item-info">
+    	<span class="address">
+	    {{modal_order_detail.data.shippinginfo.first_name + " " + modal_order_detail.data.shippinginfo.last_name}}</span>
+	    <span class="address">{{modal_order_detail.data.shippinginfo.street_address_1}}</span>
+	    <span  class="address" ng-show="modal_order_detail.data.shippinginfo.street_address_2">{{modal_order_detail.data.shippinginfo.street_address_2}}</span>
+	    <span class="address">{{modal_order_detail.data.shippinginfo.city}},
+	     {{(obj_states.getStateById(modal_order_detail.data.shippinginfo.state)==null)?modal_order_detail.data.shippinginfo.state:obj_states.getStateById(modal_order_detail.data.shippinginfo.state).name}} 
+	    <span class="address">{{modal_order_detail.data.shippinginfo.zip_code}} </span>
+	    <span class="address">({{modal_order_detail.data.shippinginfo.area_code}}) {{modal_order_detail.data.shippinginfo.phone_number}} {{modal_order_detail.data.shippinginfo.phone_extension}} </span>
+    </div>
+    <div class="item item-divider item-info">
+        {{languages.billing_address}}
+    </div>
+	<div class="item item-info">
+        <span class="address">
+	    {{modal_order_detail.data.billinginfo.first_name + " " + modal_order_detail.data.billinginfo.last_name}}</span>
+	    <span class="address">{{modal_order_detail.data.billinginfo.street_address_1}}</span>
+	    <span  class="address" ng-show="modal_order_detail.data.billinginfo.street_address_2">{{modal_order_detail.data.billinginfo.street_address_2}}</span>
+	    <span class="address">{{modal_order_detail.data.billinginfo.city}},
+	     {{(obj_states.getStateById(modal_order_detail.data.billinginfo.state)==null)?modal_order_detail.data.billinginfo.state:obj_states.getStateById(modal_order_detail.data.billinginfo.state).name}} 
+	    <span class="address">{{modal_order_detail.data.billinginfo.zip_code}} </span>
+	    <span class="address">({{modal_order_detail.data.billinginfo.area_code}}) {{modal_order_detail.data.billinginfo.phone_number}} {{modal_order_detail.data.billinginfo.phone_extension}} </span>
+    </div>
+
+    <div class="item item-divider item-info">
+        {{languages.detail}}
+    </div>
+
+	<div class="item item-avatar" ng-repeat="item in modal_order_detail.data.orderdetail">
+	  	
+	  	<img src="{{item.image_path}}">
+	  	<h2>{{item.title}}</h2>
+
+		<p class="qty">{{item.point | number }}&nbsp;x&nbsp;{{item.quantity}}&nbsp;=&nbsp;
+		{{ (item.point * item.quantity) | number }} <i style="color:red;">{{languages.web_currency_plural}}</i></p>
+
+		<div class="option" ng-if="item.options.length > 0">
+			<p ng-repeat="op in item.options"><strong>{{op.option_name}}</strong> : {{op.name}}</p>
+		</div>
+		<div class="option" ng-if="item.product_type == 'tradeout_points/miles' && modal_order_detail.data.orderdetail_tradeout[item.product_id]"  ng-show="item.product_type == 'tradeout_points/miles'">
+			<p>
+		      <strong>{{languages.member_id}}</strong>: {{modal_order_detail.data.orderdetail_tradeout[item.product_id].member_id}}
+		   </p>
+		   <p>  
+		      <strong>{{languages.program_name}}</strong>:  {{ (modal_order_detail.data.convert_point[modal_order_detail.data.orderdetail_tradeout[item.product_id].program_id]) ? modal_order_detail.data.convert_point[modal_order_detail.data.orderdetail_tradeout[item.product_id].program_id] : ''}}
+		    </p>
+		    <p>
+		      <strong>{{languages.web_currency_plural}} / {{modal_order_detail.data.orderdetail_tradeout[item.product_id].unit}} </strong> : 
+				{{modal_order_detail.data.orderdetail_tradeout[item.product_id].point | number}} {{languages.web_currency_plural}} for {{modal_order_detail.data.orderdetail_tradeout[item.product_id].mile | number}} {{modal_order_detail.data.orderdetail_tradeout[item.product_id].unit}}
+		    </p>
+		</div>
+
+		<div class="option" ng-if="item.giftcode">
+			<p><strong>{{languages.giftcode}}</strong> : {{item.giftcode}}</p>
+		</div>
+
+	</div>
+
+	<div class="item item-divider text-right item-total">
+	    {{languages.total}} : {{modal_order_detail.data.order.subtotal | number}} {{languages.web_currency_plural}}
+	</div>
+	<div class="item item-divider text-right item-total">
+	    {{languages.shipping_handling_fees}} : {{languages.usd_icon}}{{modal_order_detail.data.order.shipping | number:2}} 
+	</div>
+	<div class="item item-divider text-right item-total">
+	    {{languages.processing_fee}} : {{languages.usd_icon}}{{modal_order_detail.data.order.fees | number:2}}
+	</div>
+	<div class="item item-divider text-right item-total">
+	    {{languages.tax}} : {{languages.usd_icon}}{{modal_order_detail.data.order.tax | number:2}}
+	</div>
+	<div class="item item-divider text-right item-total">
+	    {{languages.total_fee}}s : {{languages.usd_icon}}{{(modal_order_detail.data.order.shipping + modal_order_detail.data.order.fees + modal_order_detail.data.order.tax) | number:2}} 
+	</div>
+
+
+    </ion-content>
+
+    <style type="text/css">
+    	.modal_order_detail .item-info {
+    		padding: 5px 10px;
+
+    	}
+	    .modal_order_detail .item-divider{
+			font-size: 14px;
+    		color: #b53000;
+	    }
+    	.modal_order_detail .address{
+    		display: block;
+	    	font-size: 13px;
+	    }
+	    .modal_order_detail .item-user-balance {
+			color: #b53000;
+	    }
+	    .modal_order_detail .item-avatar  {
+	    	padding-top: 5px;
+	    	padding-bottom: 5px;
+	    }
+
+	    .modal_order_detail .item-avatar h2{
+			font-size: 12.5px;
+			white-space: normal;
+			color: #636363;
+			font-weight: bold;
+	    }
+	    .modal_order_detail .item-avatar  p.qty {
+	    	color: #0d4a76;
+	    }
+	    .modal_order_detail .item-total {
+	    	color: #0d4a76;
+		    font-size: 13px;
+		    padding-bottom: 5px;
+		    padding-top: 5px;
+	    }
+	    .modal_order_detail .option p{
+			padding: 0;
+			margin: 0;
+			font-size: 13px;
+			white-space: normal;
+	    }
+	    .modal_order_detail .option p strong {
+			text-transform: capitalize;
+	    }
+
+    </style>
+</div>

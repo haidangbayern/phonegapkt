@@ -45,6 +45,8 @@ ion-footer-bar {
   height: 100%;
   max-width: 100%;
   padding: 0;
+  background: transparent;
+  font-size: 13px;
 }
 div.button.activated {
     color: #444 !important;
@@ -63,7 +65,7 @@ div.button.activated {
             {{languages.prev}}
         </button>
         <label class="button item item-input item-select text-center" style="padding:0;">
-            <div class="input-label">
+            <div class="input-label" style="font-size: 13px;">
                 {{languages.page}}: {{data.page}}
             </div>
             <select ng-change="fn_paging(ipage.page_number)" ng-model="ipage" id="page" ng-options="r.page_number for r in data.pPaging_number">

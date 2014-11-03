@@ -2,20 +2,14 @@
     <widget xmlns = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         xmlns:cdv = "http://cordova.apache.org/ns/1.0"
-        id          = "com.abcv.kootoro"
-        version     = "2.0.191"
+        id          = "com.abcv.kootoro.lottery"
+        version     = "2.0.219"
         versionCode = "10" >
 
         
-        <name>KooToro</name>
+        <name>Kootoro Lottery 2</name>
 
-        <description> KooToro is the new way to supercharge your gift cards. We make it easy and fun to earn, combine and swap gift card balances for brands and rewards that you want now.&lt;br&gt;
-		
-Through KooToro Games, playing earns points, and increases the value of your gift cards. There’s something for all skill levels so everyone can have fun playing. Why just casual game when you can KooToro and earn rewards?&lt;br&gt;
-
-We partner with favorite brands such as Starbucks, Subway, GAP, Chipotle, BestBuy and AMC to give you lots of options for trading up your unused gift cards.&lt;br&gt;
-
-Our name is a play on the Spanish word “toro.” At KooToro we’re charging forward with a cool and entertaining new way to earn, trade and exchange gift cards. Sign-up on www.KooToro.com and start turning your casual gaming into real rewards.</description>
+        <description>ABCV product</description>
 
         <author href="http://abcv.com" email="huy.tran@abcv.com">
             Developer: Mr Freb
@@ -31,7 +25,7 @@ Our name is a play on the Spanish word “toro.” At KooToro we’re charging f
         
         <preference name="EnableViewportScale" value="false" />
         <preference name="HideKeyboardFormAccessoryBar" value="false" />
-        <preference name="KeyboardDisplayRequiresUserAction" value="true" />
+        <preference name="KeyboardDisplayRequiresUserAction" value="false" />
         <preference name="KeyboardShrinksView" value="false" />
         <preference name="Fullscreen" value="true" />
         

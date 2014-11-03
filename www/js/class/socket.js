@@ -9,8 +9,11 @@ var obj_socket = {
         lottery_socket.on('lottery_time', function(data) {
             var data_post = {
                 'lottery_time': data,
-                'uuid': $('#device_uuid').val(),
+                'user_id' : user.id,
             };
+            if (window.is_use_uuid)
+                data_post.uuid = device.uuid;
+
             var lottery_time = data;
             var span_lottery_time = $('#lottery_result').find('span[name=lottery_time]');
             if (span_lottery_time.length == 0 || (span_lottery_time.length != 0 && span_lottery_time.text() != lottery_time)) {

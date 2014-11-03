@@ -22,20 +22,30 @@
       </h1>
     </header>
     <ion-content class="has-header" style="background-color: #363738 !important;">
+ 
       <ion-list  style="color: #363738 !important;">
         
         <ion-item id="user_left" class="item-avatar">
           <img name="avatar" src="{{user.avatar}}" menu-close ng-click="redirect_url('#/app/profile')">
-          <h2 name="fullname">{{user.full_name}}</h2>
+          <h2 name="fullname"  menu-close ng-click="redirect_url('#/app/profile')">{{user.full_name}}</h2>
           <p name="balance" style="text-overflow:unset;">{{user.balance | number}} {{languages.web_currency}}s
             <button class="button button-small button-assertive" style="line-height:16px; min-height:22px;" ng-click="refesh_balance();">
               Refesh
             </button>
           </p>
         </ion-item>
+
+         <ion-item nav-clear class="item-icon-left" menu-close href="#/app/checkout" ng-show="my_cart.content.length >= 1" >
+          <i class="icon ion-bag"></i>
+          {{languages.my_items}}
+          <span class="item-note">
+            {{(my_cart.content.length==1)? my_cart.content.length + ' item' : my_cart.content.length + ' items'}}
+          </span>
+        </ion-item>
+
         <ion-item nav-clear  class="item-avatar" menu-close href="#/app/games">
           <img src="images/ic_playing_games.png">
-          {{languages.games}}
+          {{languages.toro_games}}
         </ion-item>
         <ion-item nav-clear  class="item-avatar" menu-close href="#/app/lottery">
           <img src="images/lottery.png">
@@ -49,10 +59,7 @@
           <img src="images/ic_trading.png">
           {{languages.toro_exchange}}
         </ion-item>
-         <ion-item nav-clear  class="item-avatar" menu-close href="#/app/checkout">
-          <img src="images/ic_trading.png">
-          checkout
-        </ion-item>
+        
         <ion-item nav-clear  class="item-avatar" menu-close href="#/app/friend">
           <img src="images/friend.png">
           {{languages.friend}}

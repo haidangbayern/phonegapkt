@@ -6,8 +6,6 @@ var lottery = {
 	view_tickets: function(page) {
 		obj_loading.show();
 		
-		console.log("Bind Device Information");
-		app.bindDeviceInformation();
 
 		console.log("Draw tickets initialize");
 		lottery_draw_tickets.reset();
@@ -19,7 +17,9 @@ var lottery = {
                 'page' : page,
             };
 
-        data.uuid = $('#device_uuid').val(),
+        if (window.is_use_uuid)
+        	data.uuid = device.uuid;
+
        	data.user_id = user.id;
 
 		$.ajax({
@@ -67,18 +67,19 @@ var lottery = {
 	view_history : function(id) {
 
 		obj_loading.show();
-		console.log("Bind Device Information");
-		app.bindDeviceInformation();
 		
 		console.log("Draw tickets initialize");
 		lottery_draw_tickets.initialize();
 
 		obj_loading.show();
 		var data_post = {};
-		if (id != undefined) data_post = {
+		if (id != undefined) 
+			data_post = {
 			'id': id,
 		};
-		data_post.uuid = $('#device_uuid').val();
+		if (window.is_use_uuid)
+			data_post.uuid = device.uuid;
+		data_post.user_id = user.id;
 		//data_post.page = $('#page').val();
 
 		$.ajax({
