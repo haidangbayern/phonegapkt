@@ -12,7 +12,7 @@ var obj_payment_account = {
     getPaymentByPaymentAccountId:function (payment_account_id)
     {
         for (var i = 0; i < this.data.length; i++) {
-            if (Number(this.data[i].id) == Number(payment_account_id))
+            if (Number(this.data[i].payment_account_id) == Number(payment_account_id))
                 return this.data[i];
         };
         return null;

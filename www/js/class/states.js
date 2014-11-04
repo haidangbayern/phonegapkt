@@ -24,4 +24,20 @@ var obj_states = {
         };
         return null;
     },
+    getTaxById: function(id)
+    {
+        var state = this.getStateById(id);
+        if (state!=null)
+            return Number(state.tax);
+        return 0;
+    },
+    getTaxByCountryAndStateText: function(countryId, stateText)
+    {
+        for (var i = 0; i < this.data.length - 1; i++) {
+            var state = this.data[i];
+            if (state.country_id == countryId && state.name == stateText)
+                return Number(state.tax);
+        };
+        return 0;
+    },
 };

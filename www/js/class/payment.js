@@ -3,6 +3,7 @@ var obj_payment = {
     new_cc_file : "templates/payment/new_credit_card.html",
     select_option : "templates/payment/select_option.html",
     current_file : "templates/payment/new_credit_card.html",
+    
     resources : {
         countries : obj_countries,
         states : null,
@@ -36,6 +37,7 @@ var obj_payment = {
             this.current_account = user.payment.data[0];
         else
             this.current_account = null;
+       
         this.select_account();
     
     },
@@ -77,6 +79,22 @@ var obj_payment = {
             this.data_required = this.data_old_account;
             this.resources.payment = user.payment.data;
         }
+    },
+    getPercentTaxByState: function()
+    {
+        if (typeof this.data_required.payment_account_id != "undefined")
+        {
+            var old_payment = obj_payment_account.getPaymentByPaymentAccountId(this.data_required.payment_account_id);
+            var stateText = old_payment.address.state;
+            var tax = obj_states.getTaxByCountryAndStateText(old_payment.address.country.id, stateText);
+            return Number(tax);
+        }
+        else
+        {
+            if (typeof this.data_required.state == "object" && this.data_required.state)
+                return Number(this.data_required.state.tax);    
+        }
+        return 0;
     },
     isDisablePay : function()
     {

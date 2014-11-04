@@ -1,7 +1,7 @@
 <ion-view title="Products List">
 
 <ion-nav-buttons side="right">    
-  <a  class="quick_shopping_cart"  href="#/app/checkout" style="color:white;">
+  <a  class="quick_shopping_cart"  href="#/app/checkout/false" style="color:white;">
     <i class="icon ion-bag"></i>  
     <span  ng-if="my_cart.content.length >= 1" style="margin-top:5px; margin-left:5px">{{(my_cart.content.length==1)? my_cart.content.length + ' item' : my_cart.content.length + ' items'}}</span>
   </a>

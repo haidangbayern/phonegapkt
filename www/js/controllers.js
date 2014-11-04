@@ -1000,7 +1000,7 @@ angular.module('starter.controllers', []).run(function() {
             text: '<b>Checkout</b>',
             type: 'button-positive custom_btn',
             onTap: function(e) {
-               window.location.href = '#/app/checkout';
+               window.location.href = '#/app/checkout/false';
             }
           },
         ]
@@ -1456,8 +1456,8 @@ angular.module('starter.controllers', []).run(function() {
 	
 })
 /*-------------check out----------------*/
-.controller('checkoutCtrl', function($scope, $timeout, $ionicPopup, $ionicSlideBoxDelegate, $ionicScrollDelegate) {
- 
+.controller('checkoutCtrl', function($scope, $stateParams, $timeout, $ionicPopup, $ionicSlideBoxDelegate, $ionicScrollDelegate) {
+    $scope.reference_url = $stateParams.reference_url;
    //$scope.my_cart = window.my_cart.content; 
 
    for(var idx in window.my_cart.content){
@@ -1475,9 +1475,10 @@ angular.module('starter.controllers', []).run(function() {
         obj_keyboard.waitForClose();
         $ionicSlideBoxDelegate.next();
     }
-
+    $scope.slideCurrentIndex = 0;
     $scope.slideHasChanged = function(index)
     {
+        $scope.slideCurrentIndex = index;
         if (index == 1)
         {
             if (!$scope.checkValidateCart())
@@ -1522,7 +1523,7 @@ angular.module('starter.controllers', []).run(function() {
         return true;
     }
     $scope.payment = obj_payment;
-    $scope.payment.__construct();
+    $scope.payment.__construct(true);
     $scope.payment.shipping.__construct();
   
      $scope.showConfirm = function(id, rowid) {
@@ -1678,19 +1679,44 @@ angular.module('starter.controllers', []).run(function() {
         })
         return fee;
     }
-
+    window.$ionicSlideBoxDelegate = $ionicSlideBoxDelegate;
+    $scope.current_tax = null;
     $scope.tax = function()
     {
-        var percent_tax = obj_payment.shipping.getPercentTaxByState();
+        //var percent_tax = obj_payment.shipping.getPercentTaxByState();
+        var percent_tax = obj_payment.getPercentTaxByState();
         var tax = ($scope.processing_fee()*percent_tax)/100;
         var r = {
             'percent_tax' : percent_tax,
             'tax' : tax,
         };
-        return r;
-        
-    }
 
+        if ($scope.current_tax == null)
+        {
+            $scope.current_tax = r;
+        }
+        else
+        {
+            if (!($scope.current_tax.percent_tax == r.percent_tax 
+                && 
+                $scope.current_tax.tax == r.tax ))
+            {
+                $scope.current_tax = r;
+                $timeout(function() {
+                    if ($scope.slideCurrentIndex == 2)
+                    {
+                        var taxText =Math.round($scope.current_tax.tax*100)/100;
+                        if (taxText == 0)
+                            taxText = "Free Tax";
+                        else
+                            taxText = "Tax " + $scope.languages.usd_icon + taxText;
+                        $scope.showToast(taxText);
+                    }
+                }, 500);
+            }
+        }    
+        return r;
+    }
     $timeout(function() {
           
     }, 500);
@@ -2260,6 +2286,7 @@ angular.module('starter.controllers', []).run(function() {
     $scope.clear = function(ticket_row) {
         for (var i_normal = 0; i_normal < $scope.data.count_normal_number; i_normal++) $scope.tickets.ticket[ticket_row].normal_ball[i_normal] = "";
         for (var i_power = 0; i_power < $scope.data.count_power_number; i_power++) $scope.tickets.ticket[ticket_row].power_ball[i_power] = "";
+        $scope.tickets.ticket[ticket_row].error = "";
     }
     $scope.delete = function(ticket_row) {
         $scope.tickets.count--;
@@ -2839,7 +2866,7 @@ angular.module('starter.controllers', []).run(function() {
     }
 })
 /** =================== Friend ======================= **/
-.controller('friendCtrl', function($scope, $timeout,$ionicPopup, $ionicSlideBoxDelegate,$ionicScrollDelegate, $ionicActionSheet, $ionicPopover) {
+.controller('friendCtrl', function($scope, $timeout,$ionicPopup, $ionicSlideBoxDelegate,$ionicScrollDelegate, $ionicActionSheet) {
     $scope.slideChanged = function(active_index)
     {
         if ($scope.active_index != active_index)
@@ -3219,74 +3246,81 @@ angular.module('starter.controllers', []).run(function() {
 
 
     //**---------------- Popover Profile of user
-    $ionicPopover.fromTemplateUrl('templates/friend/popoverProfile.html', {
-        scope: $scope,
-    }).then(function(popover) {
-        $scope.popoverProfile = popover;
-    });
-    $scope.openPopoverProfile = function($event, friend_id) {
-        if ($scope.current_friend == null || $scope.current_friend.personal.id != friend_id)
-        {
-            $scope.current_friend = null;
-            $.ajax({
-                url: window.server_url + '/friend/application_popover_user_profile?v=' + window.version,
-                data: {
-                    'user_id' : user.id, 
-                    'friend_id' : friend_id,
-                    'is_full' : false,
-                },
-                type: "POST",
-                dataType: 'json',
-                crossDomain: true,
-                success: function(data) {
-                    if (data.result == false)
-                    {
-                        $scope.showToast(data.message);
+    if (ionic.version=="1.0.0-beta.13"){
+        $ionicPopover.fromTemplateUrl('templates/friend/popoverProfile.html', {
+            scope: $scope,
+        }).then(function(popover) {
+            $scope.popoverProfile = popover;
+        });
+
+        $scope.openPopoverProfile = function($event, friend_id) {
+            if ($scope.current_friend == null || $scope.current_friend.personal.id != friend_id)
+            {
+                $scope.current_friend = null;
+                $.ajax({
+                    url: window.server_url + '/friend/application_popover_user_profile?v=' + window.version,
+                    data: {
+                        'user_id' : user.id, 
+                        'friend_id' : friend_id,
+                        'is_full' : false,
+                    },
+                    type: "POST",
+                    dataType: 'json',
+                    crossDomain: true,
+                    success: function(data) {
+                        if (data.result == false)
+                        {
+                            $scope.showToast(data.message);
+                        }
+                        else
+                        {
+                            $scope.current_friend = data.data;
+                            $scope.popoverProfile.show($event);
+                        }
+                        $timeout(function() {}, 200);
                     }
-                    else
-                    {
-                        $scope.current_friend = data.data;
-                        $scope.popoverProfile.show($event);
-                    }
-                    $timeout(function() {}, 200);
-                }
-            });    
-        }
-        else
+                });    
+            }
+            else
+            {
+                $scope.popoverProfile.show($event);
+                $timeout(function() {}, 200);
+            }
+            
+        };
+        $scope.closePopoverProfile = function() {
+            $scope.popoverProfile.hide();
+        };
+        $scope.$on('$destroy', function() { 
+            console.log("destroy");
+            $scope.popoverProfile.remove(); 
+        });
+        $scope.$on('popover.hidden', function() {
+            console.log("hidden");
+            $scope.popoverProfileSetActive(0);
+         });
+        $scope.$on('popover.removed', function() {
+            console.log("removed");
+         });
+
+        $scope.popoverActiveIndex = 0;
+        $scope.popoverProfileSetActive = function(active_index)
         {
-            $scope.popoverProfile.show($event);
-            $timeout(function() {}, 200);
+            $scope.popoverActiveIndex = active_index;
+            $ionicSlideBoxDelegate.$getByHandle('popoverProfile').slide(active_index);
         }
-        
-    };
-    $scope.closePopoverProfile = function() {
-        $scope.popoverProfile.hide();
-    };
-    $scope.$on('$destroy', function() { 
-        console.log("destroy");
-        $scope.popoverProfile.remove(); 
-    });
-    $scope.$on('popover.hidden', function() {
-        console.log("hidden");
-        $scope.popoverProfileSetActive(0);
-     });
-    $scope.$on('popover.removed', function() {
-        console.log("removed");
-     });
-    $scope.popoverActiveIndex = 0;
-    $scope.popoverProfileSetActive = function(active_index)
-    {
-        $scope.popoverActiveIndex = active_index;
-        $ionicSlideBoxDelegate.$getByHandle('popoverProfile').slide(active_index);
+        $scope.popoverProfileSlideChanged = function(active_index)
+        {
+            $scope.popoverActiveIndex = active_index;
+        }
     }
-    $scope.popoverProfileSlideChanged = function(active_index)
+    else
     {
-        $scope.popoverActiveIndex = active_index;
+        $scope.openPopoverProfile = function($event, friend_id) {
+            $scope.openModalProfileUser(friend_id);
+        }
     }
     
-
-
-
     $scope.template_url_request_make_friend = "templates/friend/making_friends.html";
     $scope.template_url_list_chat = "templates/friend/list_chat.html";
     $scope.template_url_list_friends = "templates/friend/list_friends.html";
@@ -3420,7 +3454,7 @@ angular.module('starter.controllers', []).run(function() {
             success: function(data) {
                 $scope.game = data;
                 $scope.game.params.value = $sce.trustAsResourceUrl($scope.game.params.value);
-                $scope.game.detail.play_url = $sce.trustAsResourceUrl($scope.game.detail.play_url + user.sercet);
+                $scope.game.detail.play_url = $sce.trustAsResourceUrl($scope.game.detail.play_url + user.secret);
                  $timeout(function(){
                     $("input[name='average_rating']").rating('refresh', 
                         {disabled: true, showClear: false, showCaption: true}
@@ -3570,7 +3604,7 @@ angular.module('starter.controllers', []).run(function() {
     $scope.$on('$destroy', function() {
         $scope.modal_comments.modal.remove();
         $scope.modal_game.modal.remove();
-        $scope.modal_rating.remove();
+        $scope.modal_rating.modal.remove();
     });
     $scope.$on('modal.hidden', function() {
     });

@@ -221,7 +221,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
         }
     })  
 	.state('app.checkout', {
-        url: "/checkout",
+        url: "/checkout/:reference_url",
         views: {
             'menuContent': {
                 templateUrl: "templates/checkout/checkout.html",
@@ -309,7 +309,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
     {
         return obj_smileys.convert_character_to_smileys(input);
     };
-}).directive('input', function($timeout, $ionicScrollDelegate, $ionicPosition){
+}).directive('input', function($timeout, $ionicScrollDelegate){
     return {
         restrict: 'E',
         scope: {
@@ -323,7 +323,8 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 if (window.has_virtual_keyboard)
                     obj_keyboard.keyboardShowHandler({'keyboardHeight':200});
                 obj_keyboard.open();
-                obj_keyboard.scroll_keyboard_up($ionicPosition.offset(element), $ionicPosition, element, $ionicScrollDelegate);
+                //obj_keyboard.scroll_keyboard_up($ionicPosition.offset(element), $ionicPosition, element, $ionicScrollDelegate);
+                obj_keyboard.scroll_keyboard_up($(element).offset(), element, $ionicScrollDelegate);
                 if(scope.onFocus){
                     $timeout(function(){
                         scope.onFocus();
@@ -340,7 +341,8 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                     $timeout(function(){
                         scope.onBlur();
                         // obj_keyboard.close();
-                        obj_keyboard.scroll_keyboard_down($ionicPosition.offset(element), $ionicPosition, element, $ionicScrollDelegate);
+                        //obj_keyboard.scroll_keyboard_down($ionicPosition.offset(element), $ionicPosition, element, $ionicScrollDelegate);
+                        obj_keyboard.scroll_keyboard_down($(element).offset(), element, $ionicScrollDelegate);
                     });
                 }
             });

@@ -13,7 +13,7 @@ var obj_keyboard = {
         obj_keyboard.keyboardHeight = e.keyboardHeight;
         dev_log.console_log(e.keyboardHeight);
     },
-    scroll_keyboard_up : function(element_offset, ionicPosition, element, ionicScrollDelegate)
+    scroll_keyboard_up : function(element_offset, element, ionicScrollDelegate)
     {
         console.log(obj_keyboard.has_scroll_screen);
         //setTimeout(function(){
@@ -84,7 +84,7 @@ var obj_keyboard = {
             }
         //}, 100);
     },
-    scroll_keyboard_down: function(element_offset, ionicPosition, element,ionicScrollDelegate)
+    scroll_keyboard_down: function(element_offset, element,ionicScrollDelegate)
     {
         setTimeout(function(){
             if (!obj_keyboard.is_show && window.keyboard_disableScroll)

@@ -1,6 +1,9 @@
 <ion-view title="Check Out">
-<ion-content class=" has-header" padding="true" direction="y">
+	<ion-nav-buttons side="left" ng-if="reference_url=='true'">
+	    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+	 </ion-nav-buttons>
 
+<ion-content class=" has-header" padding="true" direction="y">
 	<div ng-if="my_cart.content.length == 0">
 		<div class="notice">
 		{{languages.cart_empty}}

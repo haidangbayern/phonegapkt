@@ -3,17 +3,18 @@ window.is_dev = false;
 window.is_use_uuid = false;
 window.is_use_payment = true;
 window.has_virtual_keyboard = true;
-window.keyboard_disableScroll = true;
+window.keyboard_disableScroll = false;
 window.debug = false;
 /** ================ Server Information ================== **/
 window.server_ip = "demo.games4fun.abcv.com"; //demo server
 
 window.server_ip_list = [
     { name: "Select Server", ip: "-1" },
-    { name: "Huy.Tran", ip: "ABC-VN-14" },
+    { name: "Huy.Tran", ip: "192.168.3.17" },
     { name: "Tram.Nguyen", ip: "bichtram.kootoro.com" },
-    { name: "Nguyen.Ly", ip: "192.168.3.43" },
+    { name: "Nguyen.Ly", ip: "thainguyen.kootoro.com" },
     { name: "Anh.Luu", ip: "192.168.3.64" },
+    { name: "Ngan.Trinh", ip: "192.168.3.21" },
     { name: "Demo.kootoro", ip: "demo.games4fun.abcv.com"},
 ];
 
@@ -22,7 +23,7 @@ window.server_url = "http://" + window.server_ip + ":80";
 window.is_device = window.cordova;
 /** ================ Application Information ================== **/
 window.version = 2;
-window.version_application = "2.0.219";	//It will be updated by config.xml
+window.version_application = "2.0.221";	//It will be updated by config.xml
 /** ================ Database ================== **/
 window.database = {
     name: '_abcv_kootoro_app',
@@ -40,7 +41,7 @@ if (typeof device == "undefined") {
     device = {
         model: "laptop",
         cordova: "3.5.0",
-        uuid: "ABC-VN-14",
+        uuid: "192.168.3.17",
         version: "window8",
         name: "ABCV-VN-14",
         platform: "Android",
@@ -52,7 +53,7 @@ else
 }
 /** ================ Data To test ================== **/
 window.dev_data = {
-    "ABC-VN-14" :
+    "192.168.3.17" :
     {
         "user" : {
             email : "tranhanhuy@gmail.com",
@@ -110,7 +111,36 @@ window.dev_data = {
             phone_3 : '1235',
         },
     },
-    "192.168.3.43" :
+    "192.168.3.21" :
+    {
+        "user" : {
+            email : "ryuyamamuro@yahoo.com.vn",
+            password : "111111",
+        },
+        "new_cc" : {
+            card_number: "4111111111111111",
+            cvv: "111",
+            exp_date: "2015-11",
+            address_1: "1400 N. W. 65th Place Fort Lauderdale, FL 33309",
+            zip_code: "33309",
+            city: "Fort Lauderdale",
+            phone_1: "954",
+            phone_2: "9177592",
+            phone_3: "3009",
+        },
+        "shipping_info"  : {
+            first_name : "Trinh" ,
+            last_name : "Ngan",
+            address_1 : "123 Thu Duc",
+            address_2 : null,
+            zip_code : '700000',
+            city : 'hcm',
+            phone_1 : '826',
+            phone_2 : '1234345',
+            phone_3 : '1235',
+        },
+    },
+    "thainguyen.kootoro.com" :
     {
         "user" : {
             email : "nguyenuit@gmail.com",
