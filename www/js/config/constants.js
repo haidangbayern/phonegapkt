@@ -23,7 +23,7 @@ window.server_url = "http://" + window.server_ip + ":80";
 window.is_device = window.cordova;
 /** ================ Application Information ================== **/
 window.version = 2;
-window.version_application = "2.0.221";	//It will be updated by config.xml
+window.version_application = "2.0.228";	//It will be updated by config.xml
 /** ================ Database ================== **/
 window.database = {
     name: '_abcv_kootoro_app',

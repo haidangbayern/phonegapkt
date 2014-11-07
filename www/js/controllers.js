@@ -2917,7 +2917,7 @@ angular.module('starter.controllers', []).run(function() {
                 };
                 window.list_request = $scope.list_request = data.friends;
                 $timeout(function() {
-                    $ionicScrollDelegate.scrollTop();
+                    $ionicScrollDelegate.$getByHandle('requestFriend').scrollTop();
                 }, 200);
             }
         });
@@ -2941,7 +2941,7 @@ angular.module('starter.controllers', []).run(function() {
                 $scope.list_chat = window.list_chat = r;
                 obj_socket.get_friend_online(user.id, friend_ids);
                 $timeout(function() {
-                    $ionicScrollDelegate.scrollTop();
+                    $ionicScrollDelegate.$getByHandle('listChat').scrollTop();
                 }, 200);
             }
         });
@@ -2962,7 +2962,7 @@ angular.module('starter.controllers', []).run(function() {
                 };
                 $scope.list_friends = window.list_friends = data.friends;
                 $timeout(function() { 
-                    $ionicScrollDelegate.scrollTop();
+                    $ionicScrollDelegate.$getByHandle('listFriends').scrollTop();
                 }, 200);
             }
         });
@@ -3238,7 +3238,6 @@ angular.module('starter.controllers', []).run(function() {
                     $scope.page_search = Number(data.pPaging.page) + 1;
                     $('ion-infinite-scroll').removeAttr('style');
                 }
-                console.log(data.pPaging.page, data.pPaging.end);
                 $timeout(function() {}, 200);
             }
         });
@@ -3333,7 +3332,8 @@ angular.module('starter.controllers', []).run(function() {
     $scope.__init_list_friends();
     //$scope.__init_list_friends_blocked();
     $timeout(function() {
-        $('ion-scroll[name=sub-content]').css('height',$('#main-content').height()-$('#header-tabs').height());
+        var new_height = $('#main-content').height()-$('#header-tabs').height()
+        $('ion-scroll[name=sub-content]').css('height',new_height + "px");
     }, 100);
     window.$timeout = $timeout;
 })

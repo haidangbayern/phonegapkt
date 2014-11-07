@@ -13,8 +13,8 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
         }
         if (window.StatusBar) {
             // org.apache.cordova.statusbar required
-            //StatusBar.styleDefault();
-            StatusBar.hide();
+            StatusBar.styleDefault();
+            //StatusBar.hide();
         }
     });
     $ionicPlatform.registerBackButtonAction(function() {

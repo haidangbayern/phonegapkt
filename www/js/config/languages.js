@@ -113,7 +113,7 @@ window.languages = {
          "just_sign_up": "Just Sign Up",
 //------------------------ K ------------------------
         "kootoro_response" : "Response",
-        "kootoro" : "KooToRo",
+        "kootoro" : "KooToro",
 //------------------------ L ------------------------
         "last_drawing": "Last Drawing",
         "list_friend" : "List Friends",

@@ -116,6 +116,19 @@ var obj_keyboard = {
         obj_keyboard.is_show = false;
         obj_keyboard.scroll_height_case_no_keyboard = null;
         //obj_keyboard.scroll_keyboard_down();
+        setTimeout(function() {
+            if ($('#main-content').length
+                &&
+                $('#header-tabs').length
+                &&
+                $('ion-scroll[name=sub-content]').length
+            )
+            {
+                var new_height = $('#main-content').height()-$('#header-tabs').height()
+                $('ion-scroll[name=sub-content]').css('height',new_height + "px");
+                dev_log.console_log(new_height);
+            }
+        }, 100);
     },
     open: function()
     {

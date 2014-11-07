@@ -7,7 +7,7 @@
     <button class="button button-icon icon ion-ios7-search-strong" ng-click="setActiveSlide(3)"></button>
 </ion-nav-buttons>
 
-<ion-content id="main-content" direction="y" scroll="false" >
+<ion-content id="main-content" direction="y" scroll="false" locking="true" >
 
 <div class="tabs-striped sub_header" id="header-tabs">
     <div class="tabs"  style="top: 0; position: relative;">
@@ -33,17 +33,17 @@
 
 <ion-slide-box show-pager="false" on-slide-changed="slideChanged($index)" delegate-handle="mainSlide" style="z-index:-1;">
 <ion-slide>
-<ion-scroll direction="y"  name="sub-content">
+<ion-scroll delegate-handle="requestFriend" direction="y"  name="sub-content">
     <div ng-include="template_url_request_make_friend"></div>
 </ion-scroll>
 </ion-slide>
 <ion-slide>
-<ion-scroll direction="y"  name="sub-content">
+<ion-scroll delegate-handle="listChat"  direction="y"  name="sub-content">
     <div ng-include="template_url_list_chat"></div>
 </ion-scroll>
 </ion-slide>
 <ion-slide>
-<ion-scroll direction="y"  name="sub-content">
+<ion-scroll delegate-handle="listFriends" direction="y"  name="sub-content">
     <div ng-include="template_url_list_friends"></div>
 </ion-scroll>
 </ion-slide>
@@ -53,8 +53,8 @@
 </ion-scroll>
 </ion-slide>-->
 <ion-slide>
-<ion-scroll direction="y" name="sub-content">
-    <div class="has-footer" ng-include="template_url_search"></div>
+<ion-scroll delegate-handle="listSearch"  direction="y"  name="sub-content">
+    <div ng-include="template_url_search"></div>
 </ion-scroll>
 </ion-slide>
 </ion-slide-box>
