@@ -6,7 +6,7 @@ window.has_virtual_keyboard = true;
 window.keyboard_disableScroll = false;
 window.debug = false;
 /** ================ Server Information ================== **/
-window.server_ip = "demo.games4fun.abcv.com"; //demo server
+window.server_ip = "demo.kootoro.abcv.com"; //demo server
 
 window.server_ip_list = [
     { name: "Select Server", ip: "-1" },
@@ -15,7 +15,7 @@ window.server_ip_list = [
     { name: "Nguyen.Ly", ip: "thainguyen.kootoro.com" },
     { name: "Anh.Luu", ip: "192.168.3.64" },
     { name: "Ngan.Trinh", ip: "192.168.3.21" },
-    { name: "Demo.kootoro", ip: "demo.games4fun.abcv.com"},
+    { name: "Demo.kootoro", ip: "demo.kootoro.abcv.com"},
 ];
 
 window.server_post = "8000";
