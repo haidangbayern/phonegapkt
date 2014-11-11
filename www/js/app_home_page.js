@@ -174,7 +174,7 @@ var app_home_page = {
                         //HUY - begin 2014-09-25 
                         //$('ion-content').remove();
                         $('ion-content').empty();
-                        window.location.href = "#/register";
+                        window.location.href = "#/login";
                         //window.login();
                         //HUY - end 2014-09-25 
                         // $('body').removeClass('popup-open');
