@@ -1718,7 +1718,7 @@ angular.module('starter.controllers', []).run(function() {
         return r;
     }
     $timeout(function() {
-          
+          $scope.user_data = { email: null, password: null, };
     }, 500);
 
 })
