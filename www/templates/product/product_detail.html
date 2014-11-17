@@ -31,7 +31,7 @@
                <div id="gallery-big" style="width:275px;margin-top:10px;margin-bottom:0">
         
                   <div ng-repeat="image in product.images">
-                    <img  src="{{image.image_path}}" style="width:275px;height:150px" />
+                    <img id="big_{{image.id}}" src="{{image.image_path}}" style="width:275px;height:150px" slickload/>
                   
                   </div>
               </div>
@@ -44,9 +44,9 @@
         
                   <div ng-repeat="i in [product.images.length] | makeRange" 
                     class="{{(i==0)? 'selected':''}}" ng-if="product.itemdetail.has_image"
-                    ng-click="click_gallery_thumbnail(product.images[i].ordering, product.images[i].id)" 
+                    ng-click="click_gallery_thumbnail(i, product.images[i].id)" 
                     >
-                    <img id="img_{{product.images[i].id}}"  src="{{product.images[i].image_path}}"  style="width:70px;height:70px" />
+                    <img id="img_{{product.images[i].id}}"  src="{{product.images[i].image_path}}"  style="width:65px;height:65px" slickload />
                  
                   
                   </div>

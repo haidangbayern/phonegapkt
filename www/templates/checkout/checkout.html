@@ -1,6 +1,12 @@
-<ion-view title="Check Out">
+<ion-view title="Check Out"  hide-back-button="true">
+	<!-- from menu side -->
 	<ion-nav-buttons side="left" ng-if="reference_url=='true'">
 	    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+	 </ion-nav-buttons>
+	 <!-- from product detail -->
+	 <ion-nav-buttons side="left" ng-if="reference_url!='true'"> 
+	    
+	    <a class="button icon-left ion-chevron-left button-clear back-button" ng-click="refresh_product()">Back</a>
 	 </ion-nav-buttons>
 
 <ion-content class=" has-header" padding="true" direction="y">

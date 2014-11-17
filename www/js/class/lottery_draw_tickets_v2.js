@@ -86,6 +86,27 @@ var lottery_draw_tickets_v2 = {
                 'color': 'black',
             }
         };
+        console.log(obj.normal_ball);
+        if (typeof obj.normal_ball == "string")
+        {
+            var number = obj.normal_ball .split("|");
+            var realNumber = [];
+            for (var j = 0; j < number.length; j++) {
+                if (number[j]) 
+                    realNumber.push(number[j]);
+            };
+            obj.normal_ball = realNumber;
+        }
+        if (typeof obj.power_ball == "string")
+        {
+            var number = obj.power_ball .split("|");
+            var realNumber = [];
+            for (var j = 0; j < number.length; j++) {
+                if (number[j]) 
+                    realNumber.push(number[j]);
+            };
+            obj.power_ball = realNumber;
+        }
         this.draw_number(obj.normal_ball, "normal_number", obj_info_kin);
         this.draw_number(obj.power_ball, "power_number", obj_info_kin);
         var barcode = "LOTTERY - ";

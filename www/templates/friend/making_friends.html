@@ -1,7 +1,5 @@
 <div class="list" id="ele_list_make_friends">
-    <div class="ng-hide">{{a = false}}</Div>
     <div ng-repeat="f in list_request" class="ele item item-avatar item-icon-right" ng-if="!(f.message.type=='friend_request' && f.message.user_id == f.player_id)">
-        <div class="ng-hide">{{a = true}}</Div>
         <img data-ng-src="{{f.user.image}}">
         <h2>{{f.user.nickname}}</h2>
         <p>
@@ -15,7 +13,7 @@
         </button>
     </div>
     
-    <div class="item notice" ng-if="!a">
+    <div class="item notice" ng-if="!hasFriendRequest">
         {{languages.no_request}}
     </div>
 </div>

@@ -12,7 +12,7 @@ window.server_ip_list = [
     { name: "Select Server", ip: "-1" },
     { name: "Huy.Tran", ip: "192.168.3.17" },
     { name: "Tram.Nguyen", ip: "bichtram.kootoro.com" },
-    { name: "Nguyen.Ly", ip: "thainguyen.kootoro.com" },
+    { name: "Nguyen.Ly", ip: "192.168.3.43" },
     { name: "Anh.Luu", ip: "192.168.3.64" },
     { name: "Ngan.Trinh", ip: "192.168.3.21" },
     { name: "Demo.kootoro", ip: "demo.games4fun.abcv.com"},
@@ -21,9 +21,10 @@ window.server_ip_list = [
 window.server_post = "8000";
 window.server_url = "http://" + window.server_ip + ":80";
 window.is_device = window.cordova;
+window.forum_url = "http://" + window.server_ip + ":80/phpbb";
 /** ================ Application Information ================== **/
 window.version = 2;
-window.version_application = "2.0.228";	//It will be updated by config.xml
+window.version_application = "2.0.245";	//It will be updated by config.xml
 /** ================ Database ================== **/
 window.database = {
     name: '_abcv_kootoro_app',
@@ -140,7 +141,7 @@ window.dev_data = {
             phone_3 : '1235',
         },
     },
-    "thainguyen.kootoro.com" :
+    "192.168.3.43" :
     {
         "user" : {
             email : "nguyenuit@gmail.com",

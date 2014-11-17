@@ -5,6 +5,7 @@ window.languages = {
         "usd_icon": "$",
 
 //------------------------ A ------------------------
+        "amount" : "Amount",
         "add_friend" : "Add Friend",
         "about": "About",
         "accept" : "Accept",
@@ -62,6 +63,7 @@ window.languages = {
         "continue_shopping" : "Shopping",
         "cart_empty": "Your cart is empty",
 //------------------------ D ------------------------
+        "date" : "Date",
         "day": "Day",
         "detail" : "Detail",
         "do_you_want_to_unfriend" : "Do you want to unfriend ",
@@ -94,6 +96,7 @@ window.languages = {
         "forgot_password_enter_email" : "We'll send a temporary password to your registered email address.",
         "first_name": "First name",
         "full_name":"Full name",
+        "forum" : "Forum",
 //------------------------ G ------------------------
         "games" : "Games",
         "general": "General",
@@ -154,11 +157,13 @@ window.languages = {
         "no_games" : "No Games",
         "no_question" : "No question",
 //------------------------ O ------------------------
+        "order_status" : "Order Status",
         "overtime": "Expired",
         "order" : "Order",
         "order_number" : "Order Number",
         "order_date" : "Order Date",
 //------------------------ P ------------------------
+        "payment_entries" : "Payment Entries",
         'pay_for' : 'for',
         'program_name' : 'Program Name', 
         'product_sold' : 'Sold out',
@@ -190,7 +195,7 @@ window.languages = {
 
 
 //------------------------ S ------------------------
-
+        "shipment_status" : "Shipment Status",
         "start_conversations_with" : "Start conversations with ",
         "save_this_payment_account" : "Save this payment account",
         "setting": "Setting",

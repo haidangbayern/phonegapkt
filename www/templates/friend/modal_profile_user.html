@@ -68,9 +68,10 @@
             </div>
         </div>
     </div>
+
     <ion-slide-box class="modalProfileSlideBox" scroll="false" show-pager="false" style="z-index:-1;" delegate-handle="modalProfile" on-slide-changed="profileUser.modalProfileSlideChanged($index)">
     <ion-slide>
-    <ion-scroll direction="y" locking="false" name="sub-content">
+    <ion-scroll delegate-handle="personal" direction="y" locking="false" name="sub-content">
       <div class="list" name="personal">
           <div class="item">
             <h2>{{languages.member_since}}:</h2>
@@ -96,7 +97,7 @@
     </ion-scroll>
     </ion-slide>
     <ion-slide>
-    <ion-scroll direction="y" locking="false" name="sub-content">
+    <ion-scroll  delegate-handle="favgames" direction="y" locking="false" name="sub-content">
     <div class="list" name="games">
         <a class="item item-avatar" ng-repeat="g in current_friend.games_favorited" href="#/app/games/detail/{{g.id}}">
             <img data-ng-src="{{g.image}}">
@@ -107,7 +108,7 @@
     </ion-scroll>
     </ion-slide>
     <ion-slide>
-    <ion-scroll direction="y" locking="false" name="sub-content">
+    <ion-scroll delegate-handle="playgames"  direction="y" locking="false" name="sub-content">
     <div class="list" name="games">
         <a class="item item-avatar" ng-repeat="g in current_friend.games_played" href="#/app/games/detail/{{g.id}}">
             <img data-ng-src="{{g.image}}">
@@ -118,7 +119,7 @@
     </ion-scroll>
     </ion-slide>
     <ion-slide>
-    <ion-scroll direction="y" locking="false" name="sub-content">
+    <ion-scroll  delegate-handle="friends" direction="y" locking="false" name="sub-content">
     <div class="list"  name="friends">
         <div class="item item-avatar" ng-repeat="f in current_friend.friends" ng-click="openModalProfileUserAgain(f.user.id)">
             <img data-ng-src="{{f.user.image}}">
@@ -172,7 +173,7 @@
     }
     .modalProfileSlideBox .slider-slide
     {
-        height: 300px;
+        /*height: 300px;*/
     }
     .modalProfileSlideBox div[name=personal]
     {

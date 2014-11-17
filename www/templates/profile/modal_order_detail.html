@@ -5,13 +5,21 @@
         <button class="button button-clear" ng-click="closeModalOrderDetail()">{{close}}</button>
     </div>
     </ion-header-bar>
-    <ion-content class="modal_order_detail" direction="y">
+    <ion-content class="modal_order_detail has-footer" direction="y">
 	<div class="item item-divider item-info">
         {{languages.order}}
     </div>
 	<div class="item item-info">
     	<span class="address"><strong>{{languages.order_number}}:</strong> {{modal_order_detail.data.order_id}}</span>
 	    <span class="address"><strong>{{languages.order_date}}:</strong> {{modal_order_detail.data.order.created_at}}</span>
+	  	<span class="address">
+
+	    	<strong>{{languages.order_status}}:</strong> {{modal_order_detail.data.order.order_status}}
+    	</span>
+    	<span class="address">
+
+	    	<strong>{{languages.shipment_status}}:</strong> {{modal_order_detail.data.order.shipment_status}}
+    	</span>
     </div>
 
     <div class="item item-divider item-info">
@@ -44,6 +52,7 @@
     <div class="item item-divider item-info">
         {{languages.detail}}
     </div>
+   
 
 	<div class="item item-avatar" ng-repeat="item in modal_order_detail.data.orderdetail">
 	  	
@@ -74,10 +83,26 @@
 		</div>
 
 	</div>
+	
+	<table>
 
 	<div class="item item-divider text-right item-total">
 	    {{languages.total}} : {{modal_order_detail.data.order.subtotal | number}} {{languages.web_currency_plural}}
 	</div>
+	
+	<div class="item item-divider text-right item-total" ng-repeat="i in [modal_order_detail.data.refundhistory.length] | makeRange" style="color:red">
+		{{ i + 1 }} <sup>th</sup>  Refunded: -{{modal_order_detail.data.refundhistory[i].credit_point | number}} {{languages.web_currency_plural}}
+
+	
+	</div>
+	<div class="item item-divider text-right item-total" >
+		Remaining {{languages.web_currency_plural}}: {{remain_point | number}} {{languages.web_currency_plural}}
+	</div>
+	<div class="item item-divider" style="background-color:white">
+
+	</div>
+
+	
 	<div class="item item-divider text-right item-total">
 	    {{languages.shipping_handling_fees}} : {{languages.usd_icon}}{{modal_order_detail.data.order.shipping | number:2}} 
 	</div>
@@ -87,10 +112,51 @@
 	<div class="item item-divider text-right item-total">
 	    {{languages.tax}} : {{languages.usd_icon}}{{modal_order_detail.data.order.tax | number:2}}
 	</div>
-	<div class="item item-divider text-right item-total">
-	    {{languages.total_fee}}s : {{languages.usd_icon}}{{(modal_order_detail.data.order.shipping + modal_order_detail.data.order.fees + modal_order_detail.data.order.tax) | number:2}} 
+
+	<div class="item item-divider text-right item-total" ng-repeat="i in [modal_order_detail.data.refundhistory.length] | makeRange" style="color:red">
+
+		{{i+1}}
+		<sup>th</sup> 
+		Refunded: $-{{modal_order_detail.data.refundhistory[i].total_amount | number :2}}
 	</div>
 
+	<div class="item item-divider text-right item-total">
+		Total Fees: {{remain_fee | number:2}}
+	</div>
+
+	<div class="item item-divider item-info" style="margin-top:30px; margin-bottom:5px">
+        {{languages.payment_entries}}
+    </div>	
+	
+	
+
+	<table class="css3_tbl" id="payment_entries">
+		<thead>
+			<th>{{languages.description}}</th>
+			<th>{{languages.amount}}</th>
+			<th>{{languages.date}}</th>
+		</thead>
+		<tbody>
+																													
+			<tr>
+				<td>{{Des}}</td>
+				<td align="right">{{Amount}}</td>
+				<td align="right">	
+
+					{{CDate}}
+				</td>
+			</tr>
+			
+			<tr ng-if="modal_order_detail.data.paymenttransactions_refund.length > 0"  ng-repeat="i in [modal_order_detail.data.paymenttransactions_refund.length] | makeRange">
+
+				<td>Refunded</td>
+				<td align="right">${{modal_order_detail.data.paymenttransactions_refund[i].amount | number:2}}</td>
+				<td align="right">{{modal_order_detail.data.paymenttransactions_refund[i].charge_date}}</td>
+			</tr>	
+			
+		</tbody>
+	</table>
+						
 
     </ion-content>
 

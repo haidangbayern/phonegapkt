@@ -1,4 +1,5 @@
-angular.module('starter.controllers', []).run(function() {
+var app = angular.module('starter.controllers', []);
+app.run(function() {
     if (typeof window.current_language == 'undefined') {
         window.current_language = 'en';
     }
@@ -157,6 +158,9 @@ angular.module('starter.controllers', []).run(function() {
                     {
                         $scope.current_friend = data.data;
                         $ionicScrollDelegate.scrollTop();
+                        $ionicSlideBoxDelegate.update();
+                        var newHeight = $(window).height() -  $('.modal ion-header-bar').height() - $('.modal .modalProfile').height();
+                        $('.modalProfileSlideBox ion-scroll .scroll').height(newHeight);                        
                     }
                     $timeout(function() {
                         obj_loading.hide();
@@ -506,7 +510,7 @@ angular.module('starter.controllers', []).run(function() {
         $scope.payment.beforePayCheckut();
         obj_loading.show();
         var data_post = {
-            "payment": $scope.payment.data_required,
+            "payment": $scope.payment.data_to_payment,
             "user_id": user.id,
             "required": $scope.data_required,
         }
@@ -619,6 +623,7 @@ angular.module('starter.controllers', []).run(function() {
                 obj_loading.hide();
                 $timeout(function() {
                     data.points_value = Number(data.points_value);
+                    $scope.user.balance = Number($scope.user.balance);
                     $scope.cal = data;
                 }, 200);
             }
@@ -643,7 +648,7 @@ angular.module('starter.controllers', []).run(function() {
         var data = $scope.data_required;
         if (window.is_use_uuid)
             data.device = JSON.stringify(device);
-        if ($scope.data_required.fee != 0) data.payment = $scope.payment.data_required;
+        if ($scope.data_required.fee != 0) data.payment = $scope.payment.data_to_payment;
         console.log(data);
         $.ajax({
             url: window.server_url + '/pay/application_trade_in_checkout?v=' + window.version,
@@ -740,12 +745,16 @@ angular.module('starter.controllers', []).run(function() {
         }
     }
 }).controller('productDetailCtrl', function($scope, $stateParams, $ionicModal, $ionicSlideBoxDelegate, $ionicPopup, $timeout) {
-    console.log($stateParams);
+    // console.log($stateParams);
+    console.log('starttttttttttttt');
     // $scope.product = products.getProductById($stateParams.productId);
     $scope.languages = window.languages[window.current_language];
     $scope.productId = $stateParams.productId;
 
     //$scope.my_cart = window.my_cart.content;
+
+
+
 
     var data = {};
     if (window.is_use_uuid)
@@ -770,7 +779,7 @@ angular.module('starter.controllers', []).run(function() {
                 $scope.my_cart_items_text = window.my_cart.content.length== 1? window.my_cart.content.length + ' item' : window.my_cart.content.length + ' items';
                 $scope.my_cart_items = window.my_cart.content.length;
             }
-            console.log('detailll ', data);
+            
             product_detail.setData(data);
             $scope.product = data;
 
@@ -897,6 +906,8 @@ angular.module('starter.controllers', []).run(function() {
             crossDomain: true,
             success: function(data){
 
+                window.referrer_product = product_id;
+
                 if (window.my_cart.content == null){
                     window.my_cart.content = [];
                 }
@@ -905,59 +916,7 @@ angular.module('starter.controllers', []).run(function() {
                     data[idx].qty = Number(data[idx].qty);
                 }
 
-                // var insert_cart = true;
-
-                // for (var idx in window.my_cart.content){
-
-                //     var item = window.my_cart.content[idx];
-
-                //     if (item.rowid != '' && item.id == $scope.product_id){
-
-                //         var update_cart_item  = true;
-                //         // check product option
-                //         // make sure same option value collection
-                //         if (item.options != null){
-
-                //             for( var option_id in item.options){
-
-                                
-                //                 if (!$scope.select_options.hasOwnProperty(option_id) 
-                //                     || ($scope.select_options.hasOwnProperty(option_id) && $scope.select_options[option_id].id != item.options[option_id].id) 
-                //                     ){
-                //                     // not same
-                                   
-                //                     update_cart_item = false;
-                //                     break;
-                //                 }
-                              
-                //             }
-                //             if (Object.keys($scope.select_options).length != Object.keys(item.options).length){
-                //                 update_cart_item = false;
-                //             }
-
-                //         }else{
-                           
-                          
-                //             if (Object.keys($scope.select_options).length != 0){
-                //                 update_cart_item = false;
-                            
-                //             }
-                //         }
-                //         // end check product option
-                   
-
-                //         if (update_cart_item){
-
-                //             window.my_cart.content[idx].qty = parseInt(item.qty) + 1;
-                //             insert_cart = false;
-
-                //         }
-                //     }           
-                // }  
-
-                // if (insert_cart){
-                //     window.my_cart.content.push(data[0]);
-                // } 
+              
              
                 window.my_cart.content = data;
                 $scope.my_cart_items = window.my_cart.content.length;
@@ -1013,6 +972,7 @@ angular.module('starter.controllers', []).run(function() {
     $scope.click_by_thumbnail = false;
     $scope.click_gallery_thumbnail = function(index, img_id){
       
+       
 
         $('#gallery-big').slickGoTo(index);      
 
@@ -1126,7 +1086,7 @@ angular.module('starter.controllers', []).run(function() {
             $scope.imageOption = {};
         } 
         var $ele = $('#'+option_id);
-        console.log(option_id);
+       
 
         var option_value_id = $ele.val();
        
@@ -1144,7 +1104,7 @@ angular.module('starter.controllers', []).run(function() {
         else{
             $scope.imageOption[option_id].id = option_value_id;
         }
-         console.log('$scope.imageOption', $scope.imageOption);
+       
     
 
         $.ajax({
@@ -1157,13 +1117,10 @@ angular.module('starter.controllers', []).run(function() {
             },
             crossDomain: true,
             success: function(img_id){
-                console.log('img_id', img_id);
-                
-
-
+               
                 var slide_index = $('#img_'+img_id).parent().attr('index');
 
-                console.log('slide_index', slide_index);
+               
 
                 if (img_id != ''){
 
@@ -1203,14 +1160,14 @@ angular.module('starter.controllers', []).run(function() {
          
         });
 
-        console.log('slick_go_to', slick_go_to);
+     
 
         if (slick_go_to){
 
             if (slide_index > 4){
                 slide_index = slide_index - 3;
             }
-              console.log('slick_go_to slide_index', slide_index);
+             
 
             $('#gallery-thumbnail').slickGoTo(slide_index);
 
@@ -1224,69 +1181,11 @@ angular.module('starter.controllers', []).run(function() {
         $('#gallery-thumbnail .slick-slide[index='+slide_index+']').addClass('selected'); 
     }
 
-           
-     $timeout(function() {
 
-        $('#gallery-big').slick({
-            infinite: false,
-            onInit : function(){
-                console.log('init');
-                $('#gallery-big .slick-prev').hide();
-            },
-
-            onAfterChange : function(slickSlider){
-                // get active slicks
-                console.log('biggg=====>', slickSlider.currentSlide);
-                
-
-                console.log('gallery big changee', $scope.click_by_thumbnail);
-
-                if ($scope.click_by_thumbnail){
-
-                    $scope.click_by_thumbnail = false;
-                    // $('#gallery-thumbnail').slickGoTo(slickSlider.currentSlide);
-                }else{
-                   
-                    $scope.thumbnail_slickgoto(slickSlider.currentSlide);
-                    
-                }
-
-                $scope.thumbnail_set_selected(slickSlider.currentSlide);
-
-                if($('#gallery-big .slick-slide.slick-active').next().length == 0){
-
-                    $('#gallery-big .slick-next').hide();
-                }else{
-                    $('#gallery-big .slick-next').show();
-
-                }
-                if($('#gallery-big .slick-slide.slick-active').prev().length == 0){
-                     $('#gallery-big .slick-prev').hide();
-                }else{
-
-                     $('#gallery-big .slick-prev').show();
-                }
-
-                
-            }
-
-        }); 
-
-        $('#gallery-thumbnail').slick({
-      
-              infinite: false,
-              slidesToShow: 4,
-              slidesToScroll: 2,
-              dots: true
-             
-        });
-      
-
-     
-    }, 1000);
 
     $timeout(function() {
-        if ($scope.product.images.length  > 1)
+         console.log('display slickkkkkk');
+        if (typeof $scope.product != 'undefined' && $scope.product.images.length  > 1)
         {
             $('#thumbnail-wrapper').css('opacity','1');
         }
@@ -1470,6 +1369,9 @@ angular.module('starter.controllers', []).run(function() {
     }
 
   
+    $scope.refresh_product = function(){
+        window.location.href = '#/app/product/'+window.referrer_product;
+    }
 
     $scope.next_step = function() {
         obj_keyboard.waitForClose();
@@ -1599,17 +1501,17 @@ angular.module('starter.controllers', []).run(function() {
 
 
         var data_post = {
-            "payment": $scope.payment.data_required,
+            "payment": $scope.payment.data_to_payment,
             "user_id": user.id,
             "user_email": user.email,
             "cart":  window.my_cart.content,
-            "shipping" : $scope.payment.shipping.data,
+            "shipping" : $scope.payment.shipping.data_to_payment,
             "tax" : $scope.tax(),
         }
         if (window.is_use_uuid)
             data_post.device = JSON.stringify(device);
 
-        // console.log(data_post);
+        
 
         $.ajax({
             url: window.server_url + '/itemexchange/application_checkout?v=' + window.version,
@@ -1618,7 +1520,7 @@ angular.module('starter.controllers', []).run(function() {
             dataType: 'json',
             crossDomain: true,
             success: function(data) {
-                console.log('data submit order', data);
+                // console.log('data submit order', data);
 
 
                 obj_keyboard.waitForClose();
@@ -1718,7 +1620,7 @@ angular.module('starter.controllers', []).run(function() {
         return r;
     }
     $timeout(function() {
-          $scope.user_data = { email: null, password: null, };
+          
     }, 500);
 
 })
@@ -1735,6 +1637,7 @@ angular.module('starter.controllers', []).run(function() {
             return;
         window.server_ip = $scope.current_server.ip;
         window.server_url = "http://" + window.server_ip + ":80";
+        window.forum_url = "http://" + window.server_ip + ":80/phpbb";
         $scope.connectSocket();
     };
 
@@ -1816,6 +1719,10 @@ angular.module('starter.controllers', []).run(function() {
         $('ion-content').empty();
         window.location.href = url;
     }
+    $scope.user_data = {
+        email: "",
+        password:  "",
+    };
     if (window.is_dev) {
         $scope.user_data = {
             email: window.dev_data[window.server_ip].user.email,
@@ -1996,8 +1903,18 @@ angular.module('starter.controllers', []).run(function() {
     //     var padding = ($(window).width()-10)%220/2;
     //     $('.screen').css('padding-left', padding + 'px');
     //     $('.screen').css('padding-right', padding + 'px');
-    // },200);
-    
+    // },200); 
+})
+.controller('forumCtrl', function($scope,$timeout,$sce) {
+    $scope.languages = window.languages[window.current_language];
+    $scope.forum_url = $sce.trustAsResourceUrl(window.forum_url);
+    //$scope.forum_url = $sce.trustAsResourceUrl("http://bichtram.kootoro.com/phpbb");
+    $scope.windowHeight = $(window).height();
+    // $timeout(function(){
+    //     var padding = ($(window).width()-10)%220/2;
+    //     $('.screen').css('padding-left', padding + 'px');
+    //     $('.screen').css('padding-right', padding + 'px');
+    // },200); 
 })
 /** =================== Lottery ======================= **/
 .controller('mainLotteryCtrl', function($scope, $http, $log) {
@@ -2103,12 +2020,14 @@ angular.module('starter.controllers', []).run(function() {
     $scope.validate_normal_ball = function(ticket_row, i_normal_ball) {
         $scope.current_ticket_row = ticket_row;
         var new_ball = $scope.tickets.ticket[ticket_row].normal_ball[i_normal_ball];
+        //current ball
         var error = "";
         if (new_ball) {
             if (!($scope.data.normal_number_min <= new_ball && new_ball <= $scope.data.normal_number_max)) //validate 2
                 error = "Enter normal number from " + $scope.data.normal_number_min + " to " + $scope.data.normal_number_max + ".";
         }
-        for (var i_normal = 0; i_normal < $scope.data.count_normal_number - 1 && error == ""; i_normal++) {
+        //checking normal balls
+        for (var i_normal = 0; i_normal < $scope.data.count_normal_number && error == ""; i_normal++) {
             var new_ball = $scope.tickets.ticket[ticket_row].normal_ball[i_normal];
             if (!new_ball) continue;
             else {
@@ -2123,10 +2042,8 @@ angular.module('starter.controllers', []).run(function() {
                 }
             }
         }
-         //checking power balls
-        if (error == "")
-        {
-            for (var i_power = 0; i_power < $scope.data.count_power_number - 1 && error == ""; i_power++) {
+        //checking power number
+        for (var i_power = 0; i_power < $scope.data.count_power_number && error == ""; i_power++) {
             var new_ball = $scope.tickets.ticket[ticket_row].power_ball[i_power];
             if (!new_ball) continue;
             else {
@@ -2140,20 +2057,20 @@ angular.module('starter.controllers', []).run(function() {
                         error = "Power Number " + new_ball + " was chosen.";
                 }
             }
-        }
         }
         $scope.tickets.ticket[ticket_row].error = error;
     }
     $scope.validate_power_ball = function(ticket_row, i_power_number) {
         $scope.current_ticket_row = ticket_row;
         var new_ball = $scope.tickets.ticket[ticket_row].power_ball[i_power_number];
+        //current ball
         var error = "";
         if (new_ball) {
             if (!($scope.data.power_number_min <= new_ball && new_ball <= $scope.data.power_number_max)) //validate 2
                 error = "Enter power number from " + $scope.data.power_number_min + " to " + $scope.data.power_number_max + ".";
         }
-        
-        for (var i_power = 0; i_power < $scope.data.count_power_number - 1 && error == ""; i_power++) {
+        //checking power number
+        for (var i_power = 0; i_power < $scope.data.count_power_number && error == ""; i_power++) {
             var new_ball = $scope.tickets.ticket[ticket_row].power_ball[i_power];
             if (!new_ball) continue;
             else {
@@ -2168,27 +2085,23 @@ angular.module('starter.controllers', []).run(function() {
                 }
             }
         }
-
-
         //checking normal balls
-        if (error == "")
-        {
-            for (var i_normal = 0; i_normal < $scope.data.count_normal_number - 1 && error == ""; i_normal++) {
-                var new_ball = $scope.tickets.ticket[ticket_row].normal_ball[i_normal];
-                if (!new_ball) continue;
-                else {
-                    if (!($scope.data.normal_number_min <= new_ball && new_ball <= $scope.data.normal_number_max)) //validate 2
-                        error = "Enter normal number from " + $scope.data.normal_number_min + " to " + $scope.data.normal_number_max + ".";
-                }
-                for (var j_normal = i_normal + 1; j_normal < $scope.data.count_normal_number && error == ""; j_normal++) {
-                    var old_ball = $scope.tickets.ticket[ticket_row].normal_ball[j_normal];
-                    if (old_ball) {
-                        if (new_ball == old_ball) //validate 1
-                            error = "Number " + new_ball + " was chosen.";
-                    }
+        for (var i_normal = 0; i_normal < $scope.data.count_normal_number && error == ""; i_normal++) {
+            var new_ball = $scope.tickets.ticket[ticket_row].normal_ball[i_normal];
+            if (!new_ball) continue;
+            else {
+                if (!($scope.data.normal_number_min <= new_ball && new_ball <= $scope.data.normal_number_max)) //validate 2
+                    error = "Enter normal number from " + $scope.data.normal_number_min + " to " + $scope.data.normal_number_max + ".";
+            }
+            for (var j_normal = i_normal + 1; j_normal < $scope.data.count_normal_number && error == ""; j_normal++) {
+                var old_ball = $scope.tickets.ticket[ticket_row].normal_ball[j_normal];
+                if (old_ball) {
+                    if (new_ball == old_ball) //validate 1
+                        error = "Number " + new_ball + " was chosen.";
                 }
             }
         }
+        
         $scope.tickets.ticket[ticket_row].error = error;
     }
     $scope.is_disable_buy = function() {
@@ -2419,19 +2332,167 @@ angular.module('starter.controllers', []).run(function() {
     $scope.$on('stateChangeSuccess', function() {
         $scope.loadMoreTicket();
     });
-}).controller('historyTicketCtrl', function($scope) {
-    $scope.lottery = window.languages[window.current_language].lottery;
-    $scope.add_ticket = window.languages[window.current_language].add_ticket;
-    $scope.history = window.languages[window.current_language].history;
-    $scope.more = window.languages[window.current_language].more;
+}).controller('historyTicketCtrl', function($scope, $timeout) {
     window.page_name = "app_lottery_history_ticket";
     stask_back_page.push({
         type: 'url',
         action: 'window.location.href = "#/app/history"'
     });
     $('#page').val("1");
-    obj_loading.show();
-    lottery.view_history();
+    //lottery.view_history();
+    $scope.dataHistory = {};
+
+    $scope.loadHistory = function(id){
+        obj_loading.show();
+        var data_post = {};
+        if (id != undefined) 
+        {
+            data_post = { 'id': id, };
+        }
+        if (window.is_use_uuid)
+            data_post.uuid = device.uuid;
+        data_post.user_id = user.id;
+        $.ajax({
+            url: window.server_url+'/game/mobile_app_lottery/application_history?v=' + window.version,
+            data: data_post,
+            type: "POST",
+            dataType: 'json',  
+            crossDomain: true,  
+            success: function(data) {
+                $scope.switchtab('history_result');
+                //Normal Ball
+                var normalNumber = data.sys_lottery_number.normal_number.split("|");
+                for (var j = 0; j < normalNumber.length; j++) {
+                    if (normalNumber[j] && normalNumber[j].toString().length < 2) normalNumber[j] = "0" + normalNumber[j];
+                };
+                normalNumber.splice(normalNumber.length - 1, 1);
+                data.sys_lottery_number.normal_number = normalNumber;
+                //Power Ball
+                var power_number = data.sys_lottery_number.power_number.split("|");
+                for (var j = 0; j < power_number.length; j++) {
+                    if (power_number[j] && power_number[j].toString().length < 2) power_number[j] = "0" + normalNumber[j];
+                };
+                //awards
+                var arr = [];
+                for (var key in data.awards)
+                {
+                    var keyArray = key.split("|");
+                    var value = {
+                        "key" : keyArray,
+                        "data" : data.awards[key],
+                    };
+                    arr.push(value);
+                }
+                data.awardsArr = arr;
+                //Ticket
+                for (var i = 0; i < data.tickets.length; i++) {
+                    var ticket = data.tickets[i];
+                    //Normal Number
+                    var NormalNumber = [];
+                    var selected_number = ticket.selected_number.split("|");
+                    for (var j = 0; j < selected_number.length; j++) {
+                        var classActived = "ball-no-actived";
+
+                        for (var i = 0; i < data.sys_lottery_number.normal_number.length; i++) {
+                            if (selected_number[j] && Number(selected_number[j]) == Number(data.sys_lottery_number.normal_number[i]))
+                            {
+                                classActived = "ball-actived";
+                                break;
+                            }
+                        };
+                        if (selected_number[j] && selected_number[j].toString().length < 2) 
+                        {
+                            selected_number[j] = "0" + selected_number[j];
+                        }
+                        var number = {
+                            "class" : classActived,
+                            "number" : selected_number[j],
+                        };
+                        NormalNumber.push(number);
+                    };
+                    //Power Number
+                    var PowerNumber = [];
+                    var power_number = ticket.power_number.split("|");
+                    for (var j = 0; j < power_number.length; j++) {
+                        var classActived = "ball-no-actived";
+
+                        for (var i = 0; i < data.sys_lottery_number.power_number.length; i++) {
+                            if (power_number[j] && Number(power_number[j]) == Number(data.sys_lottery_number.power_number[i]))
+                            {
+                                classActived = "ball-actived";
+                                break;
+                            }
+                        };
+                        if (power_number[j] && power_number[j].toString().length < 2) 
+                        {
+                            power_number[j] = "0" + power_number[j];
+                        }
+                        var number = {
+                            "class" : classActived,
+                            "number" : power_number[j],
+                        };
+                        PowerNumber.push(number);
+                    };
+                    //setting
+                    ticket.normal_ball = ticket.selected_number;
+                    ticket.power_ball = ticket.power_number;
+                    ticket.purchase_time = ticket.created_at;
+                    ticket.drawing_time = ticket.time_lottery_date;
+                    ticket.selected_number = NormalNumber;
+                    ticket.power_number = PowerNumber;
+                };
+                power_number.splice(power_number.length - 1, 1);
+                data.sys_lottery_number.power_number = power_number;
+
+                $scope.dataHistory = data;
+
+                $timeout(function(){
+                    obj_loading.hide();
+                }, 200);
+            }
+        });
+    }
+    $scope.switchtab = function(tab_id)
+    {
+        $('a.tab-item').removeClass('active');
+        $('a[data-tab-id='+tab_id+']').addClass('active');
+        $('div[data-tab=tab_content]').hide();
+        $('#'+tab_id).show();
+        
+        var div_id_move = tab_id;
+        var div_id_view = "history_result";
+        if (tab_id == "history_result")
+        {
+            $('div.scroll-infinite').show();
+            div_id_view = "history_result";
+            div_id_move = "history_award";
+        }
+        else
+        {
+            $('div.scroll-infinite').hide();
+            div_id_view = "history_award";
+            div_id_move = "history_result";
+        }
+        
+        $('#' + div_id_move).animate({
+            transform: 'translateX(-'+$(window).width()+'px)',
+        },function(){
+            $('#' + div_id_move).css('transform','translate('+ (Number($(window).width()) + 50) + 'px, 0px)');
+        });
+    
+        $('#' + div_id_view).animate({
+            transform: 'translateX(0px)',
+        },function(){
+            
+        });
+    }
+    $scope.draw_ticket = function(ticket_row) {
+        lottery_draw_tickets_v2.initialize();
+        lottery_draw_tickets_v2.draw_ticket($scope.dataHistory.tickets[ticket_row]);
+        lottery_draw_tickets_v2.full_screen();
+    }
+    $scope.loadHistory();
+
 }).controller('lotteryMoreMenuCtrl', function($scope, $ionicActionSheet, $timeout) {
     // Triggered on a button click, or some other target
     $scope.showMoreMenu = function() {
@@ -2603,11 +2664,44 @@ angular.module('starter.controllers', []).run(function() {
             dataType: 'json',
             crossDomain: true,
             success: function(data) {
+            
+
                 data.order.subtotal = Number(data.order.subtotal);
                 data.order.shipping = Number(data.order.shipping);
                 data.order.tax = Number(data.order.tax);
                 data.order.fees = Number(data.order.fees);
 
+                var sum_point = 0;
+                var sum_fee = 0;
+                for (var idx in data.refundhistory){
+                    sum_point += parseFloat(data.refundhistory[idx].credit_point);
+                    sum_fee += parseFloat(data.refundhistory[idx].total_amount);
+
+                }
+
+                $scope.remain_point = data.order.subtotal - sum_point;
+
+                $scope.remain_fee =  parseFloat(parseFloat(data.order.fees) + parseFloat(data.order.shipping) + parseFloat(data.order.tax) - parseFloat(sum_fee)).toFixed(2); 
+              
+
+                $scope.Des = "Don't have payment";
+                $scope.Amount = '';
+                $scope.CDate = '';
+
+                if(data.paymenttransactions){
+
+                    $scope.Des = data.paymenttransactions.action;
+                    if(data.paymenttransactions.action == 'payment'){
+
+                        $scope.Des = 'Paid for order';                                    
+                    }
+                    console.log('data.paymenttransactions.amount', data.paymenttransactions.amount);
+                    $scope.Amount = '$'+ parseFloat(data.paymenttransactions.amount).toFixed(2);
+                  
+                    $scope.CDate = data.paymenttransactions.charge_date ;
+                }
+
+                
 
                 for (var i = 0; i < data.orderdetail.length; i++) {
                     if (data.product_gift_codes){
@@ -2916,6 +3010,15 @@ angular.module('starter.controllers', []).run(function() {
                     data.friends[i].user.image = window.server_url + data.friends[i].user.image;
                 };
                 window.list_request = $scope.list_request = data.friends;
+                $scope.hasFriendRequest = false;
+                for (var i = 0; i < data.friends.length; i++) {
+                    var f = data.friends[i]
+                    if (!(f.message.type=='friend_request' && f.message.user_id == f.player_id))
+                    {
+                        $scope.hasFriendRequest = true;
+                    }
+                };
+
                 $timeout(function() {
                     $ionicScrollDelegate.$getByHandle('requestFriend').scrollTop();
                 }, 200);
@@ -3238,6 +3341,19 @@ angular.module('starter.controllers', []).run(function() {
                     $scope.page_search = Number(data.pPaging.page) + 1;
                     $('ion-infinite-scroll').removeAttr('style');
                 }
+                $timeout(function() {
+                    if ($('#main-content').length
+                        &&
+                        $('#header-tabs').length
+                        &&
+                        $('ion-scroll[name=sub-content]').length
+                    )
+                    {
+                        var new_height = $('#main-content').height()-$('#header-tabs').height()
+                        $('ion-scroll[name=sub-content]').css('height',new_height + "px");
+                        dev_log.console_log(new_height);
+                    }
+                }, 100);
                 $timeout(function() {}, 200);
             }
         });
@@ -3774,4 +3890,92 @@ angular.module('starter.controllers', []).run(function() {
         });
     }
     $scope.__init_games($scope.gameId);
-})
+});
+
+
+app.directive('slickload', function () {       
+    return {
+        link: function($scope, element, attrs) {  
+
+             element.bind("load" , function(e){ 
+
+                // success, "onload" catched
+                // now we can do specific stuff:
+
+                 var img_id = element[0].id;
+
+                 if (img_id.indexOf("big") != '-1'){
+                    // gallery-big
+                     var last_big_img_id = $('#gallery-big img')[$('#gallery-big img').length - 1].id;
+                     if (img_id == last_big_img_id){
+                        // run
+                            console.log('runnnnnnnnn big');
+                       $('#gallery-big').slick({
+                            infinite: false,
+                            onInit : function(){
+                                console.log('oninittttt');
+                        
+                                $('#gallery-big .slick-prev').hide();
+                            },
+
+                            onAfterChange : function(slickSlider){
+                                // get active slicks
+                               
+
+                                if ($scope.click_by_thumbnail){
+
+                                    $scope.click_by_thumbnail = false;
+                                  
+                                }else{
+                                   
+                                    $scope.thumbnail_slickgoto(slickSlider.currentSlide);
+                                    
+                                }
+
+                                $scope.thumbnail_set_selected(slickSlider.currentSlide);
+
+                                if($('#gallery-big .slick-slide.slick-active').next().length == 0){
+
+                                    $('#gallery-big .slick-next').hide();
+                                }else{
+                                    $('#gallery-big .slick-next').show();
+
+                                }
+                                if($('#gallery-big .slick-slide.slick-active').prev().length == 0){
+                                     $('#gallery-big .slick-prev').hide();
+                                }else{
+
+                                     $('#gallery-big .slick-prev').show();
+                                }
+
+                                
+                            }
+
+                        }); 
+
+                     }
+
+                 }else{
+                     // gallery-thumbnail
+                     var last_thumbnail_img_id = $('#gallery-thumbnail img')[$('#gallery-thumbnail img').length - 1].id;
+                     if (img_id == last_thumbnail_img_id){
+                        // run
+                        console.log('runnnnnnnnn thumbnail');
+                        $('#gallery-thumbnail').slick({
+                      
+                              infinite: false,
+                              slidesToShow: 4,
+                              slidesToScroll: 2,
+                              dots: true
+                             
+                        });
+       
+                     }
+                 }
+
+                
+            });
+
+        }
+    }
+});

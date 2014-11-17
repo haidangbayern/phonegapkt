@@ -1,67 +1,100 @@
-<ion-view title="{{history}}">
+<ion-view title="{{languages.history}}">
+<ion-nav-buttons side="right">
+<button menu-toggle="right"class="button button-icon icon ion-ios7-clock-outline" ng-click="showTimer()"></button>
+</ion-nav-buttons>
+<!-- ************* CONTENT *************** -->
+<ion-content id="history_ticket" class="has-header  has-footer">
+<div id="img_cached" style="display:none;">
+    <img name="background" src="images/bg.png" alt="" />
+    <img name="ticket" src="images/ticket.png" alt="" />
+    <img name="ticket_4" src="images/ticket_4.png" alt="" />
+    <img name="ticket_5" src="images/ticket_5.png" alt="" />
+</div>
+<div id="canvas_lottery_ticket" style="display:none;"></div>
 
-  <ion-nav-buttons side="right">
-    <button menu-toggle="right"class="button button-icon icon ion-ios7-clock-outline" ng-click="showTimer()"></button>
-  </ion-nav-buttons>
-  <!-- ************* CONTENT *************** -->
-  <ion-content id="history_ticket" class="has-header  has-footer">
+<div id="history">
+    <div class="list" id="my_tickets">
+        <div style="position: relative;" class="bar item-divider">
+        
+            <button ng-if="dataHistory.previous_drawing" ng-click="loadHistory(dataHistory.previous_drawing.id)" class="button icon ion-arrow-left-a"></button>
+            <h1 class="title">
+            {{dataHistory.sys_lottery_time}}     </h1>
+            <button ng-if="dataHistory.next_drawing" ng-click="loadHistory(dataHistory.next_drawing.id)" class="button icon ion-arrow-right-a"></button>
+        </div>
+        <div class="item tabs">
+            <a ng-click="switchtab('history_result');" data-tab-id="history_result" class="tab-item active">
+            Result      </a>
+            <a ng-click="switchtab('history_award');" data-tab-id="history_award" class="tab-item">
+            Awards      </a>
+        </div>
 
-    <div id="history">
-      
+        <div id="history_result" data-tab="tab_content">
 
+            <div class="item">
+                Drawing :
+                <span 
+                  class="ball ball-30" 
+                  ng-repeat="i_ball in [dataHistory.sys_lottery_number.normal_number.length] | makeRange"
+                  ng-if="dataHistory.sys_lottery_number.normal_number[i_ball] != ''"
+                >
+                {{dataHistory.sys_lottery_number.normal_number[i_ball]}}
+                </span>
+                <span 
+                  class="ball ball-30  power-ball" 
+                  ng-repeat="i_ball in [dataHistory.sys_lottery_number.power_number.length] | makeRange"
+                  ng-if="dataHistory.sys_lottery_number.power_number[i_ball] != ''"
+                >
+                {{dataHistory.sys_lottery_number.power_number[i_ball]}}
+                </span>
+            </div>
+
+            <div ng-repeat="i_ticket in [dataHistory.tickets.length] | makeRange" ng-click="draw_ticket({{i_ticket}})" class="item item-icon-right item-tickets">
+                <h2>{{i_ticket+1}} / 
+                  <span 
+                    ng-repeat="i_ball in [dataHistory.tickets[i_ticket].selected_number.length] | makeRange"
+                    ng-if="dataHistory.tickets[i_ticket].selected_number[i_ball].number != ''"
+                    class="ball ball-30 {{dataHistory.tickets[i_ticket].selected_number[i_ball].class}}" 
+                  >
+                  {{dataHistory.tickets[i_ticket].selected_number[i_ball].number}}
+                  </span>
+                  <span 
+                    ng-repeat="i_ball in [dataHistory.tickets[i_ticket].power_number.length] | makeRange"
+                    ng-if="dataHistory.tickets[i_ticket].power_number[i_ball].number != ''"
+                    class="ball ball-30 power-ball {{dataHistory.tickets[i_ticket].power_number[i_ball].class}}" 
+                  >
+                  {{dataHistory.tickets[i_ticket].power_number[i_ball].number}}
+                  </span>
+                </h2>
+                <p>Purchase date : {{dataHistory.tickets[i_ticket].created_at}}</p>
+                <i style="cursor:pointer;" class="icon ion-arrow-right-c"></i>
+            </div>
+       </div>
+
+        <div style="display: none; transform: translate(1416px, 0px);" class="list" id="history_award" data-tab="tab_content">
+            <a href="javascript:void(0);" class="item item-icon-right" ng-repeat="award in dataHistory.awardsArr" ng-if="award.data.percent != 0">
+              <h2>{{award.data.name_award}}</h2>
+              <p>
+              <span class="ball ball-30 text-center" ng-repeat="i_ball in [award.key[0]] | makeRange">{{i_ball + 1}}</span> 
+               <span class="ball ball-30 power-ball text-center" ng-repeat="i_ball in [award.key[1]] | makeRange">{{i_ball + 1}}</span> 
+              </p>
+              <span class="badge badge-assertive">{{award.data.total_amount | number}} {{languages.web_currency_plural}}</span>
+            </a>
+        </div>
     </div>
-
-    <input type="hidden" id="page" value="1">
-
-        
-    <div id="img_cached" style="display:none;">
-        <img name="background" src="images/bg.png" alt="" />
-        <img name="ticket" src="images/ticket.png" alt="" />
-        <img name="ticket_4" src="images/ticket_4.png" alt="" />
-        <img name="ticket_5" src="images/ticket_5.png" alt="" />
-      </div>
-      <div id="lottery_animation" style="display:none;"></div>
-      <div id="canvas_lottery_ticket" style="display:none;"></div>
-      
-    
-
-  </ion-content>
-
-  <!-- ************* FOOTER *************** -->
-  <ion-footer-bar class="bar-stable" style="padding-top:43px;" ng-controller="lotteryMoreMenuCtrl">
-    <ion-tabs class="tabs-icon-top">
-      <!-- Buy Ticket Tab -->
-      <ion-tab title="{{lottery}}" icon="icon ion-ios7-home" href="#/app/lottery">
-        
-      </ion-tab>
-
-      <!-- Buy Ticket Tab -->
-      <ion-tab title="{{add_ticket}}" icon="icon ion-plus-circled" href="#/app/add_ticket">
-        
-      </ion-tab>
-      <!-- My Ticket Tab -->
-      <!--<ion-tab title="{{my_tickets}}" icon="icon ion-ios7-pricetag" href="#/app/my_tickets">
-        
-      </ion-tab>-->
-
-      <!-- History Tab -->
-      <ion-tab title="{{history}}" icon="icon ion-star" href="#/app/history">
-        
-      </ion-tab>
-
-      <!-- More -->
-
-      <ion-tab title="{{more}}" icon="icon ion-more" ng-click="showMoreMenu()">
-        
-      </ion-tab>
-
-      
-
-      <!-- Setting Tab -->
-      <!--<ion-tab title="Setting" icon="icon ion-gear-a" href="#/app/setting">
-        
-      </ion-tab>-->
-
-    </ion-tabs>
-  </ion-footer-bar>  
+</div>
+<input type="hidden" id="page" value="1">
+</ion-content>
+<!-- ************* FOOTER *************** -->
+<ion-footer-bar class="bar-stable" style="padding-top:43px;" ng-controller="lotteryMoreMenuCtrl">
+<ion-tabs class="tabs-icon-top">
+<ion-tab title="{{languages.lottery}}" icon="icon ion-ios7-home" href="#/app/lottery">
+</ion-tab>
+<ion-tab title="{{languages.add_ticket}}" icon="icon ion-plus-circled" href="#/app/add_ticket">
+</ion-tab>
+<ion-tab title="{{languages.history}}" icon="icon ion-star" href="#/app/history">
+</ion-tab>
+<ion-tab title="{{languages.more}}" icon="icon ion-more" ng-click="showMoreMenu()">
+</ion-tab>
+</ion-tabs>
+</ion-footer-bar>
 </ion-view>

@@ -30,6 +30,7 @@ var obj_payment = {
         'payment_account_id' : null,
     },
     data_required : {},
+    data_to_payment : {},
     current_account: null, //0: New Account
     __construct : function()
     {
@@ -135,29 +136,35 @@ var obj_payment = {
         }
     },
     beforePayCheckut: function() {
-        this.data_required.user_id = user.id;
-        if (typeof this.data_required.payment_account_id == "undefined")
+        for(key in this.data_required )
         {
-            if (typeof this.data_required.state == "object")
-                this.data_required.state = this.data_required.state.id;
-            if (typeof this.data_required.country == "object")
-                this.data_required.country = this.data_required.country.id;
+            this.data_to_payment[key] = this.data_required[key];
         }
+        this.data_to_payment.user_id = user.id;
+        if (typeof this.data_to_payment.payment_account_id == "undefined")
+        {
+            if (typeof this.data_to_payment.state == "object")
+                this.data_to_payment.state = this.data_to_payment.state.id;
+            if (typeof this.data_to_payment.country == "object")
+                this.data_to_payment.country = this.data_to_payment.country.id;
+        }    
     },
     afterPayCheckoutFail: function() {
-        if (typeof this.data_required.payment_account_id == "undefined")
-        {
-            this.data_required.country =  obj_countries.getCountry(this.data_required.country);
-            if (Number(this.data_required.country.id) == window.US || 
-                Number(this.data_required.country.id) == window.CA)
-            {
-                this.data_required.state =  obj_states.getStateById(this.data_required.state);
-            }
-            delete this.data_required.user_id;
-        }
+        // if (typeof this.data_required.payment_account_id == "undefined")
+        // {
+        //     this.data_required.country =  obj_countries.getCountry(this.data_required.country);
+        //     if (Number(this.data_required.country.id) == window.US || 
+        //         Number(this.data_required.country.id) == window.CA)
+        //     {
+        //         this.data_required.state =  obj_states.getStateById(this.data_required.state);
+        //     }
+        //     delete this.data_required.user_id;
+        // }
+        this.data_to_payment = {};
     },
     afterPayCheckoutSucc: function() {
         this.removeDataRequired();
+        this.data_to_payment = {};
     },
 
     shipping : {
@@ -175,6 +182,7 @@ var obj_payment = {
             'phone_2' : null,
             'phone_3' : null,
         },
+        data_to_payment : {},
         resources : {
             countries : obj_countries,
             states : null,
@@ -233,31 +241,33 @@ var obj_payment = {
             return 0;
         },
         beforePayCheckut: function() {
-            this.data.user_id = user.id;
-           
-            if (typeof this.data.state == "object")
-                this.data.state = this.data.state.id;
-            if (typeof this.data.country == "object")
-                this.data.country = this.data.country.id;
-            
+            for(key in this.data )
+            {
+                this.data_to_payment[key] = this.data[key];
+            }
+            this.data_to_payment.user_id = user.id;
+            if (typeof this.data_to_payment.state == "object")
+                this.data_to_payment.state = this.data_to_payment.state.id;
+            if (typeof this.data_to_payment.country == "object")
+                this.data_to_payment.country = this.data_to_payment.country.id;
         },
         afterPayCheckoutFail: function() {
-            this.data.country =  obj_countries.getCountry(this.data.country);
-            if (Number(this.data.country.id) == window.US || 
-                Number(this.data.country.id) == window.CA)
-            {
-                this.data.state =  obj_states.getStateById(this.data.state);
-            }
-            delete this.data.user_id;
+            // this.data.country =  obj_countries.getCountry(this.data.country);
+            // if (Number(this.data.country.id) == window.US || 
+            //     Number(this.data.country.id) == window.CA)
+            // {
+            //     this.data.state =  obj_states.getStateById(this.data.state);
+            // }
+            // delete this.data.user_id;
+            this.data_to_payment = {};
         },
         afterPayCheckoutSucc: function() {
-            //this.__construct();
-            this.data.country =  obj_countries.getCountry(this.data.country);
-            if (Number(this.data.country.id) == window.US || 
-                Number(this.data.country.id) == window.CA)
-            {
-                this.data.state =  obj_states.getStateById(this.data.state);
-            }
+            // this.data.country =  obj_countries.getCountry(this.data.country);
+            // if (Number(this.data.country.id) == window.US || 
+            //     Number(this.data.country.id) == window.CA)
+            // {
+            //     this.data.state =  obj_states.getStateById(this.data.state);
+            // }
         },
 
     },

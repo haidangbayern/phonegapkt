@@ -56,6 +56,18 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
             }
         }
     })
+    //*************** for Forum ******************************
+    .state('app.forum', {
+        url: "/forum",
+        // templateUrl: "templates/home2.html",
+        // controller: 'home2Ctrl'
+        views: {
+            'menuContent': {
+                templateUrl: "templates/forum.html",
+                controller: 'forumCtrl'
+            }
+        }
+    })
     //*************** for Profile ******************************
     .state('app.profile', {
         url: "/profile",
@@ -139,8 +151,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 controller: 'gamesCtrl'
             }
         }
-    })
-    .state('app.list_games', {
+    }).state('app.list_games', {
         url: "/games/list_games/:categoryId",
         views: {
             'menuContent': {
@@ -148,8 +159,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 controller: 'listGamesCtrl'
             }
         }
-    })
-    .state('app.game_detail', {
+    }).state('app.game_detail', {
         url: "/games/detail/:gameId",
         views: {
             'menuContent': {
@@ -157,8 +167,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 controller: 'detailGameCtrl'
             }
         }
-    })
-    .state('app.play_game', {
+    }).state('app.play_game', {
         url: "/games/play/:gameId",
         views: {
             'menuContent': {
@@ -211,6 +220,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
             }
         }
     })
+    //*************** for Item Exchange & checkout ******************************
     .state('app.product', {
         url: "/product",
         views: {
@@ -219,8 +229,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 controller: 'productCtrl'
             }
         }
-    })  
-	.state('app.checkout', {
+    }).state('app.checkout', {
         url: "/checkout/:reference_url",
         views: {
             'menuContent': {
@@ -228,8 +237,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 controller: 'checkoutCtrl'
             }
         }
-    })  
-    .state('app.product_category', {
+    }).state('app.product_category', {
         url: "/product_category/:productCategoryId",
         views: {
             'menuContent': {
@@ -237,8 +245,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 controller: 'productCategoryCtrl'
             }
         }
-    })
-    .state('app.product_detail', {
+    }).state('app.product_detail', {
         url: "/product/:productId",
         views: {
             'menuContent': {
