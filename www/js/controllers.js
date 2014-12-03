@@ -1671,6 +1671,7 @@ app.run(function() {
         });
         is_time_check_server = setTimeout(function() {
             if (typeof io == 'undefined') {
+				alert(window.server_ip + "|||"+ window.server_url);
                 $('#animated_loading span').html("Cannot Connect Server");
                 window.is_connect_server = false;
                 alert("Sorry! Server Out.");
