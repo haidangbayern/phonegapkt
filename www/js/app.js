@@ -13,8 +13,8 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
         }
         if (window.StatusBar) {
             // org.apache.cordova.statusbar required
-            StatusBar.styleDefault();
-            //StatusBar.hide();
+            //StatusBar.styleDefault();
+            StatusBar.hide();
         }
     });
     $ionicPlatform.registerBackButtonAction(function() {
@@ -365,4 +365,16 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
             });   
         }
     }
+}).directive('ngEnter', function() {
+    return function(scope, element, attrs) {
+        element.bind("keydown keypress", function(event) {
+            if(event.which === 13) {
+                scope.$apply(function(){
+                    scope.$eval(attrs.ngEnter, {'event': event});
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
 });

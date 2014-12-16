@@ -122,7 +122,7 @@ window.languages = {
         "list_friend" : "List Friends",
         "lottery_draw": "Lottery Draw",
         "lottery": "Lottery",
-        "login_title": "Login Your Account",
+        "login_title": "Log in",
         "login": "Login",
         "log_in": "Log In",
         "logout": "Logout",

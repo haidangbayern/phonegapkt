@@ -697,7 +697,7 @@ app.run(function() {
         }
     });
 }).controller('productCategoryCtrl', function($scope, $stateParams, $ionicSlideBoxDelegate, $timeout) {
-    // console.log('$stateParams', $stateParams);
+   
     $scope.languages = window.languages[window.current_language];
     $scope.page = 1;
     $scope.products = {};
@@ -720,15 +720,13 @@ app.run(function() {
                 data: data,
                 crossDomain: true,
                 success: function(data) {
-                    console.log('dataaaa', data);
-                    console.log('data.pPaging.page', data.pPaging.page);
-                    console.log('data.pPaging.end', data.pPaging.end);
+                   
                     $scope.$broadcast('scroll.infiniteScrollComplete');
-                    for (var xxx in data.products) {
-                        $scope.products.product.push(data.products[xxx]);
+                    for (var idx in data.products) {
+                        $scope.products.product.push(data.products[idx]);
                     }
                     $scope.products.total = data.pPaging.total;
-                    console.log($scope.products);
+                  
                     if (data.pPaging.page == data.pPaging.end) {
                         $scope.page = 0;
                         $('ion-infinite-scroll').remove();
@@ -745,15 +743,11 @@ app.run(function() {
         }
     }
 }).controller('productDetailCtrl', function($scope, $stateParams, $ionicModal, $ionicSlideBoxDelegate, $ionicPopup, $timeout) {
-    // console.log($stateParams);
-    console.log('starttttttttttttt');
-    // $scope.product = products.getProductById($stateParams.productId);
+   
+   
+   
     $scope.languages = window.languages[window.current_language];
     $scope.productId = $stateParams.productId;
-
-    //$scope.my_cart = window.my_cart.content;
-
-
 
 
     var data = {};
@@ -843,13 +837,13 @@ app.run(function() {
             }
         });
       
-        //$('.error_message').remove();
+      
 
         if (!result){
             //show message
             if($('#product_option_div').prev().attr('id') != 'error_message'){
 
-                // $('#product_option_div').before('<p id="error_message" class="error_message" style="color: red">Please select your options</p>');
+              
                 $scope.showAlert($scope.languages.warning, $scope.languages.please_select_your_options )
             }
            
@@ -969,24 +963,7 @@ app.run(function() {
      };
     
 
-    $scope.click_by_thumbnail = false;
-    $scope.click_gallery_thumbnail = function(index, img_id){
-      
-       
-
-        $('#gallery-big').slickGoTo(index);      
-
-        $('#gallery-thumbnail .slick-slide.selected').removeClass('selected');
-        $('#gallery-thumbnail .slick-slide[index='+index+']').addClass('selected'); 
-
-         $scope.click_by_thumbnail = true;
-
-       
-
-         $scope.setOptionsByImage(img_id);
-
-
-    }
+   
     $scope.setOptionsByImage = function(img_id){
 
         if (typeof window.OptionByImage == 'undefined'){
@@ -995,7 +972,6 @@ app.run(function() {
         }
       
       
-        if (img_id != 'na' && img_id != ''){
 
             if ( typeof window.OptionByImage[img_id] != 'undefined' ){
 
@@ -1029,16 +1005,12 @@ app.run(function() {
                     }
                 });
             }
-        }
-        else{
-          
-            $scope.setOptions('', 'na');
-        }
+       
     }
     $scope.setOptions = function(options, image_id){
 
 
-        if ((options != '' && options.length != 0) && (image_id != 'na' && image_id != '')){
+        if (options != '' && options.length != 0){
 
             $('.detailoption').each(function(){
 
@@ -1057,8 +1029,12 @@ app.run(function() {
                     }
                 }
                 else{
-                   
-                    $(this).attr('checked', false);
+                    if ($(this).attr('type') == 'checkbox'){
+
+                        $(this).attr('checked', false);
+                    }else{
+                        $(this).val('-1');
+                    }
                 }
             });
         }
@@ -1119,17 +1095,12 @@ app.run(function() {
             success: function(img_id){
                
                 var slide_index = $('#img_'+img_id).parent().attr('index');
-
-               
-
-                if (img_id != ''){
-
-                    $scope.thumbnail_set_selected(slide_index);
-                    $scope.thumbnail_slickgoto(slide_index);
-                   
-                    $('#gallery-big').slickGoTo(slide_index);
               
-                }
+               
+                window.has_select_option = true;
+              
+                $scope.click_gallery_thumbnail(slide_index, img_id, 'option');
+
                 
             }
         });
@@ -1137,43 +1108,26 @@ app.run(function() {
     
     }
 
-    $scope.first_thumbnail = function(){
-        console.log('first thumbnail', $scope.has_first_thumbnail);
-        if ($scope.has_first_thumbnail == null){
-            return true;
-        }else{
-            $scope.has_first_thumbnail = true;
-            return false;
+    $scope.click_gallery_thumbnail = function(index, img_id, called_by){
+
+     var called_by = called_by || 'image';
+
+       
+
+        $('#gallery-big').slickGoTo(index);      
+
+        $scope.thumbnail_set_selected(index);
+
+        
+
+        // Nguyen start 
+        if(called_by == 'image'){
+        
+          $scope.setOptionsByImage(img_id);
         }
+        //Nguyen end
     }
 
-    $scope.thumbnail_slickgoto = function(slide_index){
-        // slick gallery thumbnail
-        var slick_go_to = true;
-
-        $('#gallery-thumbnail .slick-slide.slick-active').each(function(){
-
-             if (slide_index  == $(this).attr('index') ){
-
-                slick_go_to = false;
-             }
-         
-        });
-
-     
-
-        if (slick_go_to){
-
-            if (slide_index > 4){
-                slide_index = slide_index - 3;
-            }
-             
-
-            $('#gallery-thumbnail').slickGoTo(slide_index);
-
-        }
-        // end slick gallery thumbnail    
-    }
     $scope.thumbnail_set_selected = function(slide_index){
 
         $('#gallery-thumbnail .slick-slide.selected').removeClass('selected');
@@ -1181,10 +1135,27 @@ app.run(function() {
         $('#gallery-thumbnail .slick-slide[index='+slide_index+']').addClass('selected'); 
     }
 
+    $scope.show_thumbnail_arrows = function(){
+
+        if($('#gallery-big .slick-slide.slick-active').next().length == 0){
+
+            $('#gallery-big .slick-next').hide();
+        }else{
+            $('#gallery-big .slick-next').show();
+
+        }
+        if($('#gallery-big .slick-slide.slick-active').prev().length == 0){
+             $('#gallery-big .slick-prev').hide();
+        }else{
+
+             $('#gallery-big .slick-prev').show();
+        }
+    }
+
 
 
     $timeout(function() {
-         console.log('display slickkkkkk');
+    
         if (typeof $scope.product != 'undefined' && $scope.product.images.length  > 1)
         {
             $('#thumbnail-wrapper').css('opacity','1');
@@ -1378,8 +1349,12 @@ app.run(function() {
         $ionicSlideBoxDelegate.next();
     }
     $scope.slideCurrentIndex = 0;
+
+
     $scope.slideHasChanged = function(index)
     {
+
+
         $scope.slideCurrentIndex = index;
         if (index == 1)
         {
@@ -1452,7 +1427,7 @@ app.run(function() {
                         success: function(data) {
                         }
                     });
-                    console.log('deleteeeee', window.my_cart.content);
+                  
 
                     window.my_cart.content.splice(idx, 1);
                 }
@@ -1671,7 +1646,6 @@ app.run(function() {
         });
         is_time_check_server = setTimeout(function() {
             if (typeof io == 'undefined') {
-				alert(window.server_ip + "|||"+ window.server_url);
                 $('#animated_loading span').html("Cannot Connect Server");
                 window.is_connect_server = false;
                 alert("Sorry! Server Out.");
@@ -1874,6 +1848,8 @@ app.run(function() {
     $scope.email = "";
     $scope.submit_forgot_password = function(email) {
         console.log(email);
+        if (email == undefined)
+            return;
         obj_loading.show();
         var data = {
             'email': email,
@@ -1907,15 +1883,77 @@ app.run(function() {
     // },200); 
 })
 .controller('forumCtrl', function($scope,$timeout,$sce) {
+   
     $scope.languages = window.languages[window.current_language];
-    $scope.forum_url = $sce.trustAsResourceUrl(window.forum_url);
-    //$scope.forum_url = $sce.trustAsResourceUrl("http://bichtram.kootoro.com/phpbb");
-    $scope.windowHeight = $(window).height();
-    // $timeout(function(){
-    //     var padding = ($(window).width()-10)%220/2;
-    //     $('.screen').css('padding-left', padding + 'px');
-    //     $('.screen').css('padding-right', padding + 'px');
-    // },200); 
+
+    $scope.recent_topics = [];
+    $scope.loadMoreRecentTopics = function() {
+
+        if ($scope.page != 0) {
+
+            obj_loading.show();
+            var data = {};
+
+            if (window.is_use_uuid)
+                data.uuid = device.uuid;
+
+
+            data.page = $scope.page;
+
+            $.ajax({
+                url: window.forum_url +'/call_phpbb.php?v=' + window.version,
+                type: "POST",
+                dataType: 'json',
+                data: data,
+                crossDomain: true,
+                success: function(data) {
+
+
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
+
+                    for(var idx in data.recent_topics){
+
+                        data.recent_topics[idx].U_VIEW_TOPIC = $sce.trustAsResourceUrl(data.recent_topics[idx].U_VIEW_TOPIC);
+                    
+                        
+                        $scope.recent_topics.push(data.recent_topics[idx]);    
+                    }
+
+                    if (data.pPaging.page == data.pPaging.end) {
+                        $scope.page = 0;
+                        $('ion-infinite-scroll').remove();
+                    } else {
+                        $scope.page = Number(data.pPaging.page) + 1;
+                    }
+
+
+                    $timeout(function() {
+                        obj_loading.hide();
+
+                    }, 200);
+
+                    $timeout(function() {
+
+                        $('.topics').each(function(){
+                            if(!$(this).hasClass('replaced_href')){
+
+                                $(this).attr('href', "javascript:window.open('"+window.forum_url+$(this).attr('href') + "','_system','location=no')");
+                                $(this).addClass('replaced_href');
+                            }
+                        });
+
+                    }, 1000);
+
+                }
+
+            
+            });
+        } 
+        else {
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+        }
+    }
+
 })
 /** =================== Lottery ======================= **/
 .controller('mainLotteryCtrl', function($scope, $http, $log) {
@@ -2373,6 +2411,9 @@ app.run(function() {
                 for (var j = 0; j < power_number.length; j++) {
                     if (power_number[j] && power_number[j].toString().length < 2) power_number[j] = "0" + normalNumber[j];
                 };
+                power_number.splice(power_number.length - 1, 1);
+                data.sys_lottery_number.power_number = power_number;
+
                 //awards
                 var arr = [];
                 for (var key in data.awards)
@@ -2394,8 +2435,8 @@ app.run(function() {
                     for (var j = 0; j < selected_number.length; j++) {
                         var classActived = "ball-no-actived";
 
-                        for (var i = 0; i < data.sys_lottery_number.normal_number.length; i++) {
-                            if (selected_number[j] && Number(selected_number[j]) == Number(data.sys_lottery_number.normal_number[i]))
+                        for (var k = 0; k < data.sys_lottery_number.normal_number.length; k++) {
+                            if (selected_number[j] && Number(selected_number[j]) == Number(data.sys_lottery_number.normal_number[k]))
                             {
                                 classActived = "ball-actived";
                                 break;
@@ -2417,8 +2458,8 @@ app.run(function() {
                     for (var j = 0; j < power_number.length; j++) {
                         var classActived = "ball-no-actived";
 
-                        for (var i = 0; i < data.sys_lottery_number.power_number.length; i++) {
-                            if (power_number[j] && Number(power_number[j]) == Number(data.sys_lottery_number.power_number[i]))
+                        for (var k = 0; k < data.sys_lottery_number.power_number.length; k++) {
+                            if (power_number[j] && Number(power_number[j]) == Number(data.sys_lottery_number.power_number[k]))
                             {
                                 classActived = "ball-actived";
                                 break;
@@ -2442,9 +2483,6 @@ app.run(function() {
                     ticket.selected_number = NormalNumber;
                     ticket.power_number = PowerNumber;
                 };
-                power_number.splice(power_number.length - 1, 1);
-                data.sys_lottery_number.power_number = power_number;
-
                 $scope.dataHistory = data;
 
                 $timeout(function(){
@@ -3571,11 +3609,17 @@ app.run(function() {
             success: function(data) {
                 $scope.game = data;
                 $scope.game.params.value = $sce.trustAsResourceUrl($scope.game.params.value);
+
+               
+
                 $scope.game.detail.play_url = $sce.trustAsResourceUrl($scope.game.detail.play_url + user.secret);
                  $timeout(function(){
                     $("input[name='average_rating']").rating('refresh', 
                         {disabled: true, showClear: false, showCaption: true}
                     );
+
+                    
+
                     $('#button_play_now').attr('href',"javascript:window.open('"+$scope.game.detail.play_url+"', '_system', 'location=no')");
                     obj_loading.hide();
                 },500);
@@ -3910,11 +3954,16 @@ app.directive('slickload', function () {
                      var last_big_img_id = $('#gallery-big img')[$('#gallery-big img').length - 1].id;
                      if (img_id == last_big_img_id){
                         // run
-                            console.log('runnnnnnnnn big');
+                          
+                        window.has_select_option = false;
                        $('#gallery-big').slick({
                             infinite: false,
+                             slidesToShow: 1,
+                              slidesToScroll: 1,
+                                arrows: false,
+                           asNavFor: '#gallery-thumbnail',
                             onInit : function(){
-                                console.log('oninittttt');
+                             
                         
                                 $('#gallery-big .slick-prev').hide();
                             },
@@ -3923,36 +3972,27 @@ app.directive('slickload', function () {
                                 // get active slicks
                                
 
-                                if ($scope.click_by_thumbnail){
-
-                                    $scope.click_by_thumbnail = false;
-                                  
+                                if ( window.has_select_option){
+                                  // do nothing
+                                  // set value to false
+                                  window.has_select_option = false;
+                                 
                                 }else{
-                                   
-                                    $scope.thumbnail_slickgoto(slickSlider.currentSlide);
-                                    
+                                    var img_id = $('#gallery-thumbnail .slick-slide[index='+slickSlider.currentSlide+']').attr('data-img-id');
+                                  
+                                    $scope.setOptionsByImage(img_id);
                                 }
 
+                               
                                 $scope.thumbnail_set_selected(slickSlider.currentSlide);
 
-                                if($('#gallery-big .slick-slide.slick-active').next().length == 0){
-
-                                    $('#gallery-big .slick-next').hide();
-                                }else{
-                                    $('#gallery-big .slick-next').show();
-
-                                }
-                                if($('#gallery-big .slick-slide.slick-active').prev().length == 0){
-                                     $('#gallery-big .slick-prev').hide();
-                                }else{
-
-                                     $('#gallery-big .slick-prev').show();
-                                }
+                                $scope.show_thumbnail_arrows();
 
                                 
                             }
 
                         }); 
+                        $('#big-wrapper').css('opacity', 1);
 
                      }
 
@@ -3961,15 +4001,18 @@ app.directive('slickload', function () {
                      var last_thumbnail_img_id = $('#gallery-thumbnail img')[$('#gallery-thumbnail img').length - 1].id;
                      if (img_id == last_thumbnail_img_id){
                         // run
-                        console.log('runnnnnnnnn thumbnail');
+                       
                         $('#gallery-thumbnail').slick({
                       
                               infinite: false,
                               slidesToShow: 4,
-                              slidesToScroll: 2,
-                              dots: true
+                              slidesToScroll: 1,
+                              dots: false,
+                            asNavFor: '#gallery-big',
+                              arrows: false,
                              
                         });
+                     
        
                      }
                  }

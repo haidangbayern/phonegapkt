@@ -189,24 +189,40 @@ var obj_payment = {
         },
         __construct : function()
         {
+              
+
             if (this.data.first_name == null)
             {
                 this.resources.states = obj_states.getStatesByCountryId(obj_countries.getCountry(window.US).id);    
                 this.data.country = obj_countries.getCountry(window.US);
                 this.data.state =  this.resources.states?this.resources.states[0]:null;
             }
+
+             
+
             if (window.is_dev)
             {
-                this.data.first_name = window.dev_data[window.server_ip].shipping_info.first_name;
-                this.data.last_name=window.dev_data[window.server_ip].shipping_info.last_name;
-                this.data.address_1 = window.dev_data[window.server_ip].shipping_info.address_1;
-                this.data.address_2= window.dev_data[window.server_ip].shipping_info.address_2;
-                this.data.zip_code= window.dev_data[window.server_ip].shipping_info.zip_code;
-                this.data.city= window.dev_data[window.server_ip].shipping_info.city;
-                this.data.phone_1= window.dev_data[window.server_ip].shipping_info.phone_1;
-                this.data.phone_2=  window.dev_data[window.server_ip].shipping_info.phone_2;
-                this.data.phone_3=  window.dev_data[window.server_ip].shipping_info.phone_3;
+                this.data.first_name = this.data.first_name == null ? window.dev_data[window.server_ip].shipping_info.first_name : this.data.first_name;
+
+
+                this.data.last_name = this.data.last_name == null ? window.dev_data[window.server_ip].shipping_info.last_name : this.data.last_name;
+
+                this.data.address_1 = this.data.address_1 == null ? window.dev_data[window.server_ip].shipping_info.address_1 : this.data.address_1;
+
+                this.data.address_2 = this.data.address_2 == null ? window.dev_data[window.server_ip].shipping_info.address_2 : this.data.address_2;
+
+                this.data.zip_code = this.data.zip_code == null ? window.dev_data[window.server_ip].shipping_info.zip_code : this.data.zip_code;
+
+                this.data.city = this.data.city == null ? window.dev_data[window.server_ip].shipping_info.city : this.data.city;
+
+                this.data.phone_1 = this.data.phone_1 == null ? window.dev_data[window.server_ip].shipping_info.phone_1 : this.data.phone_1;
+
+                this.data.phone_2 = this.data.phone_2 == null ? window.dev_data[window.server_ip].shipping_info.phone_2 : this.data.phone_2;
+
+                this.data.phone_3 = this.data.phone_3 == null ? window.dev_data[window.server_ip].shipping_info.phone_3 : this.data.phone_3;
             }
+
+         
         },
         changeCountry : function(){
             if (Number(this.data.country.id) == window.US || Number(this.data.country.id) == window.CA)

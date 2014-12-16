@@ -66,6 +66,7 @@
                   </span>
                 </h2>
                 <p>Purchase date : {{dataHistory.tickets[i_ticket].created_at}}</p>
+                <span class="badge badge-assertive" ng-show="dataHistory.tickets[i_ticket].bonus!=0" style="right:40px;top:5px;">{{dataHistory.tickets[i_ticket].bonus  | number}} {{languages.web_currency_plural}}</span>
                 <i style="cursor:pointer;" class="icon ion-arrow-right-c"></i>
             </div>
        </div>

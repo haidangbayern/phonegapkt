@@ -1,0 +1,26 @@
+<ion-view title="{{languages.forum}}"  hide-back-button="true">
+<ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+
+<ion-content class="screen" direction="y" locking="true">
+ 
+
+     <div ng-repeat="item in recent_topics">
+
+        <a class="item topics" href="{{item.U_VIEW_TOPIC}}"  target="_blank" >
+        
+            <h2>{{item.LAST_POST_SUBJECT}}</h2> 
+            <p>by <span style="color:{{(item.LAST_POST_AUTHOR_COLOUR)? item.LAST_POST_AUTHOR_COLOUR :'#3083aa'}}">{{item.LAST_POST_AUTHOR}}</span> &raquo; {{item.FIRST_POST_TIME}}</p>
+        </a>
+    
+    
+    </div>
+
+     <ion-infinite-scroll
+    icon=""
+    distance="5%"
+    on-infinite="loadMoreRecentTopics()">
+    </ion-infinite-scroll>
+</ion-content>
+</ion-view>

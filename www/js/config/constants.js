@@ -10,12 +10,12 @@ window.server_ip = "kootoro.abcv.com"; //demo server
 
 window.server_ip_list = [
     { name: "Select Server", ip: "-1" },
-    { name: "Huy.Tran", ip: "192.168.3.17" },
+    { name: "Huy.Tran", ip: "192.168.3.18" },
     { name: "Tram.Nguyen", ip: "bichtram.kootoro.com" },
     { name: "Nguyen.Ly", ip: "192.168.3.43" },
     { name: "Anh.Luu", ip: "192.168.3.64" },
     { name: "Ngan.Trinh", ip: "192.168.3.21" },
-    { name: "Demo.kootoro", ip: "kootoro.abcv.com"},
+    { name: "kootoro.Abcv", ip: "kootoro.abcv.com"},
 ];
 
 window.server_post = "8000";
@@ -24,7 +24,7 @@ window.is_device = window.cordova;
 window.forum_url = "http://" + window.server_ip + ":80/phpbb";
 /** ================ Application Information ================== **/
 window.version = 2;
-window.version_application = "2.0.245";	//It will be updated by config.xml
+window.version_application = "2.0.259";	//It will be updated by config.xml
 /** ================ Database ================== **/
 window.database = {
     name: '_abcv_kootoro_app',
@@ -42,7 +42,7 @@ if (typeof device == "undefined") {
     device = {
         model: "laptop",
         cordova: "3.5.0",
-        uuid: "192.168.3.17",
+        uuid: "192.168.3.18",
         version: "window8",
         name: "ABCV-VN-14",
         platform: "Android",
@@ -54,7 +54,7 @@ else
 }
 /** ================ Data To test ================== **/
 window.dev_data = {
-    "192.168.3.17" :
+    "192.168.3.18" :
     {
         "user" : {
             email : "tranhanhuy@gmail.com",
@@ -199,7 +199,7 @@ window.dev_data = {
             phone_3 : '1235',
         },
     },
-    "demo.games4fun.abcv.com" :
+    "kootoro.abcv.com" :
     {
         "user" : {
             email : "",

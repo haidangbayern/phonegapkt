@@ -9,7 +9,7 @@
         
         <div class="item-input-inset">
             <div class="item-input-wrapper">
-                <input type="text" ng-model="user_data.email" id="email" name="email" placeholder="{{languages.email}} * ">
+                <input type="text" ng-model="user_data.email" id="email" name="email" placeholder="{{languages.email}} * " ng-enter="submit_login_account(user_data)">
                 <button class="button button-clear button-small"
                       ng-show="user_data.email" 
                       ng-click="user_data.email = ''"
@@ -21,7 +21,7 @@
         
         <div class="item-input-inset">
             <div class="item-input-wrapper">
-                <input type="password" maxlength="12" ng-model="user_data.password" name="password" placeholder="{{languages.password}} * ">
+                <input type="password" maxlength="12" ng-model="user_data.password" name="password" placeholder="{{languages.password}} * " ng-enter="submit_login_account(user_data)">
                 <button class="button button-clear button-small"
                       ng-show="user_data.password" 
                       ng-click="user_data.password = ''">

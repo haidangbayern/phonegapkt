@@ -3,11 +3,11 @@
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         xmlns:cdv = "http://cordova.apache.org/ns/1.0"
         id          = "com.abcv.kootoro.lottery"
-        version     = "2.0.246"
+        version     = "2.0.258"
         versionCode = "10" >
 
         
-        <name>Kootoro Lottery 2</name>
+        <name>Kootoro</name>
 
         <description>ABCV product</description>
 

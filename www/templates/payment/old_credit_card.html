@@ -44,7 +44,7 @@
     <div class="item">
         {{languages.phone}}
         <span class="item-note">
-            ({{payment.current_account.address.area_code}})-{{payment.current_account.address.phone_number}}-{{payment.current_account.address.phone_extension}}
+            ({{payment.current_account.address.area_code}})-{{payment.current_account.address.phone_number}}{{ (payment.current_account.address.phone_extension != '') ? '-'+payment.current_account.address.phone_extension : ''}}
         </span>
     </div>
 </div>

@@ -1,10 +1,3 @@
-<style type="text/css">
-#thumbnail-wrapper{
-
-  opacity:0;
-}
-
-</style>
 <ion-view title="{{product.title}}" >
 
 <ion-nav-buttons side="right">    
@@ -28,12 +21,14 @@
             <h2 style="text-align:center">{{product.itemdetail.title}}</h2>
 
               <!-- big image -->
+              <div id="big-wrapper">
                <div id="gallery-big" style="width:275px;margin-top:10px;margin-bottom:0">
         
                   <div ng-repeat="image in product.images">
                     <img id="big_{{image.id}}" src="{{image.image_path}}" style="width:275px;height:150px" slickload/>
                   
                   </div>
+              </div>
               </div>
 
               <!-- thumbnail -->
@@ -45,7 +40,7 @@
                   <div ng-repeat="i in [product.images.length] | makeRange" 
                     class="{{(i==0)? 'selected':''}}" ng-if="product.itemdetail.has_image"
                     ng-click="click_gallery_thumbnail(i, product.images[i].id)" 
-                    >
+                    index="{{i}}" data-img-id="{{product.images[i].id}}">
                     <img id="img_{{product.images[i].id}}"  src="{{product.images[i].image_path}}"  style="width:65px;height:65px" slickload />
                  
                   
@@ -129,7 +124,19 @@
 <!-- </ion-slide>
 </ion-slide-box> -->
 <style type="text/css">
+#big-wrapper, #thumbnail-wrapper{
+  opacity: 0;
 
+  width: 100%;
+}
+#product_option_div  div.input-label{
+  font-weight: normal;
+  padding-left: 8px;
+
+}
+#gallery-big, #gallery-thumbnail{
+  margin: 0 auto;
+}
 i.ion-bag{
   font-size: 30px;
 }
@@ -214,9 +221,7 @@ div.slick-slide img{
 .custom_btn{
   font-size: 13px;
 }
-#thumbnail-wrapper{
-  opacity: 0;
-}
+
 
 #product .count {
       font-size: 12px;
