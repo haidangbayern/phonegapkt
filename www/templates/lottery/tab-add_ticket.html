@@ -24,7 +24,12 @@
 
             <label class="item button button-small item-input item-select " style="padding-right: 5px;padding-left: 5px;width:80px;">
               {{languages.tickets}}
-              <select ng-change="add_more_ticket(tickets.count)" ng-model="tickets.count" style="height:100%;padding:0 5px 0 0;background-color:transparent;">
+              <select 
+                ng-change="add_more_ticket(tickets.count)" 
+                ng-model="tickets.count" 
+                ng-click="showKeyboardSelectTicket()"
+                ng-blur="add_more_ticket(tickets.count)"
+                style="height:100%;padding:0 5px 0 0;background-color:transparent;">
                   <option  ng-repeat="p in [data.limit_buy_ticket] | makeRange" value="{{p+1}}"> {{p+1}}</option>
                 </select>
             </label>
