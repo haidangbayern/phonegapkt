@@ -109,7 +109,7 @@ var lottery_draw_tickets_v2 = {
         }
         this.draw_number(obj.normal_ball, "normal_number", obj_info_kin);
         this.draw_number(obj.power_ball, "power_number", obj_info_kin);
-        var barcode = "LOTTERY - ";
+        var barcode = "LOTTORO - ";
         for (var i = 0; i < obj.normal_ball.length; i++) {
             if (!obj.normal_ball[i])
                 continue;

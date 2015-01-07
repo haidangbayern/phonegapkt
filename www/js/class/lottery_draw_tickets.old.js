@@ -99,7 +99,7 @@ var lottery_draw_tickets = {
 		};
 		this.draw_number(obj.normal_number, "normal_number", obj_info_kin);
 		this.draw_number(obj.power_number, "power_number", obj_info_kin);
-		var barcode = "LOTTERY - ";
+		var barcode = "LOTTORO - ";
 		var normal_number = obj.normal_number.replace(/\|/g, " ");
 		barcode += normal_number + " - ";
 		var power_number = obj.power_number.replace(/\|/g, " ");

@@ -2061,16 +2061,15 @@ app.run(function() {
         var new_ball = $scope.tickets.ticket[ticket_row].normal_ball[i_normal_ball];
         //current ball
         var error = "";
-        if (new_ball) {
-            if (!($scope.data.normal_number_min <= new_ball && new_ball <= $scope.data.normal_number_max)) //validate 2
+        if (new_ball || new_ball == 0) {
+            if (new_ball==0||!($scope.data.normal_number_min <= new_ball && new_ball <= $scope.data.normal_number_max)) //validate 2
                 error = "Enter normal number from " + $scope.data.normal_number_min + " to " + $scope.data.normal_number_max + ".";
         }
         //checking normal balls
         for (var i_normal = 0; i_normal < $scope.data.count_normal_number && error == ""; i_normal++) {
             var new_ball = $scope.tickets.ticket[ticket_row].normal_ball[i_normal];
-            if (!new_ball) continue;
-            else {
-                if (!($scope.data.normal_number_min <= new_ball && new_ball <= $scope.data.normal_number_max)) //validate 2
+            if (new_ball || new_ball == 0) {
+                if (new_ball==0||!($scope.data.normal_number_min <= new_ball && new_ball <= $scope.data.normal_number_max)) //validate 2
                     error = "Enter normal number from " + $scope.data.normal_number_min + " to " + $scope.data.normal_number_max + ".";
             }
             for (var j_normal = i_normal + 1; j_normal < $scope.data.count_normal_number && error == ""; j_normal++) {
@@ -2084,9 +2083,8 @@ app.run(function() {
         //checking power number
         for (var i_power = 0; i_power < $scope.data.count_power_number && error == ""; i_power++) {
             var new_ball = $scope.tickets.ticket[ticket_row].power_ball[i_power];
-            if (!new_ball) continue;
-            else {
-                if (!($scope.data.power_number_min <= new_ball && new_ball <= $scope.data.power_number_max)) //validate 2
+            if (new_ball || new_ball == 0) {
+                if (new_ball==0||!($scope.data.power_number_min <= new_ball && new_ball <= $scope.data.power_number_max)) //validate 2
                     error = "Enter power number from " + $scope.data.power_number_min + " to " + $scope.data.power_number_max + ".";
             }
             for (var j_power = i_power + 1; j_power < $scope.data.count_power_number && error == ""; j_power++) {
@@ -2104,16 +2102,15 @@ app.run(function() {
         var new_ball = $scope.tickets.ticket[ticket_row].power_ball[i_power_number];
         //current ball
         var error = "";
-        if (new_ball) {
-            if (!($scope.data.power_number_min <= new_ball && new_ball <= $scope.data.power_number_max)) //validate 2
+        if (new_ball || new_ball == 0) {
+            if (new_ball==0||!($scope.data.power_number_min <= new_ball && new_ball <= $scope.data.power_number_max)) //validate 2
                 error = "Enter power number from " + $scope.data.power_number_min + " to " + $scope.data.power_number_max + ".";
         }
         //checking power number
         for (var i_power = 0; i_power < $scope.data.count_power_number && error == ""; i_power++) {
             var new_ball = $scope.tickets.ticket[ticket_row].power_ball[i_power];
-            if (!new_ball) continue;
-            else {
-                if (!($scope.data.power_number_min <= new_ball && new_ball <= $scope.data.power_number_max)) //validate 2
+            if (new_ball || new_ball == 0) {
+                if (new_ball==0||!($scope.data.power_number_min <= new_ball && new_ball <= $scope.data.power_number_max)) //validate 2
                     error = "Enter power number from " + $scope.data.power_number_min + " to " + $scope.data.power_number_max + ".";
             }
             for (var j_power = i_power + 1; j_power < $scope.data.count_power_number && error == ""; j_power++) {
@@ -2127,9 +2124,8 @@ app.run(function() {
         //checking normal balls
         for (var i_normal = 0; i_normal < $scope.data.count_normal_number && error == ""; i_normal++) {
             var new_ball = $scope.tickets.ticket[ticket_row].normal_ball[i_normal];
-            if (!new_ball) continue;
-            else {
-                if (!($scope.data.normal_number_min <= new_ball && new_ball <= $scope.data.normal_number_max)) //validate 2
+            if (new_ball || new_ball == 0) {
+                if (new_ball==0||!($scope.data.normal_number_min <= new_ball && new_ball <= $scope.data.normal_number_max)) //validate 2
                     error = "Enter normal number from " + $scope.data.normal_number_min + " to " + $scope.data.normal_number_max + ".";
             }
             for (var j_normal = i_normal + 1; j_normal < $scope.data.count_normal_number && error == ""; j_normal++) {
@@ -2144,6 +2140,8 @@ app.run(function() {
         $scope.tickets.ticket[ticket_row].error = error;
     }
     $scope.is_disable_buy = function() {
+        if (obj_keyboard.is_show)
+            return true;
         for (var i = 0; i < $scope.tickets.count; i++) {
             if ($scope.tickets.ticket[i].error) return true;
             for (var i_normal = 0; i_normal < $scope.data.count_normal_number; i_normal++) {
@@ -2204,8 +2202,12 @@ app.run(function() {
         for (var i_normal = 0; i_normal < $scope.data.count_normal_number; i_normal++) $scope.tickets.ticket[ticket_row].normal_ball[i_normal] = Number(random_normal[i_normal]);
         var random_power = core.random_many_number($scope.data.power_number_min, $scope.data.power_number_max, $scope.data.count_power_number, true, true);
         for (var i_power = 0; i_power < $scope.data.count_power_number; i_power++) $scope.tickets.ticket[ticket_row].power_ball[i_power] = Number(random_power[i_power]);
+        for (var i = $scope.tickets.ticket.length - 1; i >= 0; i--) {
+            $scope.tickets.ticket[i].error  = null;
+        };
     }
     $scope.add_more_ticket = function(count_ticket) {
+        obj_keyboard.is_show = false;
         var l = $scope.tickets.count - $scope.tickets.ticket.length;
         //8 10
         if (l < 0) {
@@ -2230,6 +2232,12 @@ app.run(function() {
             };
         }
     }
+
+    $scope.showKeyboardSelectTicket = function()
+    {
+         obj_keyboard.is_show = true;
+    }
+
     $scope.clear_all = function() {
         for (var i = 0; i < $scope.tickets.count; i++) {
             $scope.clear(i);
