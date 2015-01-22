@@ -33,6 +33,7 @@ window.languages = {
         "buy_more_toros" : "Buy More Toros",
         "back": "Back",
         "birthday": "Birthday",
+        "birthday_optional": "Birthday (optional)",
         "balance_after_ordered": "Balance After Ordered",
         "billing_address":"Billing Address",
 //------------------------ C ------------------------
@@ -238,6 +239,7 @@ window.languages = {
         "warning": "Warning",
         "write_message" : "Write Message",
         "wedding_day": "Wedding day",
+        "wedding_day_optional": "Wedding day (optional)",
         "what_is_your_name": "What's Your Name?",
         "we_will_update_soon" : "We will update soon",
 
