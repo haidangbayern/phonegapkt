@@ -117,18 +117,18 @@
         </div>
         <div class="item-input-inset">
             <div class="item-input-wrapper">
-                <input type="date" ng-model="user_data.birthday" name="birthday"  placeholder="{{languages.birthday}}" ng-enter="submit_register_new_account()">
+                <input type="date" ng-model="user_data.birthday" name="birthday"  placeholder="{{languages.birthday_optional}}" ng-enter="submit_register_new_account()">
                 <button class="button button-clear button-small" style="margin:0;" ng-show="user_data.birthday" ng-click="user_data.birthday = ''">
                 <i class="icon ion-close-circled"></i>
                 </button>
             </div>
         </div>
-        <div class="item-input-inset-label">
+        <div class="item-input-inset-label" style="display:none">
             <label>{{languages.wedding_day}}</label>
         </div>
-        <div class="item-input-inset">
+        <div class="item-input-inset" style="display:none">
             <div class="item-input-wrapper">
-                <input type="date" ng-model="user_data.weddingday" name="weddingday"  placeholder="{{languages.wedding_day}}"  ng-enter="submit_register_new_account()">
+                <input type="date" ng-model="user_data.weddingday" name="weddingday"  placeholder="{{languages.wedding_day_optional}}"  ng-enter="submit_register_new_account()">
                 <button class="button button-clear button-small"
                 ng-show="user_data.weddingday"
                 ng-click="user_data.weddingday = ''">
