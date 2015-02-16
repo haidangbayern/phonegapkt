@@ -29,6 +29,9 @@
         <preference name="KeyboardShrinksView" value="false" />
         <preference name="Fullscreen" value="true" />
         
+        <!-- Android min sdk-->
+        <preference name="android-minSdkVersion" value="17" />
+        
         <!-- Using plugin of cordova -->
         <gap:plugin name="org.apache.cordova.network-information" />
         <gap:plugin name="org.apache.cordova.battery-status" />
