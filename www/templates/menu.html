@@ -42,11 +42,12 @@
             {{(my_cart.content.length==1)? my_cart.content.length + ' item' : my_cart.content.length + ' items'}}
           </span>
         </ion-item>
-
+		<!--
         <ion-item nav-clear  class="item-avatar" menu-close href="#/app/games">
           <img src="images/ic_playing_games.png">
           {{languages.toro_games}}
         </ion-item>
+		-->
         <ion-item nav-clear  class="item-avatar" menu-close href="#/app/lottery">
           <img src="images/lottery.png">
           {{languages.lottery}}
@@ -64,9 +65,11 @@
           <img src="images/friend.png">
           {{languages.friend}}
         </ion-item>
+		<!--
         <ion-item nav-clear menu-close href="#/app/forum">
             {{languages.forum}}
         </ion-item>
+		-->
         <ion-item nav-clear menu-close ng-click="openHelp()">
             <!-- <i class="icon ion-ios7-help-empty"></i> -->
             {{languages.help}}
