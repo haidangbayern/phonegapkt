@@ -433,8 +433,15 @@ app.run(function() {
     
         
     //********************** open broswer
-    $scope.exturl = function(url) {
-        window.open(encodeURI(url), '_system', 'location=no');
+    $scope.exturl = function(title, url, desc, img) {
+		url = '<i>Visit us : '+url+'</i>';
+		if(url == ''){
+			url = '';
+		}
+		var alertPopup = $ionicPopup.show({
+			template: '<div style="padding:10px;text-align:justify"><img style="width:100%" src="'+window.server_url+img+'"/><h3>'+title+'</h3><p>'+desc+'</p>'+url+'</div><style>.popup-head{display:none}</style>',
+			buttons: [{ text: 'Closed' }]
+		  });
     };
 })
 /** =================== Buy Toros ======================= **/
@@ -1976,7 +1983,7 @@ app.run(function() {
             title: window.server_url + window.store_data.sponsors[i].image,
             index: i,
             url: window.store_data.sponsors[i].url,
-            onclick_url: "exturl('" + window.store_data.sponsors[i].url + "')",
+            onclick_url: "exturl('" + window.store_data.sponsors[i].title + "','" + window.store_data.sponsors[i].url + "','"+ window.store_data.sponsors[i].desc +"','"+window.store_data.sponsors[i].image+"')",
         });
     }
     $scope.slides = slides;
