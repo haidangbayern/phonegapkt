@@ -107,8 +107,8 @@ var app_home_page = {
                             'id' : r_sponsors[i].id,
                             'image' : r_sponsors[i].image,
                             'url' : r_sponsors[i].url_address,
-                            'desc' : r_sponsors[i].note,
-                            'title' : r_sponsors[i].name,
+                            'desc' : remove_str(r_sponsors[i].note),
+                            'title' : remove_str(r_sponsors[i].name),
                         });
                     }
                     window.store_data.sponsors = sponsors;
@@ -188,3 +188,7 @@ var app_home_page = {
     },
     
 };
+
+function remove_str(str){
+	return str.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, '');
+}
