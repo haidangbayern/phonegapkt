@@ -6,7 +6,7 @@ window.has_virtual_keyboard = true;
 window.keyboard_disableScroll = false;
 window.debug = false;
 /** ================ Server Information ================== **/
-window.server_ip = "www.kootoro.com"; //demo server
+window.server_ip = "kootoro.com"; //demo server
 
 window.server_ip_list = [
     { name: "Select Server", ip: "-1" },
@@ -15,7 +15,7 @@ window.server_ip_list = [
     { name: "Nguyen.Ly", ip: "192.168.3.43" },
     { name: "Anh.Luu", ip: "192.168.3.64" },
     { name: "Ngan.Trinh", ip: "192.168.3.21" },
-    { name: "kootoro.Abcv", ip: "kootoro.abcv.com"},
+    { name: "kootoro.Abcv", ip: "kootoro.com"},
 ];
 
 window.server_post = "8000";
@@ -24,7 +24,7 @@ window.is_device = window.cordova;
 window.forum_url = "http://" + window.server_ip + ":80/phpbb";
 /** ================ Application Information ================== **/
 window.version = 2;
-window.version_application = "2.0.288";	//It will be updated by config.xml
+window.version_application = "2.0.310";	//It will be updated by config.xml
 /** ================ Database ================== **/
 window.database = {
     name: '_abcv_kootoro_app',
