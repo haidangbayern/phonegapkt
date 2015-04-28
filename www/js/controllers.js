@@ -377,6 +377,31 @@ app.run(function() {
     $scope.openHelp = function() {
         $scope.modal_help.show();
     };
+	// ************* Sponsor
+    $scope.sponsorData = {};
+	$scope.modal_sponsor = {
+        modal : null,
+        title : null,
+        img: null,
+        url: null,
+        content: null,
+    };
+    // Create the login modal that we will use later
+    $ionicModal.fromTemplateUrl('templates/sponsor.html', {
+        scope: $scope
+    }).then(function(modal) {
+        $scope.modal_sponsor = modal;
+    });
+    $scope.closeSponsor = function() {
+        $scope.modal_sponsor.hide();
+    },
+    $scope.openSponsor = function(title, url, context, img) {
+        $scope.modal_sponsor.title = title;
+        $scope.modal_sponsor.url = url;
+        $scope.modal_sponsor.img = img;
+        $scope.modal_sponsor.context = context;
+        $scope.modal_sponsor.show();
+    };
     // ************* about application
     $scope.app_about = function() {
         var str_copyright = "ABC Virtual Communications <br/>";
@@ -433,15 +458,12 @@ app.run(function() {
     
         
     //********************** open broswer
-    $scope.exturl = function(title, url, desc, img) {
-		url = '<i>Visit us : '+url+'</i>';
-		if(url == ''){
-			url = '';
+    $scope.exturl = function(title, url, desc, img) {		
+		if(url != ''){
+			url = 'Visit us : '+url;
 		}
-		var alertPopup = $ionicPopup.show({
-			template: '<div style="padding:10px;text-align:justify"><img style="width:100%" src="'+window.server_url+img+'"/><h3>'+title+'</h3><p>'+desc+'</p>'+url+'</div><style>.popup-head{display:none}</style>',
-			buttons: [{ text: 'Closed' }]
-		  });
+		img = window.server_url + img;
+		$scope.openSponsor(title, url, desc, img);		
     };
 })
 /** =================== Buy Toros ======================= **/
