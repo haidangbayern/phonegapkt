@@ -889,7 +889,7 @@ app.run(function() {
             return false;
         }
         
-        
+        obj_loading.show();
       
         var select_options = {};
         for(var i = 0; i < $scope.product.itemdetail.options.length; i++){
@@ -928,7 +928,7 @@ app.run(function() {
             },
             crossDomain: true,
             success: function(data){
-
+                obj_loading.hide();
                 window.referrer_product = product_id;
 
                 if (window.my_cart.content == null){
