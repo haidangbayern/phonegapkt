@@ -13,18 +13,19 @@ window.server_ip_list = [
     { name: "Huy.Tran", ip: "192.168.3.18" },
     { name: "Tram.Nguyen", ip: "bichtram.kootoro.com" },
     { name: "Nguyen.Ly", ip: "192.168.3.43" },
-    { name: "Anh.Luu", ip: "192.168.3.64" },
-    { name: "Ngan.Trinh", ip: "192.168.3.21" },
+    { name: "Anh.Luu", ip: "192.168.3.22" },
+    { name: "Ngan.Trinh", ip: "ngantrinh.kootoro.com" },
     { name: "kootoro.Abcv", ip: "kootoro.com"},
 ];
 
 window.server_post = "8000";
 window.server_url = "http://" + window.server_ip + ":80";
+window.server_https = "https://" + window.server_ip + "";
 window.is_device = window.cordova;
 window.forum_url = "http://" + window.server_ip + ":80/phpbb";
 /** ================ Application Information ================== **/
 window.version = 2;
-window.version_application = "2.0.340";	//It will be updated by config.xml
+window.version_application = "2.0.350";	//It will be updated by config.xml
 /** ================ Database ================== **/
 window.database = {
     name: '_abcv_kootoro_app',
@@ -112,7 +113,7 @@ window.dev_data = {
             phone_3 : '1235',
         },
     },
-    "192.168.3.21" :
+    "ngantrinh.kootoro.com" :
     {
         "user" : {
             email : "ryuyamamuro@yahoo.com.vn",
@@ -170,7 +171,7 @@ window.dev_data = {
             phone_3 : '1235',
         },
     },
-    "192.168.3.64" :
+    "192.168.3.22" :
     {
         "user" : {
             email : "",

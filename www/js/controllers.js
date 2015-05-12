@@ -546,7 +546,7 @@ app.run(function() {
         if (window.is_use_uuid)
             data_post.device = JSON.stringify(device);
         $.ajax({
-            url: window.server_url + '/pay/application_pay_buy_toros?v=' + window.version,
+            url: window.server_https + '/pay/application_pay_buy_toros?v=' + window.version,
             data: data_post,
             type: "POST",
             dataType: 'json',
@@ -643,7 +643,7 @@ app.run(function() {
             'months': $scope.data_required.month,
         };
         $.ajax({
-            url: window.server_url + '/pay/application_trade_in_cal?v=' + window.version,
+            url: window.server_https + '/pay/application_trade_in_cal?v=' + window.version,
             data: data,
             type: "POST",
             dataType: 'json',
@@ -680,7 +680,7 @@ app.run(function() {
         if ($scope.data_required.fee != 0) data.payment = $scope.payment.data_to_payment;
         console.log(data);
         $.ajax({
-            url: window.server_url + '/pay/application_trade_in_checkout?v=' + window.version,
+            url: window.server_https + '/pay/application_trade_in_checkout?v=' + window.version,
             data: data,
             type: "POST",
             dataType: 'json',
@@ -919,7 +919,7 @@ app.run(function() {
         $scope.select_options = select_options;
 
         $.ajax({
-            url: window.server_url + '/itemexchange/application_add/?v=' + window.version,
+            url: window.server_https + '/itemexchange/application_add/?v=' + window.version,
             type: "POST",
             dataType: 'json',
             data: {
@@ -1518,7 +1518,7 @@ app.run(function() {
         
 
         $.ajax({
-            url: window.server_url + '/itemexchange/application_checkout?v=' + window.version,
+            url: window.server_https + '/itemexchange/application_checkout?v=' + window.version,
             data: data_post,
             type: "POST",
             dataType: 'json',
@@ -1641,6 +1641,7 @@ app.run(function() {
             return;
         window.server_ip = $scope.current_server.ip;
         window.server_url = "http://" + window.server_ip + ":80";
+        window.server_https = "https://" + window.server_ip + "";
         window.forum_url = "http://" + window.server_ip + ":80/phpbb";
         $scope.connectSocket();
     };
