@@ -3,7 +3,7 @@
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         xmlns:cdv = "http://cordova.apache.org/ns/1.0"
         id          = "com.abcv.kootoro.lottoro"
-        version     = "2.0.350"
+        version     = "2.0.351"
         versionCode = "10" >
 
         
@@ -20,14 +20,21 @@
         <access origin="*" subdomains="true" />
         <preference name="phonegap-version" value="3.6.3" /> <!-- all: current version of PhoneGap -->
         <preference name="orientation" value="portrait" /> <!-- all: default means both landscape and portrait are enabled -->
-        <preference name="DisallowOverscroll" value="true" />
-        <preference name="UIWebViewBounce" value="false" />
-        
-        <preference name="EnableViewportScale" value="false" />
+
+        <preference value="false" name="webviewbounce"/>
+        <preference value="false" name="UIWebViewBounce"/>
+        <preference value="true" name="DisallowOverscroll"/>
+        <preference value="none" name="BackupWebStorage"/>
+        <!-- <preference value="screen" name="SplashScreen"/>
+        <preference value="3000" name="SplashScreenDelay"/> -->
+
+        <!--  <preference name="DisallowOverscroll" value="true" />
+        <preference name="UIWebViewBounce" value="false" /> -->
+        <!-- <preference name="EnableViewportScale" value="false" />
         <preference name="HideKeyboardFormAccessoryBar" value="false" />
         <preference name="KeyboardDisplayRequiresUserAction" value="false" />
         <preference name="KeyboardShrinksView" value="false" />
-        <preference name="Fullscreen" value="true" />
+        <preference name="Fullscreen" value="true" /> -->
         
         <!-- Android min -->
         <preference name="android-minSdkVersion" value="17" />

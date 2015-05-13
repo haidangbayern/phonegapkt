@@ -96,7 +96,6 @@ var user = {
                 if (r.success != undefined && r.success == false) {
                     if (r.message != undefined)
                         window.showAlert('Warning', r.message);
-                    obj_keyboard.waitForClose();
                 } else {
                     user.login(r.user);
                     user.payment.setData(r.payment);

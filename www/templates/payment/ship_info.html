@@ -1,171 +1,172 @@
 <div class="list personal">
 	<!-- Shipping Address Information -->
-	<div class="item">
-		<div class=" input-label">
-			<label>{{languages.first_name}} * </label>
-		</div>
-		<div class="item-input-inset no-padding">
-			<div class="item-input-wrapper">
-				<input type="text" ng-model="payment.shipping.data.first_name" >
-				<button class="button button-clear button-small"
-				ng-show="payment.shipping.data.first_name"
-				ng-click="payment.shipping.data.first_name = ''">
-				<i class="icon ion-close-circled"></i>
-				</button>
+	
+	<!-- First name -->
+	<div class="row">
+		<div class="item col">
+			<div class="item-input-inset no-padding">
+				<div class="item-input-wrapper">
+					<input placeholder="{{languages.first_name}} * " type="text" ng-model="payment.shipping.data.first_name" ng-change="payment.shipping.autoFillToBillingInformation()">
+					<button class="button button-clear button-small"
+					ng-show="payment.shipping.data.first_name"
+					ng-click="payment.shipping.data.first_name = ''">
+					<i class="icon ion-close-circled"></i>
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
-	<div class="item">
-		<div class=" input-label">
-			<label>{{languages.last_name}} * </label>
-		</div>
-		<div class="item-input-inset no-padding">
-			<div class="item-input-wrapper">
-				<input type="text" ng-model="payment.shipping.data.last_name" >
-				<button class="button button-clear button-small"
-				ng-show="payment.shipping.data.last_name"
-				ng-click="payment.shipping.data.last_name = ''">
-				<i class="icon ion-close-circled"></i>
-				</button>
-			</div>
-		</div>
-	</div>
-	<div class="item">
-		<div class=" input-label">
-			<label>{{languages.address_1}} * </label>
-		</div>
-		<div class="item-input-inset no-padding">
-			<div class="item-input-wrapper">
-				<input type="text" ng-model="payment.shipping.data.address_1" >
-				<button class="button button-clear button-small"
-				ng-show="payment.shipping.data.address_1"
-				ng-click="payment.shipping.data.address_1 = ''">
-				<i class="icon ion-close-circled"></i>
-				</button>
-			</div>
-		</div>
-	</div>
-	<div class="item">
-		<div class=" input-label">
-			<label>{{languages.address_2}}</label>
-		</div>
-		<div class="item-input-inset no-padding">
-			<div class="item-input-wrapper">
-				<input type="text" ng-model="payment.shipping.data.address_2" >
-				<button class="button button-clear button-small"
-				ng-show="payment.shipping.data.address_2"
-				ng-click="payment.shipping.data.address_2 = ''">
-				<i class="icon ion-close-circled"></i>
-				</button>
-			</div>
-		</div>
-	</div>
-	<div class="item">
-		<div class=" input-label">
-			<label>{{languages.country}} *</label>
-		</div>
-		<div class="item-input item-select item-select-inset"  style="margin: -1px 0;" >
-			<div class="input-label" style="width:0px;">
-				&nbsp;
-			</div>
-			<select style="" 
-				ng-change="payment.shipping.changeCountry()"
-				ng-model="payment.shipping.data.country" 
-				ng-options="r.name for r in payment.shipping.resources.countries.data track by r.id">
-			</select>
-		</div>
-	</div>
-	<div class="item">
-		<div class=" input-label">
-			<label>{{languages.zip_code}} *</label>
-		</div>
-		<div class="item-input-inset no-padding">
-			<div class="item-input-wrapper">
-				<input
-				type="text"
-				ng-model="payment.shipping.data.zip_code"
-				maxlength = "9"
-				>
-				<button class="button button-clear button-small"
-				ng-show="payment.shipping.data.zip_code"
-				ng-click="payment.shipping.data.zip_code = ''">
-				<i class="icon ion-close-circled"></i>
-				</button>
-			</div>
-		</div>
-	</div>
-	<div class="item">
-		<div class=" input-label">
-			<label>{{languages.city}} *</label>
-		</div>
-		<div class="item-input-inset no-padding">
-			<div class="item-input-wrapper">
-				<input type="text" ng-model="payment.shipping.data.city" >
-				<button class="button button-clear button-small"
-				ng-show="payment.shipping.data.city"
-				ng-click="payment.shipping.data.city = ''">
-				<i class="icon ion-close-circled"></i>
-				</button>
-			</div>
-		</div>
-	</div>
-	<div class="item">
-		<div class=" input-label">
-			<label>{{languages.state_province}} *</label>
-		</div>
-		<!-- Text box : State -->
-		<div class="item-input-inset no-padding" ng-if="payment.shipping.resources.states == null">
-			<div class="item-input-wrapper">
-				<input type="text" ng-model="payment.shipping.data.state" >
-				<button class="button button-clear button-small"
-				ng-show="payment.shipping.data.state"
-				ng-click="payment.shipping.data.state = ''">
-				<i class="icon ion-close-circled"></i>
-				</button>
-			</div>
-		</div>
-		<!-- select box : state -->
-		<div class="item-input item-select item-select-inset" style="margin: -1px 0;"  ng-if="payment.shipping.resources.states != null">
-			<div class="input-label" style="width:0px;">
-				&nbsp;
-			</div>
-			<select style="" ng-model="payment.shipping.data.state" ng-options="r.name for r in payment.shipping.resources.states track by r.id">
-			</select>
-		</div>
-	</div>
-	<div class="item phone">
-		<div class=" input-label">
-			<label>{{languages.phone}} *</label>
-		</div>
 
-		<div class="col-25">
-			<div class="item-input-inset no-padding">
-				(&nbsp;
-				<div class="item-input-wrapper">
-					<input type="tel" ng-model="payment.shipping.data.phone_1" maxlength="3">
-					</button>
-				</div>
-				&nbsp;)
-			</div>
-		</div>
-		<div class="col-33">
+	<!-- Last name -->
+	<div class="row">
+		<div class="item col">
 			<div class="item-input-inset no-padding">
 				<div class="item-input-wrapper">
-					<input type="tel" ng-model="payment.shipping.data.phone_2" maxlength="7">
+					<input  placeholder="{{languages.last_name}} *" type="text" ng-model="payment.shipping.data.last_name"  ng-change="payment.shipping.autoFillToBillingInformation()">
+					<button class="button button-clear button-small"
+					ng-show="payment.shipping.data.last_name"
+					ng-click="payment.shipping.data.last_name = ''">
+					<i class="icon ion-close-circled"></i>
 					</button>
 				</div>
 			</div>
 		</div>
-		<div class="col-33">
+	</div>
+	
+	<!-- Address 1 -->
+	<div class="row">
+		<div class="item col">
 			<div class="item-input-inset no-padding">
-				{{languages.ext}}&nbsp;
 				<div class="item-input-wrapper">
-					<input type="tel" ng-model="payment.shipping.data.phone_3" maxlength="5" >
+					<input placeholder="{{languages.address_1}} * " type="text" ng-model="payment.shipping.data.address_1"  ng-change="payment.shipping.autoFillToBillingInformation()">
+					<button class="button button-clear button-small"
+					ng-show="payment.shipping.data.address_1"
+					ng-click="payment.shipping.data.address_1 = ''">
+					<i class="icon ion-close-circled"></i>
 					</button>
 				</div>
 			</div>
 		</div>
+	</div>
+	
+	<!-- Address 2 -->
+	<div class="row">
+		<div class="item col">
+			<div class="item-input-inset no-padding">
+				<div class="item-input-wrapper">
+					<input placeholder="{{languages.address_2}}" type="text" ng-model="payment.shipping.data.address_2"  ng-change="payment.shipping.autoFillToBillingInformation()">
+					<button class="button button-clear button-small"
+					ng-show="payment.shipping.data.address_2"
+					ng-click="payment.shipping.data.address_2 = ''">
+					<i class="icon ion-close-circled"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Country / CITY-->
+	<div class="row">
+		<div class="item col col-50">
+			<div class="item-input item-select item-select-inset"  style="margin: -1px 0;" >
+				<div class="input-label" style="width:0px;">
+					&nbsp;
+				</div>
+				<select style="" 
+					ng-change="payment.shipping.changeCountry()"
+					ng-model="payment.shipping.data.country" 
+					ng-options="r.name for r in payment.shipping.resources.countries.data track by r.id">
+				</select>
+			</div>
+		</div>
+		<div class="item col col-50 ">
+			<div class="item-input-inset no-padding">
+				<div class="item-input-wrapper">
+					<input type="text" ng-model="payment.shipping.data.city" placeholder="{{languages.city}} *"  ng-change="payment.shipping.autoFillToBillingInformation()">
+					<button class="button button-clear button-small"
+					ng-show="payment.shipping.data.city"
+					ng-click="payment.shipping.data.city = ''">
+					<i class="icon ion-close-circled"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
+	<!-- State / Zip Code -->
+	<div class="row">
+		<div class="item col col-50 ">
+			<!-- Text box : State -->
+			<div class="item-input-inset no-padding" ng-if="payment.shipping.resources.states == null">
+				<div class="item-input-wrapper">
+					<input type="text" ng-model="payment.shipping.data.state" placeholder="{{languages.state_province}} *"  ng-change="payment.shipping.autoFillToBillingInformation()">
+					<button class="button button-clear button-small"
+					ng-show="payment.shipping.data.state"
+					ng-click="payment.shipping.data.state = ''">
+					<i class="icon ion-close-circled"></i>
+					</button>
+				</div>
+			</div>
+			<!-- select box : state -->
+			<div class="item-input item-select item-select-inset" style="margin: -1px 0;"  ng-if="payment.shipping.resources.states != null">
+				<div class="input-label" style="width:0px;">
+					&nbsp;
+				</div>
+				<select style=""  ng-change="payment.shipping.autoFillToBillingInformation()" ng-model="payment.shipping.data.state" ng-options="r.name for r in payment.shipping.resources.states track by r.id">
+				</select>
+			</div>
+		</div>
+		<div class="item col col-50 ">
+			<div class="item-input-inset no-padding">
+				<div class="item-input-wrapper">
+					<input
+					type="text"
+					ng-model="payment.shipping.data.zip_code"
+					maxlength = "9"
+					placeholder="{{languages.zip_code}} *"
+					 ng-change="payment.shipping.autoFillToBillingInformation()"
+					>
+					<button class="button button-clear button-small"
+					ng-show="payment.shipping.data.zip_code"
+					ng-click="payment.shipping.data.zip_code = ''">
+					<i class="icon ion-close-circled"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Phone -->
+	<div class="row">
+		<div class="item phone col">
+			<div class="col-25">
+				<div class="item-input-inset no-padding">
+					(&nbsp;
+					<div class="item-input-wrapper">
+						<input type="tel" ng-model="payment.shipping.data.phone_1" maxlength="3" placeholder="123"  ng-change="payment.shipping.autoFillToBillingInformation()">
+						</button>
+					</div>
+					&nbsp;)
+				</div>
+			</div>
+			<div class="col-33">
+				<div class="item-input-inset no-padding">
+					<div class="item-input-wrapper">
+						<input type="tel" ng-model="payment.shipping.data.phone_2" maxlength="7" placeholder="4567890"  ng-change="payment.shipping.autoFillToBillingInformation()">
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-33">
+				<div class="item-input-inset no-padding">
+					{{languages.ext}}&nbsp;
+					<div class="item-input-wrapper">
+						<input type="tel" ng-model="payment.shipping.data.phone_3" maxlength="5" placeholder=""  ng-change="payment.shipping.autoFillToBillingInformation()">
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	
 </div><!-- end Shipping Address Information -->

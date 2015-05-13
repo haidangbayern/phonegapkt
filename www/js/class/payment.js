@@ -221,8 +221,23 @@ var obj_payment = {
 
                 this.data.phone_3 = this.data.phone_3 == null ? window.dev_data[window.server_ip].shipping_info.phone_3 : this.data.phone_3;
             }
-
-         
+        },
+        autoFillToBillingInformation : function()
+        {
+            if (this.data.first_name)
+                obj_payment.data_required.card_holder_name = this.data.first_name;
+            if (this.data.last_name)
+                obj_payment.data_required.card_holder_name += " " + this.data.last_name;
+            obj_payment.data_required.address_1 = this.data.address_1;
+            obj_payment.data_required.address_2 = this.data.address_2;
+            obj_payment.data_required.city = this.data.city;
+            obj_payment.data_required.country = this.data.country;
+            obj_payment.changeCountry();
+            obj_payment.data_required.state = this.data.state;
+            obj_payment.data_required.zip_code = this.data.zip_code;
+            obj_payment.data_required.phone_1 = this.data.phone_1;
+            obj_payment.data_required.phone_2 = this.data.phone_2;
+            obj_payment.data_required.phone_3 = this.data.phone_3;
         },
         changeCountry : function(){
             if (Number(this.data.country.id) == window.US || Number(this.data.country.id) == window.CA)
@@ -235,6 +250,7 @@ var obj_payment = {
                 this.resources.states = null;
                 this.data.state =null;
             }
+            this.autoFillToBillingInformation();
         },
         validateShippingData : function()
         {

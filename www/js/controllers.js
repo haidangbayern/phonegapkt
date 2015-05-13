@@ -437,7 +437,6 @@ app.run(function() {
         });
         alertPopup.then(function(res) {
             if (callback != undefined) eval(callback);
-            obj_keyboard.waitForClose();
         });
     };
     //********************** Toast
@@ -521,11 +520,9 @@ app.run(function() {
         return false;
     }
     $scope.next_step_cc = function() {
-        obj_keyboard.waitForClose();
         $ionicSlideBoxDelegate.next();
     }
     $scope.slideHasChanged = function(index) {
-        obj_keyboard.waitForClose();
         if (index == 1) {
             var rs = $scope.isDisableStep1();
             if (rs) {
@@ -552,7 +549,6 @@ app.run(function() {
             dataType: 'json',
             crossDomain: true,
             success: function(data) {
-                obj_keyboard.waitForClose();
                 obj_loading.hide();
                 var r = data;
                 if (r.result != undefined && r.result == false) {
@@ -1359,7 +1355,7 @@ app.run(function() {
     $scope.reference_url = $stateParams.reference_url;
    //$scope.my_cart = window.my_cart.content; 
 
-   for(var idx in window.my_cart.content){
+    for(var idx in window.my_cart.content){
         // var cart = window.my_cart.content[idx];
         if (typeof $scope.member_id == 'undefined'){
             $scope.member_id = {};
@@ -1374,7 +1370,6 @@ app.run(function() {
     }
 
     $scope.next_step = function() {
-        obj_keyboard.waitForClose();
         $ionicSlideBoxDelegate.next();
     }
     $scope.slideCurrentIndex = 0;
@@ -1432,7 +1427,7 @@ app.run(function() {
     $scope.payment.__construct(true);
     $scope.payment.shipping.__construct();
   
-     $scope.showConfirm = function(id, rowid) {
+    $scope.showConfirm = function(id, rowid) {
        var confirmPopup = $ionicPopup.confirm({
          title: 'Delete cart item',
          template: 'Do you want to delete this item?'
@@ -1466,13 +1461,10 @@ app.run(function() {
            console.log('You are not sure');
          }
        });
-     };
-     $scope.changeCartMemberId = function(index, rowid){
+    };
 
+    $scope.changeCartMemberId = function(index, rowid){
         var member_id = $('#member_id_'+index).val();
-
-       
-
         for(var idx in window.my_cart.content){
 
             var cart = window.my_cart.content[idx];
@@ -1481,13 +1473,11 @@ app.run(function() {
                 window.my_cart.content[idx].member_id = member_id;
             }
         }
-     }
+    }
 
 
     $scope.deleteCartItem = function(id, rowid){
-      
        $scope.showConfirm(id,rowid);
-
     }
 
     $scope.submit_order = function()
@@ -1524,10 +1514,6 @@ app.run(function() {
             dataType: 'json',
             crossDomain: true,
             success: function(data) {
-                // console.log('data submit order', data);
-
-
-                obj_keyboard.waitForClose();
                 obj_loading.hide();
                 var r = data;
                 if (r.success != undefined && r.success == false) {
@@ -1585,6 +1571,7 @@ app.run(function() {
         })
         return fee;
     }
+
     window.$ionicSlideBoxDelegate = $ionicSlideBoxDelegate;
     $scope.current_tax = null;
     $scope.tax = function()
@@ -1623,6 +1610,7 @@ app.run(function() {
         }    
         return r;
     }
+
     $timeout(function() {
           
     }, 500);
@@ -1709,7 +1697,6 @@ app.run(function() {
         });
         alertPopup.then(function(res) {
             if (callback != undefined) eval(callback);
-            obj_keyboard.waitForClose();
         });
     };
     $scope.isUnchanged = function(user_data) {
@@ -1717,7 +1704,6 @@ app.run(function() {
         return true;
     }
     $scope.submit_login_account = function(user_data) {
-        obj_keyboard.waitForClose();
         user.validate_user(user_data.email, user_data.password);
     }
     $scope.redirect_url = function(url) {
@@ -1761,7 +1747,6 @@ app.run(function() {
         });
         alertPopup.then(function(res) {
             if (callback != undefined) eval(callback);
-            obj_keyboard.waitForClose();
         });
     };
     $scope.redirect_url = function(url) {
@@ -1772,11 +1757,9 @@ app.run(function() {
         $scope.dontMatch_password = user_data.password !== user_data.confirmpassword;
     };
     $scope.next_step_name = function() {
-        obj_keyboard.waitForClose();
         $ionicSlideBoxDelegate.next();
     }
     $scope.next_step_personal = function() {
-        obj_keyboard.waitForClose();
         $ionicSlideBoxDelegate.next();
     }
     $scope.isStep1Unchanged = function(user_data) {
@@ -1798,7 +1781,6 @@ app.run(function() {
         return false;
     }
     $scope.slideHasChanged = function(index) {
-        obj_keyboard.waitForClose();
         var data = $('#form_new_account').serializeArray();
         var option = [];
         for (var i = data.length - 1; i >= 0; i--) {
@@ -1823,7 +1805,6 @@ app.run(function() {
         $ionicScrollDelegate.scrollTop();
     }
     $scope.submit_register_new_account = function() {
-        obj_keyboard.waitForClose();
         obj_loading.show();
         var data = $('#form_new_account').serializeArray();
         $.ajax({
@@ -1867,7 +1848,6 @@ app.run(function() {
         });
         alertPopup.then(function(res) {
             if (callback != undefined) eval(callback);
-            obj_keyboard.waitForClose();
         });
     };
     $scope.redirect_url = function(url) {
@@ -1895,10 +1875,8 @@ app.run(function() {
                 var r = data;
                 if (r.result == false) {
                     if (r.message != undefined) window.showAlert($scope.languages.warning, r.message);
-                    obj_keyboard.waitForClose();
                 } else {
                     if (r.message != undefined) window.showAlert($scope.languages.success, r.message);
-                    obj_keyboard.waitForClose();
                 }
             }
         });
@@ -2170,8 +2148,6 @@ app.run(function() {
         $scope.tickets.ticket[ticket_row].error = error;
     }
     $scope.is_disable_buy = function() {
-        if (obj_keyboard.is_show)
-            return true;
         for (var i = 0; i < $scope.tickets.count; i++) {
             if ($scope.tickets.ticket[i].error) return true;
             for (var i_normal = 0; i_normal < $scope.data.count_normal_number; i_normal++) {
@@ -2237,7 +2213,6 @@ app.run(function() {
         };
     }
     $scope.add_more_ticket = function(count_ticket) {
-        obj_keyboard.is_show = false;
         var l = $scope.tickets.count - $scope.tickets.ticket.length;
         //8 10
         if (l < 0) {
@@ -2265,7 +2240,6 @@ app.run(function() {
 
     $scope.showKeyboardSelectTicket = function()
     {
-         obj_keyboard.is_show = true;
     }
 
     $scope.clear_all = function() {
@@ -2865,7 +2839,6 @@ app.run(function() {
         return true;
     }
     $scope.submit_update_password = function() {
-        obj_keyboard.waitForClose();
         obj_loading.show();
         var data = $('#form_update_password').serializeArray();
         data.push({
@@ -2908,7 +2881,6 @@ app.run(function() {
         return true;
     }
     $scope.submit_update_profile = function() {
-        obj_keyboard.waitForClose();
         obj_loading.show();
         var data = $('#form_kootoro_account').serializeArray();
         data.push({
@@ -2961,7 +2933,6 @@ app.run(function() {
     //     return true;
     // }
     $scope.submit_update_personal = function() {
-        obj_keyboard.waitForClose();
         obj_loading.show();
         var data = $('#form_personal').serializeArray();
         data.push({
@@ -3007,7 +2978,6 @@ app.run(function() {
     $scope.user_data = {};
     $scope.user_data.is_block_request_friend = user.is_block_request_friend;
     $scope.submit_update_friend = function() {
-        obj_keyboard.waitForClose();
         obj_loading.show();
         var data = {
             'user_id': user.id,
@@ -3020,7 +2990,6 @@ app.run(function() {
             dataType: 'json',
             crossDomain: true,
             success: function(data) {
-                obj_keyboard.waitForClose();
                 obj_loading.hide();
                 if (data.result == false) {
                     if (data.message) {

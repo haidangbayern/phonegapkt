@@ -327,11 +327,6 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
         },
         link: function(scope, element, attr){
             element.bind('focus', function(e){
-                if (window.has_virtual_keyboard)
-                    obj_keyboard.keyboardShowHandler({'keyboardHeight':200});
-                obj_keyboard.open();
-                //obj_keyboard.scroll_keyboard_up($ionicPosition.offset(element), $ionicPosition, element, $ionicScrollDelegate);
-                obj_keyboard.scroll_keyboard_up($(element).offset(), element, $ionicScrollDelegate);
                 if(scope.onFocus){
                     $timeout(function(){
                         scope.onFocus();
@@ -342,14 +337,9 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
                 }        
             });
             element.bind('blur', function(e){
-                if (window.has_virtual_keyboard)
-                    obj_keyboard.keyboardHideHandler();
                 if(scope.onBlur){
                     $timeout(function(){
                         scope.onBlur();
-                        // obj_keyboard.close();
-                        //obj_keyboard.scroll_keyboard_down($ionicPosition.offset(element), $ionicPosition, element, $ionicScrollDelegate);
-                        obj_keyboard.scroll_keyboard_down($(element).offset(), element, $ionicScrollDelegate);
                     });
                 }
             });

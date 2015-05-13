@@ -32,8 +32,6 @@ var app = {
         //document.addEventListener("backbutton", app.onBackKeyDown, false);
         document.addEventListener("menubutton", app.onMenuKeyDown, false);
         document.addEventListener("deviceready", app.onDeviceReady, false);
-        window.addEventListener('native.keyboardshow', obj_keyboard.keyboardShowHandler); 
-        window.addEventListener('native.keyboardhide', obj_keyboard.keyboardHideHandler); 
         document.addEventListener('focusout', function(e) {window.scrollTo(0, 0)});
         
     },

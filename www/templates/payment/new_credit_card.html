@@ -1,231 +1,235 @@
 <div class="list personal">
     <!-- Credit Card Information -->
-    <div class="item">
-        <div class=" input-label">
-            <label>{{languages.choose_card_type}} * </label>
-        </div>
-        <div class="item-input item-select item-select-inset"  style="margin: -1px 0;" >
-            <div class="input-label" style="width:0px;">
-                &nbsp;
-            </div>
-            <select ng-model="payment.data_required.card_type">
-                <option>Visa</option>
-                <option>Master Card</option>
-                <option>Discover</option>
-                <option>American Express</option>
-            </select>
-        </div>
-    </div>
-    <div class="item">
-        <div class=" input-label">
-            <label>{{languages.card_holder_name}} * </label>
-        </div>
-        <div class="item-input-inset no-padding">
-            <div class="item-input-wrapper">
-                <input type="text" ng-model="payment.data_required.card_holder_name" >
-                <button class="button button-clear button-small"
-                ng-show="payment.data_required.card_holder_name"
-                ng-click="payment.data_required.card_holder_name = ''">
-                <i class="icon ion-close-circled"></i>
-                </button>
+    <!-- Card Type -->
+    <div class="row">
+        <div class="item col">
+            <div class="item-input item-select item-select-inset"  style="margin: -1px 0;" >
+                <div class="input-label" style="width:0px;">
+                    &nbsp;
+                </div>
+                <select ng-model="payment.data_required.card_type">
+                    <option>Visa</option>
+                    <option>Master Card</option>
+                    <option>Discover</option>
+                    <option>American Express</option>
+                </select>
             </div>
         </div>
     </div>
-    <div class="item">
-        <div class=" input-label">
-            <label>{{languages.card_number}} * </label>
-        </div>
-        <div class="item-input-inset no-padding">
-            <div class="item-input-wrapper">
-                <input
-                type="text" ng-model="payment.data_required.card_number"
-                maxlength="16"
-                >
-                <button class="button button-clear button-small"
-                ng-show="payment.data_required.card_number"
-                ng-click="payment.data_required.card_number = ''">
-                <i class="icon ion-close-circled"></i>
-                </button>
+
+    <!-- Carder holder name -->
+    <div class="row">
+        <div class="item col">
+            <div class="item-input-inset no-padding">
+                <div class="item-input-wrapper">
+                    <input type="text" ng-model="payment.data_required.card_holder_name" placeholder="{{languages.card_holder_name}} * " >
+                    <button class="button button-clear button-small"
+                    ng-show="payment.data_required.card_holder_name"
+                    ng-click="payment.data_required.card_holder_name = ''">
+                    <i class="icon ion-close-circled"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-    <div class="item">
-        <div class=" input-label">
-            <label>{{languages.cvv_code}} * </label>
-        </div>
-        <div class="item-input-inset no-padding">
-            <div class="item-input-wrapper">
-                <input type="password" ng-model="payment.data_required.cvv" maxlength="4">
-                <button class="button button-clear button-small"
-                ng-show="payment.data_required.cvv"
-                ng-click="payment.data_required.cvv = ''">
-                <i class="icon ion-close-circled"></i>
-                </button>
+
+    <!-- Card number -->
+    <div class="row">
+        <div class="item col">
+            <div class="item-input-inset no-padding">
+                <div class="item-input-wrapper">
+                    <input
+                    type="text" ng-model="payment.data_required.card_number"
+                    maxlength="16"
+                    placeholder="{{languages.card_number}} * "
+                    >
+                    <button class="button button-clear button-small"
+                    ng-show="payment.data_required.card_number"
+                    ng-click="payment.data_required.card_number = ''">
+                    <i class="icon ion-close-circled"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-    <div class="item">
-        <div class=" input-label">
-            <label>{{languages.exp_date}} * </label>
+
+    <!-- CVV / Exp Date -->
+    <div class="row">
+        <div class="item col col-33">
+            <div class="item-input-inset no-padding">
+                <div class="item-input-wrapper">
+                    <input type="password" ng-model="payment.data_required.cvv" maxlength="4" placeholder="{{languages.cvv_code}} * ">
+                    <button class="button button-clear button-small"
+                    ng-show="payment.data_required.cvv"
+                    ng-click="payment.data_required.cvv = ''">
+                    <i class="icon ion-close-circled"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="item-input-inset no-padding">
-            <div class="item-input-wrapper">
-                <input type="month" ng-model="payment.data_required.exp_date" >
-                <button class="button button-clear button-small"
-                ng-show="payment.data_required.exp_date"
-                ng-click="payment.data_required.exp_date = ''">
-                <i class="icon ion-close-circled"></i>
-                </button>
+        <div class="item col" >
+            <div class="item-input-inset no-padding">
+                <div class="item-input-wrapper">
+                    <input type="month" ng-model="payment.data_required.exp_date" placeholder="{{languages.exp_date}} * " >
+                    <button class="button button-clear button-small"
+                    ng-show="payment.data_required.exp_date"
+                    ng-click="payment.data_required.exp_date = ''">
+                    <i class="icon ion-close-circled"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-    <div class="item item-toggle" style="height:50px; line-height:35px;">
-        {{languages.save_this_payment_account}}
-        <label class="toggle toggle-assertive">
-            <input type="checkbox" ng-model="payment.data_required.save">
-            <div class="track">
-                <div class="handle"></div>
-            </div>
-        </label>
+
+    <!-- Save Card -->
+    <div class="row">
+        <div class="item col item-toggle" style="height:50px; line-height:35px;">
+            {{languages.save_this_payment_account}}
+            <label class="toggle toggle-assertive">
+                <input type="checkbox" ng-model="payment.data_required.save">
+                <div class="track">
+                    <div class="handle"></div>
+                </div>
+            </label>
+        </div>
     </div>
+
     <!-- end Credit Card Information -->
     <!-- Billing Address Information -->
-    <div class="item">
-        <div class=" input-label">
-            <label>{{languages.address_1}} * </label>
-        </div>
-        <div class="item-input-inset no-padding">
-            <div class="item-input-wrapper">
-                <input type="text" ng-model="payment.data_required.address_1" >
-                <button class="button button-clear button-small"
-                ng-show="payment.data_required.address_1"
-                ng-click="payment.data_required.address_1 = ''">
-                <i class="icon ion-close-circled"></i>
-                </button>
+    
+    <!-- Address 1 -->
+    <div class="row">
+        <div class="item col">
+            <div class="item-input-inset no-padding">
+                <div class="item-input-wrapper">
+                    <input type="text" ng-model="payment.data_required.address_1" placeholder="{{languages.address_1}} *" >
+                    <button class="button button-clear button-small"
+                    ng-show="payment.data_required.address_1"
+                    ng-click="payment.data_required.address_1 = ''">
+                    <i class="icon ion-close-circled"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-    <div class="item">
-        <div class=" input-label">
-            <label>{{languages.address_2}}</label>
-        </div>
-        <div class="item-input-inset no-padding">
-            <div class="item-input-wrapper">
-                <input type="text" ng-model="payment.data_required.address_2" >
-                <button class="button button-clear button-small"
-                ng-show="payment.data_required.address_2"
-                ng-click="payment.data_required.address_2 = ''">
-                <i class="icon ion-close-circled"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-    <div class="item">
-        <div class=" input-label">
-            <label>{{languages.country}} *</label>
-        </div>
-        <div class="item-input item-select item-select-inset"  style="margin: -1px 0;" >
-            <div class="input-label" style="width:0px;">
-                &nbsp;
-            </div>
-            <select style="" 
-                ng-change="payment.changeCountry()"
-                ng-model="payment.data_required.country" 
-                ng-options="r.name for r in payment.resources.countries.data track by r.id">
-            </select>
-        </div>
-    </div>
-    <div class="item">
-        <div class=" input-label">
-            <label>{{languages.zip_code}} *</label>
-        </div>
-        <div class="item-input-inset no-padding">
-            <div class="item-input-wrapper">
-                <input
-                type="text"
-                ng-model="payment.data_required.zip_code"
-                maxlength = "9"
-                >
-                <button class="button button-clear button-small"
-                ng-show="payment.data_required.zip_code"
-                ng-click="payment.data_required.zip_code = ''">
-                <i class="icon ion-close-circled"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-    <div class="item">
-        <div class=" input-label">
-            <label>{{languages.city}} *</label>
-        </div>
-        <div class="item-input-inset no-padding">
-            <div class="item-input-wrapper">
-                <input type="text" ng-model="payment.data_required.city" >
-                <button class="button button-clear button-small"
-                ng-show="payment.data_required.city"
-                ng-click="payment.data_required.city = ''">
-                <i class="icon ion-close-circled"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-    <div class="item">
-        <div class=" input-label">
-            <label>{{languages.state_province}} *</label>
-        </div>
-        <!-- Text box : State -->
-        <div class="item-input-inset no-padding" ng-if="payment.resources.states == null">
-            <div class="item-input-wrapper">
-                <input type="text" ng-model="payment.data_required.state" >
-                <button class="button button-clear button-small"
-                ng-show="payment.data_required.state"
-                ng-click="payment.data_required.state = ''">
-                <i class="icon ion-close-circled"></i>
-                </button>
-            </div>
-        </div>
-        <!-- select box : state -->
-        <div class="item-input item-select item-select-inset" style="margin: -1px 0;"  ng-if="payment.resources.states != null">
-            <div class="input-label" style="width:0px;">
-                &nbsp;
-            </div>
-            <select style="" ng-model="payment.data_required.state" ng-options="r.name for r in payment.resources.states track by r.id">
-            </select>
-        </div>
-    </div>
-    <div class="item phone">
-        <div class=" input-label">
-            <label>{{languages.phone}} *</label>
-        </div>
 
-        <div class="col-25">
-            <div class="item-input-inset no-padding">
-                (&nbsp;
-                <div class="item-input-wrapper">
-                    <input type="tel" ng-model="payment.data_required.phone_1" maxlength="3">
-                    </button>
-                </div>
-                &nbsp;)
-            </div>
-        </div>
-        <div class="col-33">
+    <!-- Address 2 -->
+    <div class="row">
+        <div class="item col">
             <div class="item-input-inset no-padding">
                 <div class="item-input-wrapper">
-                    <input type="tel" ng-model="payment.data_required.phone_2" maxlength="7">
+                    <input type="text" ng-model="payment.data_required.address_2" placeholder="{{languages.address_2}}" >
+                    <button class="button button-clear button-small"
+                    ng-show="payment.data_required.address_2"
+                    ng-click="payment.data_required.address_2 = ''">
+                    <i class="icon ion-close-circled"></i>
                     </button>
                 </div>
             </div>
         </div>
-        <div class="col-33">
-            <div class="item-input-inset no-padding">
-                {{languages.ext}}&nbsp;
-                <div class="item-input-wrapper">
-                    <input type="tel" ng-model="payment.data_required.phone_3" maxlength="5" >
-                    </button>
-                </div>
-            </div>
-        </div>
+    </div>
 
+    <!-- Country / CITY -->
+    <div class="row">
+        <div class="item col col-50">
+            <div class="item-input item-select item-select-inset"  style="margin: -1px 0;" >
+                <div class="input-label" style="width:0px;">
+                    &nbsp;
+                </div>
+                <select style="" 
+                    ng-change="payment.changeCountry()"
+                    ng-model="payment.data_required.country" 
+                    ng-options="r.name for r in payment.resources.countries.data track by r.id">
+                </select>
+            </div>
+        </div>
+        <div class="item col col-50">
+            <div class="item-input-inset no-padding">
+                <div class="item-input-wrapper">
+                    <input type="text" ng-model="payment.data_required.city" placeholder="{{languages.city}} *" >
+                    <button class="button button-clear button-small"
+                    ng-show="payment.data_required.city"
+                    ng-click="payment.data_required.city = ''">
+                    <i class="icon ion-close-circled"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- State / ZIP code -->
+    <div class="row">
+        <div class="item col col-50">
+            <!-- Text box : State -->
+            <div class="item-input-inset no-padding" ng-if="payment.resources.states == null">
+                <div class="item-input-wrapper">
+                    <input type="text" ng-model="payment.data_required.state" placeholder="{{languages.state_province}} *" >
+                    <button class="button button-clear button-small"
+                    ng-show="payment.data_required.state"
+                    ng-click="payment.data_required.state = ''">
+                    <i class="icon ion-close-circled"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- select box : state -->
+            <div class="item-input item-select item-select-inset" style="margin: -1px 0;"  ng-if="payment.resources.states != null">
+                <div class="input-label" style="width:0px;">
+                    &nbsp;
+                </div>
+                <select style="" ng-model="payment.data_required.state" ng-options="r.name for r in payment.resources.states track by r.id">
+                </select>
+            </div>
+        </div>
+        <div class="item col col-50">
+            <div class="item-input-inset no-padding">
+                <div class="item-input-wrapper">
+                    <input
+                    type="text"
+                    ng-model="payment.data_required.zip_code"
+                    maxlength = "9"
+                    placeholder="{{languages.zip_code}} *"
+                    >
+                    <button class="button button-clear button-small"
+                    ng-show="payment.data_required.zip_code"
+                    ng-click="payment.data_required.zip_code = ''">
+                    <i class="icon ion-close-circled"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PHONE -->
+    <div class="row">
+        <div class="item col phone">
+            <div class="col-25">
+                <div class="item-input-inset no-padding">
+                    (&nbsp;
+                    <div class="item-input-wrapper">
+                        <input type="tel" ng-model="payment.data_required.phone_1" maxlength="3" placeholder="123">
+                        </button>
+                    </div>
+                    &nbsp;)
+                </div>
+            </div>
+            <div class="col-33">
+                <div class="item-input-inset no-padding">
+                    <div class="item-input-wrapper">
+                        <input type="tel" ng-model="payment.data_required.phone_2" maxlength="7" placeholder="4567890" >
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-33">
+                <div class="item-input-inset no-padding">
+                    {{languages.ext}}&nbsp;
+                    <div class="item-input-wrapper">
+                        <input type="tel" ng-model="payment.data_required.phone_3" maxlength="5" >
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- end Billing Address Information -->
 </div>

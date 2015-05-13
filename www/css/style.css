@@ -89,30 +89,38 @@ ion-nav-view > ion-view {
 }
 .personal {
     font-weight: bold;
+    border: 1px solid #CFCFCF;
 }
-.personal > .item {
+.personal .item {
     font-size: 12px;
     padding: 5px 10px;
-    border-color: #CFCFCF !important;
+    border: 0px;
 }
-.personal > .item > span {
+.personal .item > span {
     padding-left: 20px;
 }
-.personal > .item > .icon {
+.personal .item > .icon {
     font-size: 16px;
     font-weight: normal;
     margin-right: -16px;
     margin-left: -10px;
     color: #848484;
 }
-.personal > .item:first-child {
+.personal .item-select::after
+{
+    top: 70% !important;
+}
+.personal .item .input-label{
+    padding: 0 !important;
+}
+/*.personal > .item:first-child {
     border-top-left-radius: 5px !important;
     border-top-right-radius: 5px !important;
 }
-.personal > .item: last-child {
+.personal > .item:last-child {
     border-bottom-left-radius: 5px !important;
     border-bottom-right-radius: 5px !important;
-}
+}*/
 .personal .item-note {
     white-space: normal !important;
 }
@@ -462,6 +470,7 @@ div.notice_chat span {
 .quick_shopping_cart {
     text-decoration: none;
     color: white;
+    display: block;
 }
 
 
