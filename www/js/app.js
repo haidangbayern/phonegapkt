@@ -8,7 +8,7 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins.Keyboard) {
-            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true); //hide done button
+            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false); //hide done button
             cordova.plugins.Keyboard.disableScroll(window.keyboard_disableScroll);
         }
         if (window.StatusBar) {
