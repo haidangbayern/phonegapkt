@@ -316,7 +316,16 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
     {
         return obj_smileys.convert_character_to_smileys(input);
     };
-}).directive('ngEnter', function() {
+}).controller("KeyboardFix", function ($scope) {
+    //$scope.inputValue = '';
+    $scope.getKey = function(event, forInput) {
+        if (document.getElementById(forInput) != null) {
+            $scope.inputValue += String.fromCharCode(event.keyCode);
+        }
+        event.preventDefault();
+    }
+})
+.directive('ngEnter', function() {
     return function(scope, element, attrs) {
         element.bind("keydown keypress", function(event) {
             if(event.which === 13) {
@@ -328,4 +337,14 @@ angular.module('kootoro', ['ionic', 'starter.controllers']).run(function($ionicP
             }
         });
     };
+})
+.controller("KeyboardFix", function ($scope) {
+    $scope.inputValue = '';
+    $scope.getKey = function(event, forInput) {
+        if (document.getElementById(forInput) != null) {
+            $scope.inputValue += String.fromCharCode(event.keyCode);
+        }
+        event.preventDefault();
+    }
 });
+
