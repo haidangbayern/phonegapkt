@@ -1739,6 +1739,7 @@ app.run(function() {
     }, 500);
     $('body').removeClass("menu-open").removeClass("popup-open");
     $scope.languages = window.languages[window.current_language];
+    $scope.step = 1;
     //********************** Alert dialog
     window.showAlert = function(title, message, callback) {
         var alertPopup = $ionicPopup.alert({
@@ -1756,11 +1757,17 @@ app.run(function() {
     $scope.password_match = function(user_data) {
         $scope.dontMatch_password = user_data.password !== user_data.confirmpassword;
     };
+    $scope.back_step = function(step)
+    {
+        $scope.step = step;
+    }
     $scope.next_step_name = function() {
-        $ionicSlideBoxDelegate.next();
+        // $ionicSlideBoxDelegate.next();
+        $scope.step = 2;
     }
     $scope.next_step_personal = function() {
-        $ionicSlideBoxDelegate.next();
+        // $ionicSlideBoxDelegate.next();
+        $scope.step = 3;
     }
     $scope.isStep1Unchanged = function(user_data) {
         if (user_data != undefined && user_data.email && user_data.password && user_data.confirmpassword) {
@@ -1779,30 +1786,6 @@ app.run(function() {
         // if (user_data != undefined && user_data.email && user_data.password && user_data.confirm_password)        
         //     return false;
         return false;
-    }
-    $scope.slideHasChanged = function(index) {
-        var data = $('#form_new_account').serializeArray();
-        var option = [];
-        for (var i = data.length - 1; i >= 0; i--) {
-            field = data[i];
-            option[field.name] = field.value;
-        }
-        if (index == 1) {
-            var rs = $scope.isStep1Unchanged(option);
-            if (rs) {
-                $timeout(function() {
-                    $ionicSlideBoxDelegate.previous();
-                }, 200);
-            }
-        } else if (index == 2) {
-            var rs = $scope.isStep2Unchanged(option);
-            if (rs) {
-                $timeout(function() {
-                    $ionicSlideBoxDelegate.previous();
-                }, 200);
-            }
-        }
-        $ionicScrollDelegate.scrollTop();
     }
     $scope.submit_register_new_account = function() {
         obj_loading.show();

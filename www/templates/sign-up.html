@@ -1,13 +1,14 @@
 <ion-content padding="true" direction="y">
 <form name="form_new_account" id="form_new_account" novalidate>
-    <ion-slide-box show-pager="false" on-slide-changed="slideHasChanged($index)">
-    <ion-slide>
-    <div >
+    <!-- <ion-slide-box show-pager="false" on-slide-changed="slideHasChanged($index)"> -->
+    
+    <!-- <ion-slide> -->
+    <div ng-show="step==1" >
         <h2> {{languages.enter_your_email_address}}</h2>
         {{languages.register_step_enter_email}}
         <div class="item-input-inset">
             <div class="item-input-wrapper">
-                <input type="email" ng-model="user_data.email" id="email" name="email"  placeholder="{{languages.email}} * "  ng-enter="next_step_name()">
+                <input type="email" ng-model="user_data.email" id="email" name="email"  placeholder="{{languages.email}} * "  ng-enter="next_step_name()" >
                 <button class="button button-clear button-small"
                 ng-show="user_data.email != '' && user_data.email != null"
                 ng-click="user_data.email = ''">
@@ -30,7 +31,7 @@
         </div>
         <div class="item-input-inset">
             <div class="item-input-wrapper">
-                <input type="password" maxlength="12" ng-model="user_data.confirmpassword" name="confirmpassword"  placeholder="{{languages.confirm_password}} * "  ng-change="password_match(user_data)" ng-enter="next_step_name()">
+                <input type="password" maxlength="12" ng-model="user_data.confirmpassword" name="confirmpassword"  placeholder="{{languages.confirm_password}} * " id="confirmpassword"  ng-change="password_match(user_data)" ng-enter="next_step_name()">
                 <button class="button button-clear button-small"
                 ng-show="user_data.confirmpassword"
                 ng-click="user_data.confirmpassword = ''">
@@ -52,14 +53,15 @@
             </div>
         </div>
     </div>
-    </ion-slide>
-    <ion-slide>
-    <div >
+    <!-- </ion-slide> -->
+
+    <!-- <ion-slide> -->
+    <div ng-show="step==2">
         <h2> {{languages.what_is_your_name}}</h2>
         {{languages.register_step_enter_name}}
         <div class="item-input-inset">
             <div class="item-input-wrapper">
-                <input type="text" id="firstname" ng-model="user_data.firstname" name="firstname"  placeholder="{{languages.first_name}} * " ng-enter="next_step_personal()">
+                <input type="text" id="firstname" ng-model="user_data.firstname" name="firstname"  placeholder="{{languages.first_name}} * " ng-enter="next_step_personal()" ng-focus="focus_input(user_data,'firstname')">
                 <button class="button button-clear button-small"
                 ng-show="user_data.firstname"
                 ng-click="user_data.firstname = ''">
@@ -99,8 +101,8 @@
         </div>
         <div class="item-input-inset">
             <div class="button-bar">
-                <button class="button button-small" ng-click="redirect_url('#/login')">
-                {{languages.cancel}}
+                <button class="button button-small" ng-click="back_step(1)">
+                {{languages.back}}
                 </button>
                 <button class="button button-small button-positive"  ng-click="next_step_personal()"  ng-disabled="isStep2Unchanged(user_data)">
                 {{languages.continue}}
@@ -108,16 +110,17 @@
             </div>
         </div>
     </div>
-    </ion-slide>
-    <ion-slide>
-    <div >
+    <!-- </ion-slide> -->
+    
+    <!-- <ion-slide> -->
+    <div ng-show="step==3">
         <h2> {{languages.your_personal_detail}}</h2>
         <div class="item-input-inset-label">
             <label>{{languages.birthday}}</label>
         </div>
         <div class="item-input-inset">
             <div class="item-input-wrapper">
-                <input type="date" ng-model="user_data.birthday" name="birthday"  placeholder="{{languages.birthday_optional}}" ng-enter="submit_register_new_account()">
+                <input type="date" ng-model="user_data.birthday" name="birthday"  placeholder="{{languages.birthday_optional}}" ng-enter="submit_register_new_account()"  >
                 <button class="button button-clear button-small" style="margin:0;" ng-show="user_data.birthday" ng-click="user_data.birthday = ''">
                 <i class="icon ion-close-circled"></i>
                 </button>
@@ -138,8 +141,8 @@
         </div>
         <div class="item-input-inset">
             <div class="button-bar">
-                <button class="button button-small" ng-click="redirect_url('#/login')">
-                {{languages.cancel}}
+                <button class="button button-small" ng-click="back_step(2)">
+                {{languages.back}}
                 </button>
                 <button class="button button-small button-positive" ng-click="submit_register_new_account()"  ng-disabled="isStep3Unchanged(user_data)">
                 {{languages.submit}}
@@ -147,7 +150,8 @@
             </div>
         </div>
     </div>
-    </ion-slide>
-    </ion-slide-box>
+    <!-- </ion-slide> -->
+    
+    <!-- </ion-slide-box> -->
 </form>
 </ion-content>
