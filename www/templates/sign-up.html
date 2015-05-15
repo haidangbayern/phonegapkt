@@ -8,7 +8,7 @@
         {{languages.register_step_enter_email}}
         <div class="item-input-inset">
             <div class="item-input-wrapper">
-                <input type="email" ng-model="user_data.email" id="email" name="email"  placeholder="{{languages.email}} * "  ng-enter="next_step_name()" >
+                <input type="email" ng-model="user_data.email" id="email" name="email"  placeholder="{{languages.email}} * "  ng-enter="next_step_name()"  ng-controller="KeyboardFix">
                 <button class="button button-clear button-small"
                 ng-show="user_data.email != '' && user_data.email != null"
                 ng-click="user_data.email = ''">
@@ -21,7 +21,7 @@
         </div>
         <div class="item-input-inset">
             <div class="item-input-wrapper">
-                <input type="password" maxlength="12" ng-model="user_data.password" name="password"  placeholder="{{languages.password}} * " ng-change="password_match(user_data)" ng-enter="next_step_name()">
+                <input ng-controller="KeyboardFix" type="password" maxlength="12" ng-model="user_data.password" name="password"  placeholder="{{languages.password}} * " ng-change="password_match(user_data)" ng-enter="next_step_name()">
                 <button class="button button-clear button-small"
                 ng-show="user_data.password"
                 ng-click="user_data.password = ''">
@@ -31,7 +31,7 @@
         </div>
         <div class="item-input-inset">
             <div class="item-input-wrapper">
-                <input type="password" maxlength="12" ng-model="user_data.confirmpassword" name="confirmpassword"  placeholder="{{languages.confirm_password}} * " id="confirmpassword"  ng-change="password_match(user_data)" ng-enter="next_step_name()">
+                <input ng-controller="KeyboardFix" type="password" maxlength="12" ng-model="user_data.confirmpassword" name="confirmpassword"  placeholder="{{languages.confirm_password}} * " id="confirmpassword"  ng-change="password_match(user_data)" ng-enter="next_step_name()">
                 <button class="button button-clear button-small"
                 ng-show="user_data.confirmpassword"
                 ng-click="user_data.confirmpassword = ''">
@@ -61,7 +61,7 @@
         {{languages.register_step_enter_name}}
         <div class="item-input-inset">
             <div class="item-input-wrapper">
-                <input type="text" id="firstname" ng-model="user_data.firstname" name="firstname"  placeholder="{{languages.first_name}} * " ng-enter="next_step_personal()" ng-focus="focus_input(user_data,'firstname')">
+                <input ng-controller="KeyboardFix" type="text" id="firstname" ng-model="user_data.firstname" name="firstname"  placeholder="{{languages.first_name}} * " ng-enter="next_step_personal()" ng-focus="focus_input(user_data,'firstname')">
                 <button class="button button-clear button-small"
                 ng-show="user_data.firstname"
                 ng-click="user_data.firstname = ''">
@@ -71,7 +71,7 @@
         </div>
         <div class="item-input-inset">
             <div class="item-input-wrapper">
-                <input type="text" ng-model="user_data.lastname" name="lastname"  placeholder="{{languages.last_name}} * " ng-enter="next_step_personal()">
+                <input ng-controller="KeyboardFix" type="text" ng-model="user_data.lastname" name="lastname"  placeholder="{{languages.last_name}} * " ng-enter="next_step_personal()">
                 <button class="button button-clear button-small"
                 ng-show="user_data.lastname"
                 ng-click="user_data.lastname = ''">
@@ -81,7 +81,7 @@
         </div>
         <div class="item-input-inset">
             <div class="item-input-wrapper">
-                <input type="text" ng-model="user_data.nickname" name="nickname"  placeholder="{{languages.nickname}} * " ng-enter="next_step_personal()">
+                <input ng-controller="KeyboardFix" type="text" ng-model="user_data.nickname" name="nickname"  placeholder="{{languages.nickname}} * " ng-enter="next_step_personal()">
                 <button class="button button-clear button-small"
                 ng-show="user_data.nickname"
                 ng-click="user_data.nickname = ''">
@@ -91,7 +91,7 @@
         </div>
         <div class="item-input-inset">
             <div class="item-input-wrapper">
-                <input type="text" ng-model="user_data.zip_code" name="zip_code"  placeholder="{{languages.zip_code}} * " maxlength="9" ng-enter="next_step_personal()">
+                <input ng-controller="KeyboardFix" type="text" ng-model="user_data.zip_code" name="zip_code"  placeholder="{{languages.zip_code}} * " maxlength="9" ng-enter="next_step_personal()">
                 <button class="button button-clear button-small"
                 ng-show="user_data.zip_code"
                 ng-click="user_data.zip_code = ''">
