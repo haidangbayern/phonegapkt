@@ -1721,8 +1721,6 @@ app.run(function() {
         };
     }
     $scope.data_test =  "";
-
-    
 }).controller('signUpCtrl', function($scope, $timeout, $ionicPopup, $ionicSlideBoxDelegate, $ionicScrollDelegate) {
     obj_loading.show();
     $timeout(function() {
@@ -1825,7 +1823,7 @@ app.run(function() {
         });
     };
     $scope.redirect_url = function(url) {
-        //$('ion-content').empty();
+        ////$('ion-content').empty();
         window.location.href = url;
     }
     $scope.languages = window.languages[window.current_language];
