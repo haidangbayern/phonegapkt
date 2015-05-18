@@ -18,7 +18,7 @@
 
         <content src="index.html" />
         <access origin="*" subdomains="true" />
-        <preference name="phonegap-version" value="3.6.3" /> <!-- all: current version of PhoneGap -->
+        <preference name="phonegap-version" value="3.7.0" /> <!-- all: current version of PhoneGap -->
         <preference name="orientation" value="portrait" /> <!-- all: default means both landscape and portrait are enabled -->
 
         <preference value="false" name="webviewbounce"/>
