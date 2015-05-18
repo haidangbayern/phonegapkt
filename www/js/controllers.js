@@ -1722,16 +1722,7 @@ app.run(function() {
     }
     $scope.data_test =  "";
 
-    $scope.inputUp = function(){
-        $scope.data_test = "inputUp";
-        //$('ion-nav-view > ion-content').height(200);
-        $timeout(function(){
-            $scope.data_test = "resize";
-        }, 300);
-    }
-    $scope.inputDown = function(){
-        $scope.data_test = "inputDown";
-    }
+    
 }).controller('signUpCtrl', function($scope, $timeout, $ionicPopup, $ionicSlideBoxDelegate, $ionicScrollDelegate) {
     obj_loading.show();
     $timeout(function() {
