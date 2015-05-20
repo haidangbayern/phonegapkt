@@ -43,7 +43,7 @@ window.languages = {
         "category" : "Category",
         "card_number" : "Card Number",
         "card_holder_name" : "Card Holder Name",
-        "cvv_code" : "CVV Code",
+        "cvv_code" : "CVV",
         "close": "Close",
         "choose_card_type" : "Choose Card Type",
         "choose_lottery_date": "Choose Lottoro Date",

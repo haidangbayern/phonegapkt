@@ -6,7 +6,7 @@ window.has_virtual_keyboard = true;
 window.keyboard_disableScroll = false;
 window.debug = false;
 /** ================ Server Information ================== **/
-window.server_ip = "kootoro.com"; //demo server
+window.server_ip = "www.kootoro.com"; //demo server
 
 window.server_ip_list = [
     { name: "Select Server", ip: "-1" },
