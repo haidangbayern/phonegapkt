@@ -565,11 +565,3 @@ table.css3_tbl tr:last-child td:last-child {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }  
   
-.item-input-wrapper {
- padding-right: 4px;
- padding-left: 4px;
-}  
-
-.item-input-inset .item-input-wrapper input {
-  padding-left: 2px;
-}
