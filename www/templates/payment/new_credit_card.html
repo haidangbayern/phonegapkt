@@ -131,7 +131,7 @@
                 <div class="input-label" style="width:0px;">
                     &nbsp;
                 </div>
-                <select style="" 
+                <select style="padding-left:10px" 
                     ng-change="payment.changeCountry()"
                     ng-model="payment.data_required.country" 
                     ng-options="r.name for r in payment.resources.countries.data track by r.id">
@@ -174,7 +174,7 @@
                 <div class="input-label" style="width:0px;">
                     &nbsp;
                 </div>
-                <select style="" ng-model="payment.data_required.state" ng-options="r.name for r in payment.resources.states track by r.id">
+                <select style="padding-left:10px" ng-model="payment.data_required.state" ng-options="r.name for r in payment.resources.states track by r.id">
                 </select>
             </div>
         </div>
