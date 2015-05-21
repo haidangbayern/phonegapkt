@@ -569,3 +569,7 @@ table.css3_tbl tr:last-child td:last-child {
  padding-right: 4px;
  padding-left: 4px;
 }  
+
+.item-input-inset .item-input-wrapper input {
+  padding-left: 2px;
+}

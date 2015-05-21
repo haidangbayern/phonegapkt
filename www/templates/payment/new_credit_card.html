@@ -59,11 +59,6 @@
             <div class="item-input-inset no-padding">
                 <div class="item-input-wrapper">
                     <input type="password" ng-model="payment.data_required.cvv" maxlength="4" placeholder="{{languages.cvv_code}} * ">
-                    <button class="button button-clear button-small"
-                    ng-show="payment.data_required.cvv"
-                    ng-click="payment.data_required.cvv = ''">
-                    <i class="icon ion-close-circled"></i>
-                    </button>
                 </div>
             </div>
         </div>
@@ -129,9 +124,9 @@
         </div>
     </div>
 
-    <!-- Country / CITY -->
+    <!-- Country -->
     <div class="row">
-        <div class="item col col-50">
+        <div class="item col">
             <div class="item-input item-select item-select-inset"  style="margin: -1px 0;" >
                 <div class="input-label" style="width:0px;">
                     &nbsp;
@@ -142,8 +137,12 @@
                     ng-options="r.name for r in payment.resources.countries.data track by r.id">
                 </select>
             </div>
-        </div>
-        <div class="item col col-50">
+        </div>        
+    </div>
+	
+	<!-- City -->
+	<div class="row">
+		<div class="item col">
             <div class="item-input-inset no-padding">
                 <div class="item-input-wrapper">
                     <input type="text" ng-model="payment.data_required.city" placeholder="{{languages.city}} *" >
@@ -155,8 +154,7 @@
                 </div>
             </div>
         </div>
-    </div>
-
+	</div>
     <!-- State / ZIP code -->
     <div class="row">
         <div class="item col col-50">
@@ -202,7 +200,7 @@
     <!-- PHONE -->
     <div class="row">
         <div class="item col phone">
-            <div class="col-25">
+            <div class="col-33">
                 <div class="item-input-inset no-padding">
                     (&nbsp;
                     <div class="item-input-wrapper">
