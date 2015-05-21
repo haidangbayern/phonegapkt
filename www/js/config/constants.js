@@ -25,7 +25,7 @@ window.is_device = window.cordova;
 window.forum_url = "http://" + window.server_ip + ":80/phpbb";
 /** ================ Application Information ================== **/
 window.version = 2;
-window.version_application = "1.0.100";	//It will be updated by config.xml
+window.version_application = "2.0.352";	//It will be updated by config.xml
 /** ================ Database ================== **/
 window.database = {
     name: '_abcv_kootoro_app',
